@@ -20,4 +20,20 @@ function listItemClicked (){
     navList.classList.remove('active');
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.querySelector('.main-navbar');
+    const scrollThreshold = 50;
+
+    function toggleNavbarClass(){
+        if(window.scrollY > scrollThreshold){
+            navbar.classList.add('scrolled-navbar');
+        }else {
+            navbar.classList.remove('scrolled-navbar')
+        }
+    }
+
+    window.addEventListener('scroll', toggleNavbarClass); // Adiciona o listener de evento para scroll
+    toggleNavbarClass(); // Garante que o estado seja verificado na hora do carregamento
+})
+
 // Section home final
