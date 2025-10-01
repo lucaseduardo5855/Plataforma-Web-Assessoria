@@ -58,8 +58,7 @@ section .section-header h1{
     font-size: 40px;
     color: var(--fundo-z4);
     margin-top: 0;
-    margin-bottom: 15px;
-    
+    margin-bottom: 50px;
 }
 
 section .section-header p{
@@ -360,7 +359,7 @@ section.sobre {
 /* 4. AJUSTE DO TEXTO E ESPAÇAMENTO */
 .sobre-conteudo .sobre-coluna-direita h4{
     font-size: 18px;
-    color: var(--darkBk);
+    color: var(--fundo-z4);
     letter-spacing: 3px;
     /* Correção: Garante que o H4 fique em uma linha e separado */
     margin-bottom: 5px; 
@@ -369,7 +368,7 @@ section.sobre {
 .sobre-conteudo .sobre-coluna-direita h1{
     font-size: 34px;
     font-weight: 700; /* Use 700 para um título forte */
-    color: rgb(0, 0, 0);
+    color: var(--fundo-z4);
     margin: 5px 0px 20px; /* Mais espaço após o título principal */
     text-transform: uppercase;
     line-height: 1.2;
@@ -380,50 +379,6 @@ section.sobre {
     margin-bottom: 20px; /* Espaço antes dos boxes de estado */
 }
 
-
-/* 5. LAYOUT DOS ESTADOS (Melhor Treinadora / Melhores Pódios) */
-/* Container principal dos boxes (AGORA COM FLEXBOX HORIZONTAL) */
-.sobre-coluna-direita .sobre-estados{ 
-    display: flex; /* ESSENCIAL: Coloca os boxes lado a lado */
-    margin-top: 40px;
-    gap: 20px; /* Espaçamento entre os boxes */
-    /* Remova as margens que sobraram */
-    margin-left: 0;
-    margin-right: 0;
-}
-
-/* Estiliza os boxes individuais (sobre-estados-1 e sobre-estados-2) */
-/* CORRIGIDO: Usa os seletores corretos para evitar a desconfiguração */
-.sobre-coluna-direita .sobre-estados-1,
-.sobre-coluna-direita .sobre-estados-2 {
-    /* Faz os boxes se expandirem para ocupar o espaço */
-    flex: 1; 
-    display: flex;
-    flex-direction: row; /* Coloca ícone e texto na mesma linha */
-    align-items: center; /* Centraliza o conteúdo verticalmente */
-    
-    background-color: whitesmoke;
-    padding: 15px 20px; /* Diminui o padding verticalmente */
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-/* Estilos dos Ícones e Textos dentro dos boxes */
-.sobre-coluna-direita .sobre-estados i{ /* Corrigido seletor */
-    margin-right: 10px; /* Espaço entre ícone e texto */
-    margin-bottom: 0; /* Remove margem inferior para alinhamento horizontal */
-    font-size: 24px;
-    color: #081F3E;
-}
-
-.sobre-coluna-direita .sobre-estados h2{ /* Corrigido seletor */
-    color: var(--fundo-z4);
-    font-size: 18px; /* Diminui um pouco o tamanho do texto */
-    font-weight: 600;
-    margin: 0; /* Remove margens padrão */
-}
-/* SOBRE Section estilo Final*/
 
 
 /* Servicos Section estilo iniciado*/
@@ -495,7 +450,7 @@ section.servicos{
 .servico-box .servico-image-box img {
     width: 100%;
     height: 100%; /* Ajuste para cobrir a altura de 200px */
-    object-fit: inherit;
+    object-fit: cover;
     transition: transform 0.3s;
     transform: scale(1.0); 
 }
@@ -531,6 +486,35 @@ section.servicos{
 .servico-box .servico-texto-longo {
     display: none; 
 }
+
+
+/* Treinadora Section estilo iniciado*/
+section.treinadora{
+    padding: 120px 8%;
+}
+
+.treinadora-conteudo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.treinadora-coluna-esquerda img{
+    width: 65%;
+    height: auto;
+    margin-left: 90px;
+    display: block;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.treinadora-coluna-direita{
+    width: 55%;
+    padding-left: 30px;
+}
+/* Treinadora Section estilo Finalizado*/
 
 
 /* Oferta Section estilo Iniciado*/
