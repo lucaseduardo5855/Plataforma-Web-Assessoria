@@ -11,16 +11,17 @@ html {
     --fundo-z4: #081F3E;
     --amarelo-z4: #FFEA00;
     --darkBk: #191919;
+    scroll-behavior: smooth;
 }
 
 /* Código reutilizavel INICIO */
 button {
-    padding: 10px;
+    padding: 3px;
     background-color: #FFEA00;
     color: #081F3E;
     border: none;
-    font-size: 15px;
-    border-radius: 15px;
+    font-size: 12px;
+    border-radius: 6px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
@@ -35,7 +36,8 @@ section .section-header{
     max-width: 700px;
     text-align: center;
     position: relative;
-    margin: 0 auto 0px auto;
+    margin: 0 auto;
+    margin-bottom: 50px;
 }
 
 section .section-header h1::after{
@@ -57,13 +59,7 @@ section .section-header h1{
     font-size: 40px;
     color: var(--fundo-z4);
     margin-top: 0;
-
     margin-bottom: 45px;
-    margin-bottom: 15px;
-    
-    margin-bottom: 15px;
-
-    margin-bottom: 15px;
 }
 
 section .section-header p{
@@ -122,7 +118,7 @@ section.home {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(10, 25, 49, 0.411); 
+    background-color: #1B293F; 
     z-index: 100;
     transition: all 0.3s ease-in-out;
 }
@@ -165,21 +161,21 @@ section.home {
     position: relative;
 }
 
-.main-navbar .nav-list li a:after {
+/*.main-navbar .nav-list li a:after {
     content: "";
     position: absolute;
-    background-color: #FFEA00;
+    color: #FFEA00;
     height: 3px;
     width: 0;
     left: 0;
     bottom: -10px;
 }
-
-.main-navbar .nav-list li a:hover:after {
+*/
+.main-navbar .nav-list li a:hover {
     width: 100%;
     transition: 0.3s ease;
+    color: #FFEA00;
 }
-
 
 .hamburguer-btn {
     user-select: none;
@@ -317,28 +313,29 @@ section.sobre {
 /* 1. FLEXBOX CORRIGIDO: Garante colunas lado a lado, centralizadas e com espaçamento */
 .sobre .sobre-conteudo{
     display: flex;
-    justify-content: space-between; /* Distribui o espaço entre as colunas */
-    align-items: center; /* ALINHA TUDO NO CENTRO VERTICAL (ESSENCIAL) */
+    justify-content: space-between; 
+    align-items: center; 
     max-width: 1200px; 
     margin: 0 auto;
+    padding: 100px 8%; /* Mantém o padding geral da seção */
 }
 
 /* 2. COLUNA ESQUERDA (IMAGEM): Largura da imagem e contêiner */
 .sobre-conteudo .sobre-coluna-esquerda{
-    position: relative;
-    /* Largura da Imagem (ajuste se precisar diminuir/aumentar) */
-    width: 40%; 
-    height: auto; 
+    width: 50%; 
+    /* CORREÇÃO: Remova o padding à esquerda para que a foto encoste na borda da seção */
+    padding-left: 0; 
 }
 
 .sobre-conteudo .sobre-coluna-esquerda img{
     position: relative;
     display: block;
-    width: 100%;
+    width: 120%;
     height: auto; /* Garante que a imagem mantenha proporção */
     object-fit: cover;
     z-index: 2;
     border-radius: 12px;
+    right: 130px;
 }
 
 /* Pseudo-elemento da imagem (mantido) */
@@ -354,34 +351,62 @@ section.sobre {
 
 
 /* 3. COLUNA DIREITA (TEXTO): Largura do texto e alinhamentos */
-.sobre-conteudo .sobre-coluna-direita{
+.sobre-conteudo .sobre-coluna-direita {
     position: relative; 
-    width: 55%; /* Ocupa o restante do espaço */
-    /* Remove padding lateral se estiver aqui para evitar desalinhamento */
-    padding: 0; 
+    width: 55%; 
+    padding-left: 30px;
+    /* Adiciona margem negativa para puxar todo o bloco para cima */
+    margin-top: -90px; /* Ajuste este valor (-60px) para subir ou descer mais */
+    left: 10px;
+    /* ... o restante do estilo da coluna direita ... */
 }
 
 /* 4. AJUSTE DO TEXTO E ESPAÇAMENTO */
 .sobre-conteudo .sobre-coluna-direita h4{
-    font-size: 18px;
+    font-size: 20px;
     color: var(--fundo-z4);
-    letter-spacing: 3px;
-    /* Correção: Garante que o H4 fique em uma linha e separado */
-    margin-bottom: 5px; 
+    font-weight: 700;
+
+    /* CORREÇÃO DE ALINHAMENTO: Força o H4 a se centralizar dentro da sua coluna */
+    text-align: center; 
+    right: 10px;
+    margin-bottom: 0;
+    margin-top: 2rem; 
+    position: relative;
+    padding-bottom: 22px;
+}
+
+.sobre-conteudo .sobre-coluna-direita h4::after{
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 13px;
+    width: 70px;
+    height: 3px;
+    background-color: var(--amarelo-z4);
+    
+    /* CORREÇÃO CRÍTICA: Centraliza a linha horizontalmente */
+    left: 50%; 
+    transform: translateX(-50%); /* Garante centralização exata */
 }
 
 .sobre-conteudo .sobre-coluna-direita h1{
     font-size: 34px;
-    font-weight: 700; /* Use 700 para um título forte */
+    font-weight: 400;
     color: var(--fundo-z4);
-    margin: 5px 0px 20px; /* Mais espaço após o título principal */
-    text-transform: uppercase;
+    margin-top: 20px; 
+    margin-bottom: 20px;
     line-height: 1.2;
+    /* GARANTE ALINHAMENTO À ESQUERDA: */
+    text-align: left; 
 }
 
 .sobre-conteudo .sobre-coluna-direita p{
+    /* Garante que os parágrafos também fiquem alinhados à esquerda */
+    text-align: left; 
+    max-width: 100%; /* Permite que ocupe a largura total da coluna */
+    margin: 0 0 15px 0; /* Remove a centralização por margem */
     color: rgb(117, 100, 100);
-    margin-bottom: 20px; /* Espaço antes dos boxes de estado */
 }
 
 
@@ -497,37 +522,262 @@ section.servicos{
     display: none; 
 }
 
-
-
-/* Treinadora Section estilo iniciado*/
-section.treinadora{
-    padding: 120px 8%;
+/* Inicio Section Treinadora */
+section.treinadora {
+    /* Background cinza claro da sua seção 'Sobre Nós' */
     background-color: #F5F5F5;
+    padding: 100px 8%; /* Padding geral da seção */
+    position: relative;
 }
 
-.treinadora-conteudo{
+.treinadora .treinadora-conteudo {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; /* Centraliza verticalmente */
     max-width: 1200px;
     margin: 0 auto;
+    padding: 60px;
+    padding-bottom: 60px;
 }
 
-.treinadora-coluna-esquerda img{
-    width: 65%;
+/* 1. Coluna de Texto (Direita no nome, mas colocada à ESQUERDA no HTML para Flexbox) */
+.treinadora-coluna-direita {
+    width: 55%; 
+    /* Remove espaçamento extra e garante alinhamento à esquerda para o corpo do texto */
+    padding-right: 30px; 
+    text-align: left; 
+}
+
+/* 2. Coluna da Imagem (Esquerda no nome, mas colocada à DIREITA no HTML) */
+.treinadora-coluna-esquerda {
+    width: 50%; 
+    padding: 0; 
+    /* Garante o visual limpo, sem moldura */
+    background-color: transparent; 
+    box-shadow: none; 
+}
+
+.treinadora-coluna-esquerda img {
+    width: 100%;
     height: auto;
-    margin-left: 90px;
     display: block;
-    border-radius: 5px;
+    border-radius: 5px; 
     object-fit: cover;
 }
 
-.treinadora-coluna-direita{
-    width: 55%;
-    padding-left: 30px;
+/* 3. Estilo do H4 (TREINADORA) - Centraliza e Adiciona Onda Amarela */
+.treinadora-coluna-direita h4 {
+    font-size: 20px;
+    color: var(--fundo-z4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    
+    /* CENTRALIZAÇÃO E EFEITO */
+    text-align: center; /* Centraliza o texto H4 na coluna */
+    margin-bottom: 0;
+    margin-top: -60px; /* Puxa para cima */
+    position: relative;
+    padding-bottom: 10px; /* Espaço para a linha amarela */
 }
-/* Treinadora Section estilo Finalizado*/
 
+/* Linha Amarela no H4 */
+.treinadora-coluna-direita h4::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 70px;
+    height: 3px;
+    background-color: var(--amarelo-z4); 
+    
+    /* TÉCNICA DE CENTRALIZAÇÃO DA LINHA */
+    left: 50%; 
+    transform: translateX(-50%); 
+}
+
+/* 4. Estilos de H1 e P (Alinha à esquerda, como no Sobre Nós original) */
+.treinadora-coluna-direita h1 {
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--fundo-z4);
+    margin: 30px 0px 25px; /* Ajuste o espaçamento após a linha amarela */
+    line-height: 1;
+    text-align: center;
+    align-items: center
+}
+
+.treinadora-coluna-direita p {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 15px; 
+    text-align: left;
+}
+/* FIM Section Treinadora */
+
+
+/* INICIO Section Treinadora */
+
+/* FIM Section Treinadora */
+section.treinadora-bio {
+    width: 90%;
+    /* Mantenha o padding horizontal e garanta que o fundo seja branco para o topo */
+    padding: 80px 3.5% 0; 
+    background-color: white; 
+    margin: 0 auto;
+}
+
+/* FAIXA AZUL: O container que estica e tem o gradiente */
+.bio-fundo-colorido {
+    /* MÁGICA DA LARGURA TOTAL */
+    margin-left: -8%;
+    margin-right: -8%;
+    padding-left: 8%;
+    padding-right: 8%;
+    /* GRADIENTE */
+    background: linear-gradient(
+        to bottom,
+        #8296ac 0%,       
+        #0A2548 100%      
+    );
+    border-left: 5px solid white;
+    border-right: 5px solid white;
+    /* CORREÇÃO CRÍTICA: Zera o padding inferior para encostar na borda */
+    padding-top: 30px;
+    padding-bottom: 0; 
+    box-sizing: border-box;
+    border-radius: 8px; 
+    /* Garante que o fundo não saia sem ser intencional */
+    overflow: hidden; 
+}
+
+/* CONTEÚDO PRINCIPAL (TEXTO E FOTO) - CORREÇÃO DE ALINHAMENTO */
+.bio-conteudo {
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto; 
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinha ao topo */
+    color: white; 
+    min-height: auto; 
+    padding: 0 40px; /* Padding interno para o conteúdo se afastar da borda da faixa azul */
+}
+
+/* 1. COLUNA DE TEXTO (Esquerda) */
+.bio-coluna-texto {
+    width: 60%; 
+    padding-right: 40px; 
+    /* Padding inferior para alinhar o fundo */
+    padding-bottom: 25px; 
+    text-align: left;
+}
+
+.bio-coluna-texto h2 {
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.bio-coluna-texto h2::after {
+    content: "";
+    display: block;
+    
+    /* Tamanho e Cor */
+    width: 30%; 
+    height: 3px;
+    background-color: var(0);
+    
+    /* REMOVE A MARGEM e usa o posicionamento absoluto para CENTRALIZAR PERFEITAMENTE */
+    position: absolute;
+    bottom: -5px; /* Posição abaixo do texto H2 */
+    left: 50%; /* Move para o centro da largura do H2 */
+    transform: translateX(-50%); /* Ajusta 50% da sua própria largura para o centro exato */
+}
+
+.bio-coluna-texto h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 20px;
+}
+.bio-coluna-texto p {
+    color: #f0f0f0;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.bio-linha {
+    font-weight: bold;
+}
+
+.bio-coluna-texto .bio-secao {
+    /* CORREÇÃO: Adiciona uma margem superior uniforme a TODAS as seções de currículo. */
+    /* Este valor (25px) separa o bloco do texto ou do bloco anterior. */
+    margin-top: 25px; 
+}
+
+.bio-coluna-texto .bio-linha {
+    display: none; /* Oculta a linha de parágrafo vazia se ela não for necessária */
+}
+
+.bio-secao h4 {
+    /* Título da subseção (CURRÍCULO PROFISSIONAL/ESPORTIVO) */
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--amarelo-z4); /* Usa sua cor amarela para destaque */
+    text-transform: uppercase;
+    margin-bottom: 5px; 
+}
+
+.curriculo-lista {
+    list-style: none; /* Remove os marcadores padrão */
+    padding-left: 0;
+}
+
+.curriculo-lista li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: white; /* Cor branca para o texto */
+    margin-bottom: 5px;
+    
+    /* Marcador customizado (ponto/traço) */
+    padding-left: 15px; 
+    position: relative;
+}
+
+.curriculo-lista li::before {
+    content: "•"; 
+    color: var(--amarelo-z4); 
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* 2. COLUNA DA FOTO (Direita) */
+.bio-coluna-foto {
+    width: 40%; 
+    /* Garante que a coluna da foto não tenha padding vertical extra */
+    padding-top: 0;
+    padding-bottom: 0;
+    
+    /* Alinhamento ao topo, para encostar na linha superior da faixa azul */
+    align-self: flex-start; 
+}
+
+.treinadora-foto-perfil {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    object-fit: cover;
+    /* Puxa a foto para baixo para criar espaço acima dela (Ajuste se necessário) */
+    margin-top: 50px; 
+}
 
 /* Oferta Section estilo Iniciado*/
 section.oferta{ /* AJUSTAR */
@@ -912,28 +1162,27 @@ section.pagina-footer{
 
 
 /* Inicio das Media Querys */
-@media(max-width: 968px) {
-    /* section home */
-    .main-navbar .nav-list li{
-        margin: 0px 10px;
+@media (max-width: 968px) {
+    /* No tablet, empilha as colunas */
+    .bio-conteudo {
+        flex-direction: column;
+        align-items: center;
     }
     
-    /* EQUIPE SECTION */
-    .equipe .equipe-conteudo{
-        max-width: 650px;
-        /* MUDANÇA: Muda para 2 colunas para melhor visualização do box de treinador */
-        grid-template-columns: repeat(2, 1fr); 
-    }
-    
-    /* PRECOS Sections */
-    .precos .precos-conteudo{
-        grid-template-columns: repeat(2, 1fr);
+    .bio-coluna-texto,
+    .bio-coluna-foto {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 30px;
     }
 
-    /* SERVICOS SECTION - Mude de 4 para 2 colunas */
-    .servicos .servicos-conteudo{
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 20px; 
+    .bio-coluna-foto {
+        /* Garante que a foto não tenha margem superior em excesso */
+        margin-top: 0;
+    }
+
+    .treinadora-foto-perfil {
+        margin-top: 0;
     }
 }
 
@@ -1009,7 +1258,7 @@ section.pagina-footer{
         max-height: 500px;
     }
 
-    .sobre-conteudo .sobre-coluna-direita h1{
+    .sobre-conteudo h1{
         font-size: 32px;
     }
 
