@@ -16,7 +16,7 @@ html {
 
 /* Código reutilizavel INICIO */
 button {
-    padding: 3px;
+    padding: 6px;
     background-color: #FFEA00;
     color: #081F3E;
     border: none;
@@ -25,6 +25,7 @@ button {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
+
 }
 
 button:hover {
@@ -686,12 +687,10 @@ section.treinadora-bio {
 .bio-coluna-texto h2::after {
     content: "";
     display: block;
-    
     /* Tamanho e Cor */
     width: 30%; 
     height: 3px;
     background-color: var(0);
-    
     /* REMOVE A MARGEM e usa o posicionamento absoluto para CENTRALIZAR PERFEITAMENTE */
     position: absolute;
     bottom: -5px; /* Posição abaixo do texto H2 */
@@ -768,6 +767,7 @@ section.treinadora-bio {
     /* Alinhamento ao topo, para encostar na linha superior da faixa azul */
     align-self: flex-start; 
 }
+
 
 .treinadora-foto-perfil {
     width: 100%;
