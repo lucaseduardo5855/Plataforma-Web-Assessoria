@@ -636,8 +636,8 @@ section.treinadora-bio {
     margin-right: -8%;
     
     /* Padding interno para alinhar o conteúdo com o resto do site */
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 8%;
+    padding-right: 8%;
 
     /* NOVO: IMAGEM DA TREINADORA COMO BACKGROUND */
     background-image: url('img/1.png'); /* Caminho da sua imagem */
@@ -645,7 +645,7 @@ section.treinadora-bio {
     background-repeat: no-repeat; /* Evita que a imagem se repita */
     
     /* CORREÇÃO CRÍTICA: Foca no centro horizontal e no topo vertical para priorizar o rosto/corpo */
-    background-position: 5z 0% top; 
+    background-position: 5 0% top; 
     
     /* Overlay para legibilidade (Mantido) */
     background-blend-mode: multiply; 
