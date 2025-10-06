@@ -448,7 +448,7 @@ section.servicos{
     grid-template-columns: repeat(4, 1fr); 
     grid-gap: 20px;
     /* Limite a largura e centralize */
-    max-width: 1400px; 
+    max-width: 1920px; 
     margin: 0 auto; 
     /* Adicione padding horizontal para que o conteúdo não encoste nas bordas da tela */
     padding: 0 5%;
@@ -622,41 +622,50 @@ section.treinadora {
 
 /* FIM Section Treinadora */
 section.treinadora-bio {
-    width: 90%;
+    width: 100%;
     /* Mantenha o padding horizontal e garanta que o fundo seja branco para o topo */
-    padding: 80px 3.5% 0; 
+    padding: 110px 3.5% 0; 
     background-color: white; 
     margin: 0 auto;
 }
 
 /* FAIXA AZUL: O container que estica e tem o gradiente */
 .bio-fundo-colorido {
-    /* MÁGICA DA LARGURA TOTAL */
+    /* MÁGICA DA LARGURA TOTAL: Ajuste para compensar 8% (padding horizontal do site) */
     margin-left: -8%;
     margin-right: -8%;
-    padding-left: 8%;
-    padding-right: 8%;
-    /* GRADIENTE */
-    background: linear-gradient(
-        to bottom,
-        #8296ac 0%,       
-        #0A2548 100%      
-    );
+    
+    /* Padding interno para alinhar o conteúdo com o resto do site */
+    padding-left: 10%;
+    padding-right: 10%;
+
+    /* NOVO: IMAGEM DA TREINADORA COMO BACKGROUND */
+    background-image: url('img/1.png'); /* Caminho da sua imagem */
+    background-size: cover; /* Faz a imagem cobrir todo o fundo */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+    
+    /* CORREÇÃO CRÍTICA: Foca no centro horizontal e no topo vertical para priorizar o rosto/corpo */
+    background-position: 5z 0% top; 
+    
+    /* Overlay para legibilidade (Mantido) */
+    background-blend-mode: multiply; 
+    background-color: rgba(0, 0, 0, 0.4); 
+
     border-left: 5px solid white;
     border-right: 5px solid white;
-    /* CORREÇÃO CRÍTICA: Zera o padding inferior para encostar na borda */
-    padding-top: 30px;
-    padding-bottom: 0; 
+    
+    padding-top: 100px;
+    padding-bottom: 80px; 
+    
     box-sizing: border-box;
     border-radius: 8px; 
-    /* Garante que o fundo não saia sem ser intencional */
     overflow: hidden; 
 }
 
 /* CONTEÚDO PRINCIPAL (TEXTO E FOTO) - CORREÇÃO DE ALINHAMENTO */
 .bio-conteudo {
     width: 100%;
-    max-width: 1200px; 
+    max-width: 1400px; 
     margin: 0 auto; 
     
     display: flex;
@@ -664,12 +673,11 @@ section.treinadora-bio {
     align-items: flex-start; /* Alinha ao topo */
     color: white; 
     min-height: auto; 
-    padding: 0 40px; /* Padding interno para o conteúdo se afastar da borda da faixa azul */
 }
 
 /* 1. COLUNA DE TEXTO (Esquerda) */
 .bio-coluna-texto {
-    width: 60%; 
+    width: 65%; 
     padding-right: 40px; 
     /* Padding inferior para alinhar o fundo */
     padding-bottom: 25px; 
@@ -759,24 +767,34 @@ section.treinadora-bio {
 
 /* 2. COLUNA DA FOTO (Direita) */
 .bio-coluna-foto {
-    width: 40%; 
-    /* Garante que a coluna da foto não tenha padding vertical extra */
+    /* Mantenha a largura e alinhamento */
+    width: 35%; 
     padding-top: 0;
     padding-bottom: 0;
-    
-    /* Alinhamento ao topo, para encostar na linha superior da faixa azul */
     align-self: flex-start; 
+    
+    /* Opcional: Ocultar a imagem da coluna direita se ela for a mesma do fundo */
+    /* display: none; */ 
+    
+    /* OU, se você quer uma imagem diferente, transparente, etc. */
+    /* Ajuste aqui o estilo para a imagem que você quer na coluna, se houver */
+    display: none;
 }
 
+/* Opcional: Se a imagem na coluna direita for ocultada, remova o estilo da imagem */
+/* .treinadora-foto-perfil {
+    display: none;
+} */
 
 .treinadora-foto-perfil {
+    max-width: 300px;
     width: 100%;
     height: auto;
     display: block;
     border-radius: 5px;
     object-fit: cover;
     /* Puxa a foto para baixo para criar espaço acima dela (Ajuste se necessário) */
-    margin-top: 50px; 
+    margin-top: 20px; 
 }
 
 /* Oferta Section estilo Iniciado*/
