@@ -408,7 +408,6 @@ section.sobre {
     color: white; 
     font-size: 12px; 
     font-weight: bold;
-    
     /* Layout */
     padding: 12px 25px; 
     border: none;
@@ -417,13 +416,10 @@ section.sobre {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    
     /* Forma */
     border-radius: 8px; /* Cantos arredondados normais */
-    
     /* Sombra Externa (como na primeira imagem) */
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); 
-    
     transition: all 0.3s ease;
     margin-top: 40px;
 }
@@ -1220,142 +1216,76 @@ section.equipe{
 
 
 /* PRECOS Section estilo iniciado*/
-section.precos{
+.container-preco{
     width: 100%;
-    padding: 80px 8% 90px;
+    min-height: 100vh;
+    background: white;
+    padding-top: 90px;
 }
 
-.precos .precos-conteudo{
-    width: 100%;
-    max-width: 1068px;
+.container-preco h2{
+    color: black;
+    font-size: 32px;
+    padding: 50px 0;
+    text-align: center;
+    top: 90px;
+}
+
+.preco-row{
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px 25px;
-    margin: 0px auto;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 25px;
 }
-/* ... (Mantenha o resto do CSS de Preços) ... */
 
-.precos-conteudo .preco-card{
-    position: relative;
-    text-align: center;
-    background-color: grey;
+.preco-col{
+    background-color: #FFFFFF;
+    padding: 10% 15%;
     border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-}
-
-.precos-conteudo .preco-card:hover{
-    transform: scale(1.04);
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.preco-card .preco-card-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    color: rgb(22, 22, 22);
     text-align: center;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
 }
 
-.preco-card-titulo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
+.preco-col:hover{
+    content: "";
+    background-color: #CFD1E2;
 }
 
-.preco-card-header .preco-card-titulo{
-    font-size: 24px;
-    color: whitesmoke;
-    text-transform: uppercase;
-    position: relative;
-    top: 30px;
+.preco-col p {
+    font-size: 22px;
 }
 
-.preco-card-header .preco-circulo{
-    width: 100px;
-    height: 100px;
-    background-color: #003366;
-    border-radius: 50%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin: 15px auto 20px auto;
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.preco-col h3{
+    font-size: 44px;
+    margin: 30px 0 40px;
+    font-weight: 500;
 }
 
-.icone-plano{
-    width: 60px;
-    height: auto;
-    filter: brightness(0) invert(1);
+.preco-col span{
+    font-size: 16px;
 }
 
-
-.preco-card-header .preco-circulo .preco{
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--fundo-z4);
-}
-
-.preco-card-header .preco-circulo .preco i{
-    font-size: 18px;
-    font-style: normal;
-}
-
-.preco-card-header .preco-circulo .desc {
-    font-size: 12px;
-    font-weight: bold;
-    color: rgb(16, 18, 129);
-}
-
-.preco-card .preco-card-body{
-    padding: 25px 0px 40px;
-    background-color: whitesmoke;
-}
-
-.preco-card-body ul{
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-}
-
-.preco-card-body ul li{
+.preco-col ul{
+    text-align: left;
+    margin: 20px 0;
+    color: blue;
     list-style: none;
-    font-size: 15px;
-    color: var(--fundo-z4);
 }
 
-.preco-card-body ul li:not(:last-child){
-    margin-bottom: 20px;
+.preco-col ul li{
+    margin: 15px 0;
 }
 
-.preco-card-body ul li i{
-    color: var(--fundo-z4);
-    margin-right: 8px;
+.preco-col ul li i {
+    color: #142850; /* Sua cor azul escuro de marca */
+    margin-right: 8px; 
+    font-size: 1.1em; 
 }
 
-.preco-card-body .preco-plano-btn{
-    margin-top: 35px;
-    padding: 12px 26px;
-}
 
-.preco-card:nth-child(2) .tag-box{
-    position: absolute;
-    width: 200px;
-    padding: 10px;
-    background-color: var(--amarelo-z4);
-    transform: rotate(-45deg);
-    left: -57px;
-    top: 25px;
-}
-
-.preco-card:nth-child(2) .tag-box .tag{
-    font-size: 13px;
-    font-weight: bold;
-    color: var(--fundo-z4);
-}
 /* PRECOS Section estilo Finalizado*/
 
 
