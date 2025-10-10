@@ -232,64 +232,59 @@
 
 
         <!--Inicio Section Preços-->
-        <section class="preco" id="preco">
-            <div class="container-preco">
-                <h2>Conheça Nossos Planos</h2>
-                <div class="preco-row">
+        <section id="pricing-z4-perfomance">
+            <div class="container">
+                <h2 class="section-title">Nossos Planos de Assessoria</h2>
 
-                    <div class="preco-col">
-                        <H2>MENSAL</H2>
-                        <p class="plano-periodo">POR APENAS</p>
-                        <h3>R$ 80.00</h3>
-                        <ul>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                        </ul>
-                        <button class="btn-sobre"><i class="fab fa-whatsapp"></i> Selecionar! </button>
-                    </div>
-
-                    <div class="preco-col">
-                        <H2>TRIMESTRAL</H2>
-                        <p class="plano-periodo">POR APENAS</p>
-                        <h3>R$ 225.00</h3>
-                        <ul>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                        </ul>
-                        <button class="btn-sobre"><i class="fab fa-whatsapp"></i> Selecionar! </button>
-                    </div>
-
-                    <div class="preco-col">
-                        <H2>ANUAL</H2>
-                        <p class="plano-periodo">POR APENAS</p>
-                        <h3>R$ 120.00</h3>
-                        <ul>
-                            <li><i class="fa-regular fa-circle-check"></i>Planilha de corrida</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                        </ul>
-                        <button class="btn-sobre"><i class="fab fa-whatsapp"></i> Selecionar! </button>
-                    </div>
-
-                     <div class="preco-col">
-                        <H2>ANUAL</H2>
-                        <p class="plano-periodo">POR APENAS</p>
-                        <h3>R$ 120.00</h3>
-                        <ul>
-                            <li><i class="fa-regular fa-circle-check"></i>Planilha de corrida</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                            <li><i class="fa-regular fa-circle-check"></i>Treino Personalizado</li>
-                        </ul>
-                        <button class="btn-sobre"><i class="fab fa-whatsapp"></i> Selecionar! </button>
-                    </div>
-
+                <div class="tabs-navigation duration-selector">
+                    <button class="tab-button active" data-duration="mensal">Mensal</button>
+                    <button class="tab-button" data-duration="semestral">Semestral</button>
+                    <button class="tab-button" data-duration="anual">Anual</button>
                 </div>
+
+                <div class="pricing-cards-wrapper">
+
+                    <div class="pricing-card card-base" data-plan="corrida">
+                        <span class="price" id="price-corrida">R$ 80 <sup>00</sup></span>
+                        <small id="period-corrida">/mês</small>
+                        <h3 class="plan-name">Corrida</h3>
+                        <p class="description">Planilha personalizada, acompanhamento WhatsApp e App SisRun.</p>
+                        <ul class="features">
+                            <li>&#10003; Treino semanal personalizado</li>
+                            <li>&#10003; Planilha de corrida</li>
+                            <li>&#10003; Acompanhamento via WhatsApp</li>
+                        </ul>
+                        <button class="btn-choose">Escolher Plano</button>
+                    </div>
+
+                    <div class="pricing-card card-pro most-popular" data-plan="musculacao">
+                        <span class="highlight-badge">MAIS COMPLETO</span>
+                        <span class="price" id="price-musculacao">R$ 120 <sup>00</sup></span>
+                        <small id="period-musculacao">/mês</small>
+                        <h3 class="plan-name">Musculação</h3>
+                        <p class="description">Foco na força com planilha mensal (foco corrida ou funcional)</p>
+                        <ul class="features">
+                            <li>&#10003; Planilha de musculação mensal</li>
+                            <li>&#10003; Sincronização com Strava/Garmin</li>
+                            <li>&#10003; Bônus: Treino funcional (2x/sem)</li>
+                        </ul>
+                        <button class="btn-choose">Escolher Plano</button>
+                    </div>
+
+                    <div class="pricing-card card-enterprise" data-plan="combo">
+                        <span class="price" id="price-combo">R$ 120 <sup>00</sup></span>
+                        <small id="period-combo">/mês</small>
+                        <h3 class="plan-name">Corrida + Musculação</h3>
+                        <p class="description">Combo completo para Perfomance máxima e prevenção de lesões.</p>
+                        <ul class="features">
+                            <li>&#10003; Planilha de musculação mensal</li>
+                            <li>&#10003; Sincronização com Strava/Garmin</li>
+                            <li>&#10003; Bônus: Treino funcional (2x/sem)</li>
+                        </ul>
+                        <button class="btn-choose">Escolher plano</button>
+                    </div>
+                </div>
+
             </div>
         </section>
         <!--FIM Section Feedbacks-->
@@ -300,7 +295,7 @@
             <div class="consultoria-content">
 
                 <div class="consultoria-coluna-esquerda">
-                
+
                     <div class="consultoria-imagem">
                         <img src="img/WhatsApp_Image_2025-10-05_at_18.24.04-removebg-preview.png" alt="">
                     </div>
