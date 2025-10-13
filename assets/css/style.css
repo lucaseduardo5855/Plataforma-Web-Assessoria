@@ -1390,16 +1390,26 @@ section.equipe{
 /* FOOTER Section estilo Iniciado*/
 section.pagina-footer{
     width: 100%;
-    padding: 70px 8% 50px;
+    padding: 200px 8% 50px;
     background-color: rgb(10, 25, 49);
     color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.footer-logo{
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
 }
 
 .footer-conteudo{
     width: 100%;
     display: grid;
-    grid-template-columns: 3fr 2fr 2fr;
+    grid-template-columns: 2.5fr 3.5fr 3fr;
     grid-gap: 40px;
+    margin-bottom: 30px;
 }
 
 .footer-conteudo .footer-col{
@@ -1409,7 +1419,7 @@ section.pagina-footer{
 /* ... (Mantenha o resto do CSS do Footer) ... */
 
 .footer-conteudo .footer-col-titulo{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .footer-conteudo .footer-col-titulo h3{
@@ -1422,13 +1432,18 @@ section.pagina-footer{
     flex-direction: column;
 }
 
+.footer-col-desc i{
+    color: var(--amarelo-z4);
+    margin-right: 10px;
+}
+
 .footer-col-1 .footer-col-desc p {
     line-height: 1.4;
     color: white;
 }
 
 .footer-col-1 .footer-col-desc span{
-    color: red;
+
     margin-bottom: 17px;
     display: inline-block;
 }
@@ -1446,6 +1461,9 @@ section.pagina-footer{
     text-decoration: none;
     color: var(--amarelo-z4);
     margin-right: 10px;
+    margin-bottom: 90px;
+    width: 50px;
+    height: 50px;
 }
 
 .footer-col-1 .footer-social-media a i{
@@ -1462,10 +1480,31 @@ section.pagina-footer{
     transition: all 0.3s;
 }
 
+
 .footer-col-1 .footer-social-media a i:hover{
     background-color: transparent;
     border: 1px solid var(--amarelo-z4); /* amarelo quando passa o mouse MUDAR DPS */
-    color: rgb(255, 0, 0);
+}
+
+.footer-col-1 .social-media-title{
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-left: -15px;
+}
+
+.noticia-info{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btn-noticia-btn{
+    height: auto;
+    width: 400px;
+    text-align: center;
+    font-size: 15px;
 }
 
 .footer-col-2 .footer-col-desc a{
@@ -1477,8 +1516,56 @@ section.pagina-footer{
     transition: 0.3s;
 }
 
+
 .footer-col-2 .footer-col-desc a:hover{
-    color: red;
+    color: var(--amarelo-z4);
+}
+
+.footer-col.footer-col-1 {
+    display: flex;
+    flex-direction: column;
+    /* Centraliza horizontalmente: logo, título, e container de ícones */
+    align-items: center; 
+    text-align: center; /* Centraliza qualquer texto que ainda esteja nesta coluna */
+}
+
+.footer-col.footer-col-2 {
+    display: flex;
+    flex-direction: column;
+    /* Centraliza o CONTEÚDO DA COLUNA (Título e Lista) Verticalmente no espaço */
+    justify-content: flex-start; 
+}
+
+.footer-col-2 .contact-list {
+    display: flex;
+    flex-direction: column;
+    /* Alinha os itens da lista ao centro (horizontalmente) */
+    align-items: center; 
+    text-align: center; /* Centraliza o texto dos links */
+    /* Remove a margem superior padrão do Flexbox */
+    margin-top: 0; 
+}
+
+.footer-col-2 .footer-col-titulo {
+    /* Define o alinhamento horizontal do container do título */
+    text-align: center; 
+    margin-bottom: 25px; /* Espaço abaixo do título */
+}
+
+.footer-col-2 .footer-col-titulo h3 {
+    /* Centraliza o texto do título */
+    text-align: center;
+    /* Garante que o texto não seja afetado pelo tamanho da coluna */
+    margin: 0 auto; 
+}
+
+.footer-col-2 .footer-col-desc a{
+    text-decoration: none;
+    font-size: 16px; 
+    color: white;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    transition: 0.3s;
 }
 
 
