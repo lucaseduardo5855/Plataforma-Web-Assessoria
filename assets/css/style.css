@@ -174,11 +174,60 @@ section.home {
     margin: 0px auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: #1B293F;
-    z-index: 100;
+    align-items: center; /* Alinha o conteúdo verticalmente */
+    background-color: #1B293F; /* Fundo original */
+    /* MANTENHA ESTE Z-INDEX PARA VISIBILIDADE */
+    z-index: 9999; 
     transition: all 0.3s ease-in-out;
 }
+
+.main-navbar .logo img {
+    width: 120px; /* Largura correta do logo */
+    height: auto;
+}
+
+.main-navbar .nav-list {
+    list-style: none;
+    padding: 0;
+    
+    /* FORÇA O FLEXBOX PARA ALINHAMENTO HORIZONTAL E VERTICAL */
+    display: flex; 
+    align-items: center; 
+    height: 100%; 
+    margin: 0; 
+}
+
+.main-navbar .nav-list li {
+    display: block; /* Garante que o item ocupe espaço */
+    margin: 0px 15px;
+}
+
+.main-navbar .nav-list li a {
+    text-decoration: none;
+    /* CRÍTICO: Cor branca para aparecer sobre o fundo escuro */
+    color: white; 
+    font-size: 14px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.main-navbar .nav-list li a:hover {
+    color: var(--amarelo-z4);
+}
+
+.main-navbar .junte-se-btn .btn-join-us {
+    background-color: var(--amarelo-z4); /* Amarelo */
+    color: var(--fundo-z4); /* Azul escuro */
+    font-weight: 700;
+    /* Adicione padding e border-radius se necessário */
+    padding: 10px 15px; 
+    border-radius: 6px; 
+}
+
+.hamburguer-btn {
+    display: none; 
+}
+
 
 .scrolled-navbar {
     background-color: var(--fundo-z4);
@@ -1712,7 +1761,7 @@ section.pagina-footer {
     .main-navbar .hamburguer-btn {
         display: block;
         margin-left: 30px;
-        z-index: 101;
+        z-index: 100;
         /* hamburguer aparece */
     }
 
@@ -1728,7 +1777,8 @@ section.pagina-footer {
         align-items: center;
         background-color: var(--darkBk);
         transition: right 0.3s;
-        z-index: 100;
+        z-index: 9998;
+        list-style: none;
     }
 
     .home .main-navbar .nav-list.active {
