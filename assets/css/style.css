@@ -90,6 +90,7 @@ body {
 }
 
 /* section.home - Container Principal */
+/* section.home - Container Principal */
 section.home {
     position: relative;
     width: 100%;
@@ -161,7 +162,7 @@ section.home {
     opacity: 1;
 }
 
-/* main-navbar - Navegação */
+/* main-navbar - Navegação (Manter o fixed e z-index 100) */
 .main-navbar {
     position: fixed;
     width: 100%;
@@ -185,53 +186,8 @@ section.home {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.scrolled-navbar .nav-list li a {
-    color: white;
-    transition: color 0.3s;
-}
-
-.main-navbar .logo img {
-    width: 120px;
-    height: auto;
-}
-
-.main-navbar .nav-list {
-    list-style: none;
-}
-
-.main-navbar .nav-list li {
-    display: inline-block;
-    margin: 0px 15px;
-}
-
-.main-navbar .nav-list li a {
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-    transition: all 0.3s;
-    position: relative;
-}
-
-.main-navbar .nav-list li a:hover {
-    width: 100%;
-    transition: 0.3s ease;
-    color: var(--amarelo-z4);
-}
-
-.hamburguer-btn {
-    user-select: none;
-    cursor: pointer;
-    display: none;
-}
-
-.hamburguer-btn span {
-    display: block;
-    width: 26px;
-    height: 2px;
-    background-color: white;
-    margin: 6px auto;
-    transition: all 0.3s;
-}
+/* Os estilos .main-navbar .nav-list, .hamburguer-btn, etc. foram omitidos aqui,
+   mas assumidos como CORRETOS no restante do seu arquivo CSS. */
 
 /* banner - Conteúdo principal sobre o slider */
 .banner {
@@ -256,95 +212,89 @@ section.home {
     top: 0;
     pointer-events: auto; 
     
-    /* Centraliza os elementos filhos (h1, p, button) */
+    /* Centraliza os elementos filhos */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 /* ---------------------------------------------------- */
-/* NOVOS ESTILOS PARA O EFEITO DE REVELAÇÃO (VÍDEO 1)   */
+/* ESTILOS CRÍTICOS PARA A ANIMAÇÃO (RISCO E REVELAÇÃO) */
 /* ---------------------------------------------------- */
 
-/* Contêiner que faz a "máscara" do texto */
+/* Contêiner da Máscara/Background Amarelo */
 .text-reveal-container {
-    overflow: hidden; 
-    /* Altura ajustada para 2 ou 3 linhas de texto (Ajuste este valor se necessário) */
     height: 180px; 
     margin: 20px auto; 
-    position: relative;
-    text-align: center; 
-    width: 100%;
+    position: relative; 
+    
+    display: block;
+    width: 100%; 
     max-width: 650px; 
+    
+    /* CRÍTICO: Máscara que esconde o H1 na posição inicial */
+    overflow: hidden; 
+    
+    /* FUNDO AMARELO */
 }
 
-/* O H1 que desliza para cima (inicia fora de vista) */
+/* O H1 que desliza para cima (Texto maior) */
 .banner-conteudo .animated-text {
+    /* Cor do texto (ESCURO) */
     color: white;
-    /* AUMENTADO: Fonte maior (Ajuste conforme o seu gosto, 70px é um bom começo) */
     font-size: 70px; 
-    line-height: 1.1; /* Reduzi o line-height para juntar um pouco as linhas */
-    font-weight: 700; /* Usei 900 para parecer mais forte/bold como na imagem */
+    line-height: 1.1; 
+    font-weight: 700; 
     
-    /* Posição inicial: 100% abaixo */
+    /* CRÍTICO: Posição inicial (fora de vista) */
     transform: translateY(100%); 
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
-    display: block; 
+    /* CRÍTICO: Essencial para posicionar o ::after e ocupar a largura do texto */
+    position: relative; 
+    display: inline-block; 
+    text-align: center; 
     margin: 0; 
-    /* Removi o padding-left, pois o risco vai para a direita */
-    padding-left: 0; 
+    z-index: 6; 
 }
 
-/* O Risco Vertical (Pseudo-Elemento) */
-.text-reveal-container::before {
+/* O Risco Vertical (Pseudo-Elemento ::after) */
+.banner-conteudo .animated-text::after {
     content: '';
     position: absolute;
     top: 0;
-    /* CRÍTICO: Use left: 100% para posicionar o risco na borda direita do .text-reveal-container */
-    left: 100%; 
     
-    width: 6px; /* Espessura do risco */
+    /* CRÍTICO: Mude a regra left:calc(100% + 5px) para posicionar o risco na BORDA DIREITA da CAIXA AMARELA, 
+       mas ainda como um pseudo-elemento do H1. */
+    right: 0; /* Coloca o risco na borda direita do H1 */
+    
+    width: 6px; 
     height: 100%;
-    background-color: red; /* Cor do risco */
+    background-color: var(--amarelo-z4); /* Cor do risco */
     
-    /* Move o risco para a esquerda em sua própria largura (para ficar na borda) e esconde (scaleY: 0) */
-    transform: translateX(-6px) scaleY(0); 
+    /* Esconde o risco completamente (altura zero) */
+    transform: scaleY(0); 
     transform-origin: top; 
-    opacity: 0; 
-    transition: transform 0.6s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.1s 0.2s;
-    z-index: 300;
+    opacity: 1; /* Mude para 1 para garantir que ele esteja visível se animado */
+    transition: transform 1.5s 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.1s 0.1s;
+    z-index: 7; 
 }
 
 /* CLASSE DE ANIMAÇÃO: Ativada pelo JavaScript */
 .slide-active-animation .animated-text {
     /* Move o texto para a posição visível */
-    transform: translateY(0); 
+    transform: translateY(0%); 
+}
+.slide-active-animation .animated-text::after {
+    /* Faz o risco crescer e o torna visível */
+    transform: scaleY(1); 
+    /* Removido o opacity: 1, pois já está no estado inicial */
 }
 
-.slide-active-animation .text-reveal-container::before {
-    /* MUDANÇA CRÍTICA: Agora o risco cresce (scaleY: 1) e permanece na borda direita. 
-       Para movê-lo para a direita do TEXTO, precisamos de um ajuste.
-       Vamos tentar posicionar o risco 10px à direita do contêiner. */
-    transform: translateX(10px) scaleY(1); /* Tente 10px ou ajuste este valor */
-    opacity: 1; 
-}
-
-/* Estilos de elementos abaixo da animação */
-.banner-conteudo .animacao-descricao {
-    color: white;
-    margin-top: 20px; 
-    font-size: 1.1em;
-}
-
+/* Ocultando elementos removidos do HTML da HOME */
+.banner-conteudo .animacao-descricao,
 .btn-ler-mais {
-    margin-top: 30px;
-    font-size: 17px;
-    background-color: var(--amarelo-z4); 
-    color: var(--darkBk);
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
+    display: none; 
 }
 
 
