@@ -1725,6 +1725,27 @@ section.pagina-footer {
     transition: 0.3s;
 }
 
+.whatsappLink{
+    position: fixed;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 23px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 36px;
+    box-shadow: 1px 1px 2px #888;
+    z-index: 10000;
+}
+
+.icon{
+    margin-top: 12px;
+    color: #fff;
+    width: 31px;
+}
 
 /* FOOTER Section estilo Finalizado*/
 
