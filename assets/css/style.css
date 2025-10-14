@@ -1039,7 +1039,7 @@ section.treinadora-bio {
     width: 100;
     height: auto;
     display: block;
-    border-radius: 90px;
+    border-radius: 250px 30px 300px 30px;
 }
 
 
