@@ -25,6 +25,8 @@ import EvaluationsPage from './pages/admin/EvaluationsPage';
 import MyWorkoutsPage from './pages/student/MyWorkoutsPage';
 import MyEventsPage from './pages/student/MyEventsPage';
 import MyEvaluationsPage from './pages/student/MyEvaluationsPage';
+import EvolutionDashboard from './pages/admin/EvolutionDashboard';
+import StudentEvolutionDashboard from './pages/student/StudentEvolutionDashboard';
 
 // Tema personalizado
 const theme = createTheme({
@@ -155,6 +157,7 @@ const AppContent: React.FC = () => {
                                     <Route path="/workout-plans" element={<WorkoutPlansPage />} />
                                     <Route path="/events" element={<EventsPage />} />
                                     <Route path="/evaluations" element={<EvaluationsPage />} />
+                                    <Route path="/evolution" element={<EvolutionDashboard />} />
                                 </Routes>
                             </Layout>
                         </ProtectedRoute>
@@ -201,6 +204,17 @@ const AppContent: React.FC = () => {
                         <ProtectedRoute>
                             <Layout>
                                 <MyEvaluationsPage />
+                            </Layout>
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/my-evolution"
+                    element={
+                        <ProtectedRoute>
+                            <Layout>
+                                <StudentEvolutionDashboard />
                             </Layout>
                         </ProtectedRoute>
                     }

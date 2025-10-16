@@ -13,15 +13,16 @@ const workoutPlanSchema = Joi.object({
     title: Joi.string().min(3).required(),
     description: Joi.string().optional(),
     modality: Joi.string().valid('RUNNING', 'MUSCLE_TRAINING', 'FUNCTIONAL', 'TRAIL_RUNNING').required(),
-    type: Joi.string().optional(),
-    courseType: Joi.string().optional(),
+    type: Joi.string().optional(), // Tipo de treino: rampa, tiro, base, etc.
+    courseType: Joi.string().optional(), // Tipo de percurso: subida, descida, plano, etc.
     status: Joi.string().valid('PROPOSED', 'ACTIVE', 'COMPLETED', 'CANCELLED').default('PROPOSED'),
     order: Joi.number().optional(),
     isFavorite: Joi.boolean().default(false),
     workoutDate: Joi.date().required(),
+    userId: Joi.string().optional(), // Campo para associar planilha a um usuário específico
     exercises: Joi.array().items(Joi.object({
-        sequence: Joi.number().required(),
-        name: Joi.string().required(),
+        sequence: Joi.number().optional(),
+        name: Joi.string().optional(),
         description: Joi.string().optional(),
         sets: Joi.number().optional(),
         reps: Joi.number().optional(),
@@ -50,7 +51,7 @@ router.post('/plans', authenticateToken, requireAdmin, asyncHandler(async (req: 
         throw createError(error.details[0].message, 400);
     }
 
-    const { exercises, ...planData } = value;
+    const { exercises, userId, ...planData } = value;
 
     // Criar planilha
     const workoutPlan = await prisma.workoutPlan.create({
@@ -85,9 +86,62 @@ router.post('/plans', authenticateToken, requireAdmin, asyncHandler(async (req: 
         });
     }
 
+    // Se um userId foi fornecido, criar um workout associado à planilha
+    if (userId) {
+        await prisma.workout.create({
+            data: {
+                userId: userId,
+                workoutPlanId: workoutPlan.id,
+                modality: planData.modality,
+                type: planData.type || null,
+                courseType: planData.courseType || null,
+                completedAt: new Date() // Marcar como concluído para que apareça na lista do aluno
+            }
+        });
+    }
+
     return res.status(201).json({ // CORREÇÃO 2: Adicionado 'return' para resolver TS7030
         message: 'Planilha criada com sucesso',
         workoutPlan
+    });
+}));
+
+// Buscar treinos de um usuário específico (apenas admin)
+router.get('/user/:userId', authenticateToken, requireAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { userId } = req.params;
+    const { page = 1, limit = 10, modality, startDate, endDate } = req.query;
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const where: any = { userId };
+    if (modality) where.modality = modality;
+
+    if (startDate || endDate) {
+        where.completedAt = {};
+        if (startDate) where.completedAt.gte = new Date(startDate as string);
+        if (endDate) where.completedAt.lte = new Date(endDate as string);
+    }
+
+    const [workouts, total] = await Promise.all([
+        prisma.workout.findMany({
+            where,
+            include: {
+                workoutPlan: {
+                    select: { title: true, modality: true }
+                }
+            },
+            skip,
+            take: Number(limit),
+            orderBy: { completedAt: 'desc' }
+        }),
+        prisma.workout.count({ where })
+    ]);
+
+    res.json({
+        data: workouts,
+        total,
+        page: Number(page),
+        limit: Number(limit),
+        totalPages: Math.ceil(total / Number(limit))
     });
 }));
 

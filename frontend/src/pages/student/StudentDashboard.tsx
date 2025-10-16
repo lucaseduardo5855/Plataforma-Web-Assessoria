@@ -46,8 +46,8 @@ const StudentDashboard: React.FC = () => {
         ]);
 
         setStats(workoutStats);
-        setRecentWorkouts(workouts.data);
-        setUpcomingEvents(events.data);
+        setRecentWorkouts(workouts?.data || []);
+        setUpcomingEvents(events?.data || []);
       } catch (error) {
         console.error('Erro ao carregar dados do dashboard:', error);
       } finally {
@@ -239,7 +239,7 @@ const StudentDashboard: React.FC = () => {
               Treinos Recentes
             </Typography>
             
-            {recentWorkouts.length > 0 ? (
+            {recentWorkouts && recentWorkouts.length > 0 ? (
               <List>
                 {recentWorkouts.map((workout, index) => (
                   <ListItem key={index} sx={{ px: 0 }}>
@@ -297,7 +297,7 @@ const StudentDashboard: React.FC = () => {
               Próximos Eventos
             </Typography>
             
-            {upcomingEvents.length > 0 ? (
+            {upcomingEvents && upcomingEvents.length > 0 ? (
               <List>
                 {upcomingEvents.map((event, index) => (
                   <ListItem key={index} sx={{ px: 0 }}>

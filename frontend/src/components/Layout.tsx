@@ -79,11 +79,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { text: 'Planilhas', icon: <FitnessCenter />, path: '/admin/workout-plans' },
     { text: 'Eventos', icon: <Event />, path: '/admin/events' },
     { text: 'Avaliações', icon: <Assessment />, path: '/admin/evaluations' },
+    { text: 'Evolução', icon: <BarChart />, path: '/admin/evolution' },
   ] : [
     { text: 'Dashboard', icon: <Dashboard />, path: '/dashboard' },
     { text: 'Meus Treinos', icon: <DirectionsRun />, path: '/my-workouts' },
     { text: 'Eventos', icon: <CalendarToday />, path: '/my-events' },
     { text: 'Avaliações', icon: <BarChart />, path: '/my-evaluations' },
+    { text: 'Minha Evolução', icon: <BarChart />, path: '/my-evolution' },
   ];
 
   const drawer = (

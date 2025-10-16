@@ -14,7 +14,7 @@ const eventSchema = Joi.object({
   date: Joi.date().required(),
   location: Joi.string().optional(),
   type: Joi.string().valid('TRAINING', 'COMPETITION', 'WORKSHOP', 'SOCIAL').required(),
-  maxAttendees: Joi.number().positive().optional()
+  maxAttendees: Joi.number().positive().allow(null).optional()
 });
 
 const attendanceSchema = Joi.object({
@@ -31,6 +31,22 @@ router.post('/', authenticateToken, requireAdmin, asyncHandler(async (req: AuthR
   const event = await prisma.event.create({
     data: value
   });
+
+  // Criar notificações para todos os alunos
+  const allStudents = await prisma.user.findMany({
+    where: { role: 'STUDENT' },
+    select: { id: true }
+  });
+
+  if (allStudents.length > 0) {
+    await prisma.eventAttendance.createMany({
+      data: allStudents.map(student => ({
+        userId: student.id,
+        eventId: event.id,
+        confirmed: false // Status pendente para confirmação
+      }))
+    });
+  }
 
   res.status(201).json({
     message: 'Evento criado com sucesso',
@@ -147,6 +163,67 @@ router.delete('/:id', authenticateToken, requireAdmin, asyncHandler(async (req: 
   });
 
   res.json({ message: 'Evento deletado com sucesso' });
+}));
+
+// Confirmar/negar presença em evento (para alunos)
+router.put('/:id/attendance', authenticateToken, asyncHandler(async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+  const { confirmed } = req.body;
+
+  // Verificar se o evento existe
+  const event = await prisma.event.findUnique({
+    where: { id }
+  });
+
+  if (!event) {
+    throw createError('Evento não encontrado', 404);
+  }
+
+  // Atualizar ou criar presença
+  const attendance = await prisma.eventAttendance.upsert({
+    where: {
+      eventId_userId: {
+        eventId: id,
+        userId: req.user!.id
+      }
+    },
+    update: {
+      confirmed: Boolean(confirmed)
+    },
+    create: {
+      eventId: id,
+      userId: req.user!.id,
+      confirmed: Boolean(confirmed)
+    }
+  });
+
+  res.json({
+    message: confirmed ? 'Presença confirmada' : 'Presença negada',
+    attendance
+  });
+}));
+
+// Listar eventos do aluno com status de presença
+router.get('/my-events', authenticateToken, asyncHandler(async (req: AuthRequest, res: Response) => {
+  const events = await prisma.event.findMany({
+    include: {
+      attendances: {
+        where: {
+          userId: req.user!.id
+        }
+      }
+    },
+    orderBy: { date: 'asc' }
+  });
+
+  // Formatar resposta para incluir status de presença
+  const eventsWithAttendance = events.map(event => ({
+    ...event,
+    myAttendance: event.attendances[0] || null,
+    attendances: undefined // Remover para não expor dados de outros alunos
+  }));
+
+  res.json({ events: eventsWithAttendance });
 }));
 
 // Confirmar presença em evento

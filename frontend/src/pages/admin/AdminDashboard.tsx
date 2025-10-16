@@ -14,6 +14,7 @@ import {
   Chip,
   IconButton,
   Tooltip,
+  Button,
 } from '@mui/material';
 import {
   People,
@@ -24,10 +25,11 @@ import {
   DirectionsRun,
   CalendarToday,
   BarChart,
+  Refresh,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { userService, workoutService, eventService, evaluationService } from 'services/api';
-import { User, Workout, Event as EventType, Evaluation } from '@/types';
+import { userService, workoutService, eventService, evaluationService } from '../../services/api';
+import { User, Workout, Event as EventType, Evaluation } from '../../types';
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const AdminDashboard: React.FC = () => {
     totalStudents: 0,
     totalWorkouts: 0,
     totalEvents: 0,
+    totalEvaluations: 0,
     recentWorkouts: [] as Workout[],
   });
 
@@ -43,21 +46,136 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [userStats, workoutStats, eventStats, evaluationStats] = await Promise.all([
-          userService.getStats(),
-          workoutService.getStats(),
-          eventService.getStats(),
-          evaluationService.getStats(),
-        ]);
-
-        setStats({
-          totalStudents: userStats.totalStudents,
-          totalWorkouts: userStats.totalWorkouts,
-          totalEvents: userStats.totalEvents,
-          recentWorkouts: userStats.recentWorkouts,
+        // Buscar dados reais das APIs
+        console.log('=== BUSCANDO ESTATÍSTICAS DO DASHBOARD ===');
+        
+        // Buscar alunos diretamente
+        const studentsResponse = await fetch('http://localhost:5000/api/users/students', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
         });
+        
+        console.log('Status da resposta de alunos:', studentsResponse.status);
+        console.log('Headers da resposta de alunos:', studentsResponse.headers);
+        
+        let studentsData = [];
+        if (studentsResponse.ok) {
+          const studentsResult = await studentsResponse.json();
+          console.log('=== RESPOSTA COMPLETA DE ALUNOS ===');
+          console.log('Resposta bruta:', studentsResult);
+          console.log('Tipo da resposta:', typeof studentsResult);
+          console.log('É array?', Array.isArray(studentsResult));
+          console.log('Chaves disponíveis:', Object.keys(studentsResult));
+          
+          // Tentar diferentes estruturas de dados
+          if (studentsResult.data) {
+            studentsData = studentsResult.data;
+            console.log('Usando studentsResult.data:', studentsData.length);
+          } else if (Array.isArray(studentsResult)) {
+            studentsData = studentsResult;
+            console.log('Usando array direto:', studentsData.length);
+          } else if (studentsResult.students) {
+            studentsData = studentsResult.students;
+            console.log('Usando studentsResult.students:', studentsData.length);
+          } else if (studentsResult.users) {
+            studentsData = studentsResult.users;
+            console.log('Usando studentsResult.users:', studentsData.length);
+          }
+          
+          console.log('=== RESULTADO FINAL ===');
+          console.log('Dados finais de alunos:', studentsData);
+          console.log('Quantidade final:', studentsData.length);
+        } else {
+          console.error('Erro na resposta de alunos:', studentsResponse.status, studentsResponse.statusText);
+        }
+        
+        // Buscar planilhas
+        const plansResponse = await fetch('http://localhost:5000/api/workouts/plans', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        
+        let plansData = [];
+        if (plansResponse.ok) {
+          const plansResult = await plansResponse.json();
+          console.log('Resposta de planilhas:', plansResult);
+          
+          if (plansResult.data) {
+            plansData = plansResult.data;
+          } else if (Array.isArray(plansResult)) {
+            plansData = plansResult;
+          } else if (plansResult.plans) {
+            plansData = plansResult.plans;
+          }
+        }
+        
+        // Buscar eventos
+        const eventsResponse = await fetch('http://localhost:5000/api/events', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        
+        let eventsData = [];
+        if (eventsResponse.ok) {
+          const eventsResult = await eventsResponse.json();
+          console.log('Resposta de eventos:', eventsResult);
+          
+          if (eventsResult.data) {
+            eventsData = eventsResult.data;
+          } else if (Array.isArray(eventsResult)) {
+            eventsData = eventsResult;
+          } else if (eventsResult.events) {
+            eventsData = eventsResult.events;
+          }
+        }
+        
+        // Avaliações removidas do sistema
+        let evaluationsData = [];
+        
+        console.log('Estatísticas calculadas:', {
+          totalStudents: studentsData.length,
+          totalWorkouts: plansData.length,
+          totalEvents: eventsData.length,
+          totalEvaluations: evaluationsData.length
+        });
+
+        // Atualizar estado com os dados obtidos
+        console.log('=== ATUALIZANDO ESTATÍSTICAS ===');
+        console.log('Alunos:', studentsData.length);
+        console.log('Planilhas:', plansData.length);
+        console.log('Eventos:', eventsData.length);
+        console.log('Avaliações:', evaluationsData.length);
+        
+        const newStats = {
+          totalStudents: studentsData.length,
+          totalWorkouts: plansData.length,
+          totalEvents: eventsData.length,
+          totalEvaluations: 0, // Removido do sistema
+          recentWorkouts: [],
+        };
+        
+        console.log('Novas estatísticas:', newStats);
+        setStats(newStats);
+        
       } catch (error) {
         console.error('Erro ao carregar estatísticas:', error);
+        // Em caso de erro, definir valores padrão
+        setStats({
+          totalStudents: 0,
+          totalWorkouts: 0,
+          totalEvents: 0,
+          totalEvaluations: 0,
+          recentWorkouts: [],
+        });
       } finally {
         setLoading(false);
       }
@@ -88,13 +206,6 @@ const AdminDashboard: React.FC = () => {
       color: '#f57c00',
       path: '/admin/events',
     },
-    {
-      title: 'Avaliações',
-      value: stats.totalEvents, // Usar dados de avaliações quando disponível
-      icon: <Assessment />,
-      color: '#d32f2f',
-      path: '/admin/evaluations',
-    },
   ];
 
   const quickActions = [
@@ -118,13 +229,6 @@ const AdminDashboard: React.FC = () => {
       icon: <Event />,
       path: '/admin/events',
       color: '#f57c00',
-    },
-    {
-      title: 'Nova Avaliação',
-      description: 'Registrar avaliação física',
-      icon: <Assessment />,
-      path: '/admin/evaluations',
-      color: '#d32f2f',
     },
   ];
 
@@ -164,9 +268,32 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <Box>
-      <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 4 }}>
-        Dashboard Administrativo
-      </Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+        <Typography variant="h4" component="h1">
+          Dashboard Administrativo
+        </Typography>
+        <Box display="flex" gap={2}>
+          <Button
+            variant="outlined"
+            startIcon={<Refresh />}
+            onClick={() => window.location.reload()}
+            disabled={loading}
+          >
+            Atualizar
+          </Button>
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={() => {
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              window.location.href = '/login';
+            }}
+          >
+            Renovar Sessão
+          </Button>
+        </Box>
+      </Box>
 
       {/* Cards de estatísticas */}
       <Grid container spacing={3} sx={{ mb: 4 }}>

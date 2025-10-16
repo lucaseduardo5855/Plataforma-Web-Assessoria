@@ -20,7 +20,7 @@ const updateProfileSchema = Joi.object({
 
 // Listar todos os alunos (apenas admin)
 router.get('/students', authenticateToken, requireAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
-  const { page = 1, limit = 10, search = '' } = req.query;
+  const { page = 1, limit = 1000, search = '' } = req.query;
   
   const skip = (Number(page) - 1) * Number(limit);
   
@@ -167,6 +167,36 @@ router.get('/students/:id', authenticateToken, requireAdmin, asyncHandler(async 
   const { password, ...studentWithoutPassword } = student;
 
   res.json({ student: studentWithoutPassword });
+}));
+
+// Atualizar aluno (apenas admin)
+router.put('/students/:id', authenticateToken, requireAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+  
+  const { error, value } = updateProfileSchema.validate(req.body);
+  if (error) {
+    throw createError(error.details[0].message, 400);
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: { id },
+    data: value,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      birthDate: true,
+      role: true,
+      studentProfile: true,
+      createdAt: true
+    }
+  });
+
+  res.json({
+    message: 'Aluno atualizado com sucesso',
+    user: updatedUser
+  });
 }));
 
 // Deletar aluno (apenas admin)
