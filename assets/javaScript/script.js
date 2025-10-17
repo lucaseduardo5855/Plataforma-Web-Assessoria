@@ -203,11 +203,19 @@ whatsappButtons.forEach(link => {
         // Coleta de Dados
         const planName = link.getAttribute('data-plan-name');
         const activeDuration = document.querySelector('.tab-button.active').getAttribute('data-duration');
+
+        let planSelector;
+        if (planName === "Corrida + Musculação") {
+            planSelector = 'combo'; // Usa o ID 'combo'
+        } else if (planName === "Corrida") {
+             planSelector = 'corrida'; // Usa o ID 'corrida'
+        } else {
+             planSelector = 'musculacao'; // Usa o ID 'musculacao'
+        }
         
         // Monta o seletor para pegar o preço dinâmico no DOM
-        const planSelector = planName.toLowerCase().replace(/ /g, '').replace('+', '');
-        const priceElement = document.querySelector(`.pricing-card[data-plan="${planSelector}"] .price`);
-        const periodElement = document.querySelector(`.pricing-card[data-plan="${planSelector}"] small`);
+        const priceElement = document.getElementById(`price-${planSelector}`); 
+        const periodElement = document.getElementById(`period-${planSelector}`);
 
         // Extrai e formata o preço (ex: R$ 504,00 /6 meses)
         let currentPriceValue = 'preço não encontrado';
@@ -220,7 +228,7 @@ whatsappButtons.forEach(link => {
         // Lógica para montar a mensagem (ex: Saber mais vs. Escolher)
         let message = '';
         if (planName === "Corrida" || planName === "Musculação") {
-            message = `Olá! Gostaria de saber mais sobre o plano ${planName} (${activeDuration}). O preço exibido é ${currentPriceValue}.`;
+            message = `Olá! Gostaria de saber mais sobre o plano ${planName} (${activeDuration}). No valor de ${currentPriceValue}.`;
         } else {
             message = `Olá! Gostaria de escolher o plano ${planName} (${activeDuration}). O preço é ${currentPriceValue}.`;
         }
