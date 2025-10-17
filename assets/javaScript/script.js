@@ -77,30 +77,30 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleSlideChange() {
         // 1. Remove a classe de animação e limpa o texto
         textContainer.classList.remove('slide-active-animation');
-        typingElement.textContent = ''; 
+        typingElement.textContent = '';
 
         // Obtém o índice real do slide ativo
         const activeIndex = homeSwiper.realIndex;
 
         // Timeout para garantir que o CSS volte ao estado inicial antes de animar novamente
-       setTimeout(() => {
-        // 2. Verifica se existe um texto definido para este índice
-        if (animatedTexts[activeIndex]) {
-            // A) Define o texto
-            typingElement.textContent = animatedTexts[activeIndex];
-            
-            // B) Dispara a animação CSS (inicia o slide do texto e do risco)
-            textContainer.classList.add('slide-active-animation');
-        } 
-        // 3. SE NÃO HOUVER TEXTO DEFINIDO (else), O CAMPO FICARÁ VAZIO, como desejado.
-    }, 50); // Pequeno atraso para garantir a redefinição da animação CSS
-}
+        setTimeout(() => {
+            // 2. Verifica se existe um texto definido para este índice
+            if (animatedTexts[activeIndex]) {
+                // A) Define o texto
+                typingElement.textContent = animatedTexts[activeIndex];
+
+                // B) Dispara a animação CSS (inicia o slide do texto e do risco)
+                textContainer.classList.add('slide-active-animation');
+            }
+            // 3. SE NÃO HOUVER TEXTO DEFINIDO (else), O CAMPO FICARÁ VAZIO, como desejado.
+        }, 50); // Pequeno atraso para garantir a redefinição da animação CSS
+    }
 
     // Adiciona o evento para quando a transição do slide terminar
     homeSwiper.on('slideChangeTransitionEnd', handleSlideChange);
 
     // Inicia o processo no carregamento da página (para animar o slide inicial)
-    handleSlideChange(); 
+    handleSlideChange();
 
     // =========================================================
     // 4. SWIPER FEEDBACKS (MANTIDO)
@@ -130,19 +130,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // =========================================================
     const priceData = {
         corrida: {
-            mensal: { price: "80", period: "/mês", currency: "R$" },
-            semestral: { price: "430", period: "/6 meses", currency: "R$" },
-            anual: { price: "840", period: "/ano", currency: "R$" }
+            mensal: { price: "80,00", period: "/mês", currency: "R$" },
+            // 30% OFF de R$ 480,00
+            semestral: { price: "336,00", period: "/6 meses", currency: "R$" },
+            // 40% OFF de R$ 960,00
+            anual: { price: "576,00", period: "/ano", currency: "R$" }
         },
         musculacao: {
-            mensal: { price: "120", period: "/mês", currency: "R$" },
-            semestral: { price: "650", period: "/6 meses", currency: "R$" },
-            anual: { price: "840", period: "/ano", currency: "R$" }
+            mensal: { price: "80,00", period: "/mês", currency: "R$" },
+            // 30% OFF de R$ 480,00
+            semestral: { price: "336,00", period: "/6 meses", currency: "R$" },
+            // 40% OFF de R$ 960,00
+            anual: { price: "576,00", period: "/ano", currency: "R$" }
         },
         combo: {
-            mensal: { price: "180", period: "/mês", currency: "R$" },
-            semestral: { price: "650", period: "/6 meses", currency: "R$" },
-            anual: { price: "1200", period: "/ano", currency: "R$" }
+            mensal: { price: "120,00", period: "/mês", currency: "R$" },
+            // 30% OFF de R$ 720,00
+            semestral: { price: "504,00", period: "/6 meses", currency: "R$" },
+            // 40% OFF de R$ 1440,00
+            anual: { price: "864,00", period: "/ano", currency: "R$" }
         }
     };
 
@@ -156,9 +162,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (priceData[planName] && priceData[planName][duration]) {
                 const data = priceData[planName][duration];
-                const [value] = data.price.split('.');
+                const [reais, centavos] = data.price.split(',');
 
-                span.innerHTML = `${data.currency} ${value}`;
+                span.innerHTML =
+                    `<small class="currency-unit">${data.currency}</small>` + // R$
+                    ` ${reais}` + // O valor principal grande
+                    `<small class="currency-unit">,${centavos}</small>`; // ,00
+
                 document.getElementById(`period-${planName}`).textContent = data.period;
             }
         });
@@ -175,4 +185,48 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     updatePrices('mensal');
+});
+
+// =========================================================
+// 6. WHATSAPP DINÂMICO (NOVO)
+// =========================================================
+
+// Certifique-se de que o número e o ?text= estão corretos
+const whatsappBaseUrl = "https://wa.me/5543996905705?text="; 
+const whatsappButtons = document.querySelectorAll('.btn-choose-link'); 
+
+whatsappButtons.forEach(link => {
+    link.addEventListener('click', (event) => { 
+        
+        event.preventDefault(); // Impede a navegação para #
+        
+        // Coleta de Dados
+        const planName = link.getAttribute('data-plan-name');
+        const activeDuration = document.querySelector('.tab-button.active').getAttribute('data-duration');
+        
+        // Monta o seletor para pegar o preço dinâmico no DOM
+        const planSelector = planName.toLowerCase().replace(/ /g, '').replace('+', '');
+        const priceElement = document.querySelector(`.pricing-card[data-plan="${planSelector}"] .price`);
+        const periodElement = document.querySelector(`.pricing-card[data-plan="${planSelector}"] small`);
+
+        // Extrai e formata o preço (ex: R$ 504,00 /6 meses)
+        let currentPriceValue = 'preço não encontrado';
+        if (priceElement && periodElement) {
+            const priceText = priceElement.textContent.replace('R$', '').trim();
+            const periodText = periodElement.textContent.trim();
+            currentPriceValue = `R$ ${priceText} ${periodText}`;
+        }
+        
+        // Lógica para montar a mensagem (ex: Saber mais vs. Escolher)
+        let message = '';
+        if (planName === "Corrida" || planName === "Musculação") {
+            message = `Olá! Gostaria de saber mais sobre o plano ${planName} (${activeDuration}). O preço exibido é ${currentPriceValue}.`;
+        } else {
+            message = `Olá! Gostaria de escolher o plano ${planName} (${activeDuration}). O preço é ${currentPriceValue}.`;
+        }
+
+        // Codifica a mensagem e abre o WhatsApp
+        const encodedMessage = encodeURIComponent(message);
+        window.open(whatsappBaseUrl + encodedMessage, '_blank');
+    });
 });
