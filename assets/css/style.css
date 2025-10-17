@@ -514,14 +514,12 @@ section.sobre {
     /* Degradê do seu Azul (var(--fundo-z4)) para um Amarelo/Ciano */
     background: linear-gradient(90deg, #003366, #006dd4) !important;
     color: white;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     /* Layout */
     padding: 12px 25px;
     border: 0px solid transparent !important;
-    outline: 0px solid transparent !important;
     cursor: pointer;
-    display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -534,51 +532,11 @@ section.sobre {
     margin-top: 40px;
 }
 
-.btn-sobre:hover {
-    /* Inverte a direção do degradê ou o brilho */
-    background: linear-gradient(140deg, #003366, #006dd4);
-    transform: translateY(-2px);
-    /* Efeito de 'levantar' */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+.btn-sobre:hover{
+    transform: translateY(-3px);
     color: white;
 }
 
-.btn-sobre:focus {
-    outline: none !important;
-    border: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-top: none !important;
-    border-bottom: none !important;
-}
-
-.btn-sobre:active {
-    outline: none !important;
-    border: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-top: none !important;
-    border-bottom: none !important;
-}
-
-/* REGRA SUPER ESPECÍFICA PARA REMOVER QUALQUER LISTA VERMELHA */
-a.btn-whatsapp-link button.btn-sobre,
-a.btn-whatsapp-link button.btn-sobre:focus,
-a.btn-whatsapp-link button.btn-sobre:active,
-a.btn-whatsapp-link button.btn-sobre:hover,
-a.btn-whatsapp-link button.btn-sobre:visited {
-    border: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-top: none !important;
-    border-bottom: none !important;
-    outline: none !important;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3) !important;
-}
-
-a.btn-whatsapp-link button.btn-sobre:active {
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3) !important;
-}
 
 .sobre-conteudo .sobre-coluna-direita h1 {
     font-size: 34px;

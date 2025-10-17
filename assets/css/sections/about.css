@@ -56,33 +56,6 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-.btn-sobre {
-    background-color: var(--amarelo-z4);
-    color: var(--fundo-z4);
-    padding: 15px 30px;
-    border-radius: 25px;
-    font-weight: 600;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-}
-
-.btn-sobre:hover {
-    background-color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 234, 0, 0.3);
-}
-
-.btn-sobre i {
-    margin-right: 8px;
-    font-size: 18px;
-}
-
-.btn-sobre teste:hover{
-    text-decoration: none;
-}
 
 /* Responsive */
 @media (max-width: 768px) {
