@@ -82,13 +82,12 @@ section.pagina-footer {
     justify-content: center;
     border-radius: 50%;
     background-color: transparent;
-    border: 1px solid var(--amarelo-z4);
+    border: 1px solid white;
     transition: all 0.3s ease;
 }
 
 .footer-col-1 .footer-social-media a i:hover {
     background-color: transparent;
-    border: 1px solid var(--amarelo-z4);
 }
 
 .footer-col-1 .social-media-title {
@@ -96,7 +95,6 @@ section.pagina-footer {
     font-weight: 500;
     margin-top: 20px;
     margin-bottom: 10px;
-    color: var(--amarelo-z4);
 }
 
 .noticia-info {
@@ -197,14 +195,11 @@ section.pagina-footer {
     z-index: 10;
 }
 
-.direito-copia p {
-    color: rgba(221, 11, 11, 0.7);
+.direito-copia p,  b {
+    color: #081F3E;
     font-size: 0.9rem;
 }
 
-.direito-copia b {
-    color: var(--amarelo-z4);
-}
 
 /* Responsive */
 @media (max-width: 768px) {

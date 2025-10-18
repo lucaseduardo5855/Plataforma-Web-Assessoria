@@ -299,6 +299,7 @@ section.home {
     z-index: 6;
 }
 
+
 /* O Risco Vertical (Pseudo-Elemento ::after) */
 .banner-conteudo .animated-text::after {
     content: '';
@@ -442,7 +443,7 @@ section.sobre {
     z-index: 2;
     border-radius: 12px;
     right: 130px;
-    background-color: #003366;
+    max-width: 100%;
 }
 
 /* Pseudo-elemento da imagem (mantido) */
@@ -644,8 +645,12 @@ section.servicos {
     height: 100%;
     /* Ajuste para cobrir a altura de 200px */
     object-fit: cover;
+    object-position: center center;
     transition: transform 0.3s;
     transform: scale(1.0);
+    /* Garantir que a imagem seja responsiva */
+    max-width: 100%;
+    height: auto;
 }
 
 /* Título simples que agora fica DENTRO do card branco */
@@ -858,16 +863,11 @@ section.treinadora-bio {
 .section-header-treinadora h1::after {
     content: "";
     display: block;
-    position: absolute;
-    bottom: 0;
     width: 230px;
     height: 3px;
     background-color: var(--amarelo-z4);
-
-    /* TÉCNICA DE CENTRALIZAÇÃO DA LINHA */
-    left: 50%;
-    transform: translateX(-50%);
-    top: 90px;
+    margin: 10px auto 0;
+    border-radius: 2px;
 }
 
 
@@ -1136,16 +1136,11 @@ section.treinadora-bio {
 .section-header .title::after {
     content: "";
     display: block;
-    position: absolute;
-    bottom: 0;
     width: 240px;
     height: 3px;
     background-color: var(--amarelo-z4);
-
-    /* TÉCNICA DE CENTRALIZAÇÃO DA LINHA */
-    left: 50%;
-    transform: translateX(-50%);
-    top: 60px;
+    margin: 10px auto 0;
+    border-radius: 2px;
 }
 
 .feedbacks {
@@ -1155,40 +1150,74 @@ section.treinadora-bio {
 .testimonials-item {
     background: linear-gradient(to bottom,
             #8296ac 0%,
-            /* Cor escura no topo (seu --fundo-z4) */
             #0A2548 100%
-            /* Um tom ligeiramente mais claro na base */
         );
-    padding: 30px;
-    border-radius: 30px;
+    padding: 30px 25px;
+    border-radius: 20px;
     margin-top: 70px;
-}
-
-.testimonials-item img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    vertical-align: middle;
-    object-fit: cover;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 280px;
+    max-height: 320px;
 }
 
 .testimonials-item .info {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+    margin-bottom: 15px;
+    width: 100%;
+    gap: 15px;
+}
+
+.testimonials-item .info img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+}
+
+.testimonials-item .text-box {
+    text-align: center;
+    margin-bottom: 0;
+    flex: 0 0 auto;
 }
 
 .testimonials-item .name {
-    font-size: 24px;
-    text-transform: capitalize;
+    font-size: 16px;
     font-weight: 600;
     color: white;
-    line-height: 1.2;
+    margin: 0;
+    text-align: center;
+}
+
+.testimonials-item .job {
+    display: none;
 }
 
 .testimonials-item p {
-    margin-top: 20px;
     color: #f5f2f2;
+    text-align: left;
+    line-height: 1.4;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    max-height: 140px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+}
+
+.testimonials-item .rating {
+    display: none;
 }
 
 .feedbacks .swiper-pagination {
@@ -1204,6 +1233,15 @@ section.treinadora-bio {
 }
 
 /* FIM Section Feedbacks */
+
+/* Esconder botão de fechar no desktop */
+@media (min-width: 993px) {
+    .close-menu-item {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+}
 
 /* Oferta Section estilo Iniciado*/
 section.oferta {
@@ -1385,6 +1423,15 @@ section.equipe {
     color: var(--fundo-z4);
 }
 
+.section-title::after{
+content: "";
+    display: block;
+    width: 240px;
+    height: 3px;
+    background-color: var(--amarelo-z4);
+    margin: 10px auto 0 auto;
+}
+
 .tabs-navigation {
     display: flex;
     justify-content: center;
@@ -1527,6 +1574,7 @@ section.equipe {
     cursor: pointer;
     transition: background 0.3s;
     background-color: white;
+    text-decoration: none !important;
 }
 
 .btn-choose:hover {
@@ -1534,6 +1582,7 @@ section.equipe {
     transition: 0.3s ease;
     border: none;
     outline: none;
+    text-decoration: none !important;
 }
 
 .card-pro .btn-choose {

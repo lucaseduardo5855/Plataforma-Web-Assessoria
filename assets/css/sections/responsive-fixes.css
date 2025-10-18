@@ -1,0 +1,211 @@
+/* Correções específicas de responsividade */
+
+/* ===========================================
+   CORREÇÕES GERAIS
+   =========================================== */
+
+/* Garantir que todas as imagens sejam responsivas */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================================
+   SEÇÃO TREINADORA - CORREÇÕES ESPECÍFICAS
+   =========================================== */
+
+/* Desktop - manter layout original */
+@media (min-width: 1025px) {
+    .treinadora-bio .treinadora-conteudo {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda {
+        flex: 1;
+    }
+    
+    .treinadora-bio .treinadora-coluna-direita {
+        flex: 1;
+    }
+}
+
+/* ===========================================
+   SEÇÃO CONSULTORIA - CORREÇÕES ESPECÍFICAS
+   =========================================== */
+
+/* Desktop - manter layout original */
+@media (min-width: 1025px) {
+    .consultoria-online .consultoria-content {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda {
+        flex: 1;
+    }
+    
+    .consultoria-online .consultoria-coluna-direita {
+        flex: 1;
+    }
+}
+
+/* ===========================================
+   BOTÕES DE PLANOS - CORREÇÕES ESPECÍFICAS
+   =========================================== */
+
+/* Garantir que os botões sejam responsivos mantendo estilo original */
+.tabs-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+/* ===========================================
+   LINHA AMARELA DOS FEEDBACKS - CORREÇÕES
+   =========================================== */
+
+.section-header .title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--amarelo-z4);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* ===========================================
+   MENU HAMBÚRGUER - CORREÇÕES ESPECÍFICAS
+   =========================================== */
+
+/* Menu hambúrguer já configurado no header.css */
+
+/* ===========================================
+   CORREÇÕES ESPECÍFICAS PARA IMAGENS
+   =========================================== */
+
+/* Treinadora - garantir responsividade */
+.treinadora-bio .treinadora-coluna-esquerda img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Consultoria - garantir responsividade */
+.consultoria-online .consultoria-coluna-esquerda img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Serviços - melhorar responsividade das imagens */
+.servico-box .servico-image-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+.servico-box .servico-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transition: transform 0.3s ease;
+    /* Garantir que não distorça */
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/* Melhorar responsividade para diferentes tamanhos */
+
+/* Tablet específico (800x1280) */
+@media (max-width: 900px) and (min-width: 769px) {
+    .servico-box .servico-image-box {
+        height: 250px;
+        min-height: 250px;
+    }
+    
+    /* Ajustar seção sobre para tablet em retrato */
+    .sobre-conteudo .sobre-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        right: 0 !important;
+        max-width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    /* Ajustar seção treinadora */
+    .treinadora-bio .treinadora-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 350px;
+        margin: 0 auto;
+        display: block;
+        border-radius: 12px;
+    }
+    
+    /* Ajustar seção consultoria */
+    .consultoria-online .consultoria-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 350px;
+        margin: 0 auto;
+        display: block;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .servico-box .servico-image-box {
+        height: 250px;
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .servico-box .servico-image-box {
+        height: 220px !important;
+        min-height: 220px !important;
+    }
+    
+    .servico-box .image-title-overlay span {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .servico-box .servico-image-box {
+        height: 200px !important;
+        min-height: 200px !important;
+    }
+    
+    .servico-box .image-title-overlay span {
+        font-size: 13px !important;
+    }
+}
+
+/* ===========================================
+   CORREÇÕES PARA CARDS DE PREÇO
+   =========================================== */
+
+.pricing-cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+    .pricing-cards-wrapper {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}

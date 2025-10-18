@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="./css/sections/footer.css">
     <link rel="stylesheet" href="./css/sections/dev.css">
     <link rel="stylesheet" href="./css/sections/header.css">
+    <link rel="stylesheet" href="./css/sections/responsive.css">
+    <link rel="stylesheet" href="./css/sections/responsive-fixes.css">
 
 </head>
 
@@ -25,12 +27,18 @@
                 <img src="/assets/img/Group 182 (3).png" alt="Logo Z4">
             </div>
             <ul class="nav-list">
+                <li class="close-menu-item">
+                    <button class="close-menu-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </li>
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#sobre">Quem somos</a></li>
                 <li><a href="#modalidades">Modalidades</a></li>
-                <li><a href="#treinadora-bio">Treinador</a></li>
-                <li><a href="#pricing-z4-perfomance">Preços</a></li>
+                <li><a href="#treinadora-bio">Treinadora</a></li>
+                <li><a href="#pricing-z4-perfomance">Planos</a></li>
                 <li><a href="#contato">Contato</a></li>
+                <li><a href="#feedbacks-c">Feedbacks</a></li>
             </ul>
             <a href="http://localhost:3000" target="_blank" class="junte-se-btn">
                 <button class="btn-join-us">Área do Atleta</button>
@@ -106,12 +114,9 @@
 
             <header class="section-header">
                 <h1>Modalidades Esportivas</h1>
-                <p>
-                    Sua jornada no esporte será guiada por uma profissional dedicada e pronta para ajudar você a
-                    alcançar
-                    seus objetivos.</p>
-                <p>Vamos fornecer o acompanhamento exclusivo que você precisa, garantindo que sua experiência de treino
-                    seja sempre enriquecedora e com o máximo contato e evolução.</p>
+                <p>Sua evolução começa aqui. Oferecemos programas de treino personalizados, criados para transformar seu
+                    potencial em resultado, seja na corrida, na força ou na saúde mental. Receba o acompanhamento
+                    exclusivo que você precisa para superar seus limites e alcançar sua melhor performance.</p>
             </header>
 
             <div class="servicos-fundo-colorido">
@@ -120,7 +125,7 @@
 
                     <div class="servico-box">
                         <div class="servico-image-box">
-                            <img src="img/amanda.jpg" alt="Corrida & Caminhada">
+                            <img src="img/13b.jpg" alt="Corrida & Caminhada">
                         </div>
 
                         <div class="image-title-overlay">
@@ -130,17 +135,17 @@
 
                     <div class="servico-box">
                         <div class="servico-image-box">
-                            <img src="img/trail2.jpg" alt="Trail Run & Trekking">
+                            <img src="img/ChatGPT Image Oct 18, 2025, 02_22_34 PM.png" alt="Musculação">
                         </div>
 
                         <div class="image-title-overlay">
-                            <span>Trail Run</span>
+                            <span>Musculação</span>
                         </div>
                     </div>
 
                     <div class="servico-box">
                         <div class="servico-image-box">
-                            <img src="img/funcional.jpg" alt="Treinamento Funcional">
+                            <img src="img/treinafuncional.png" alt="Treinamento Funcional">
                         </div>
 
                         <div class="image-title-overlay">
@@ -150,11 +155,12 @@
 
                     <div class="servico-box">
                         <div class="servico-image-box">
-                            <img src="img/musc.jpg" alt="Musculação">
+                            <img src="img/Ultra Trail Vale do codó, 40KM! Esse post é para registros durante a prova! .Prova desafiadora n.jpg"
+                                alt="Trail Run & Trekking">
                         </div>
 
                         <div class="image-title-overlay">
-                            <span>Musculação</span>
+                            <span>Trail Run</span>
                         </div>
                     </div>
                 </div>
@@ -216,7 +222,7 @@
 
         <section id="pricing-z4-perfomance">
             <div class="container">
-                <h2 class="section-title">Nossos Planos de Assessoria</h2>
+                <h2 class="section-title"> Escolha seu Plano </h2>
 
                 <div class="tabs-navigation duration-selector">
                     <button class="tab-button active" data-duration="mensal">Mensal</button>
@@ -270,8 +276,7 @@
                             <li>✓ Sincronização com Strava/Garmin</li>
                             <li>✓ Bônus: Treino funcional (2x/sem)</li>
                         </ul>
-                        <a href="#" class="btn-choose btn-choose-link" data-plan-name="Corrida + Musculação"
-                            style="text-decoration: none !important;">
+                        <a href="#" class="btn-choose btn-choose-link" data-plan-name="Corrida + Musculação">
                             Escolher Plano
                         </a>
                     </div>
@@ -297,8 +302,8 @@
                         <dd>Obtenho e analiso suas necessidades, limitações e objetivos.</dd>
 
                         <dt>Montagem de Treino</dt>
-                        <DD>Personalizo o seu treino de acordo com o seu objetivo, a partir das informações
-                            acima.</DD>
+                        <DD>Personalizo o seu treino de acordo com o seu objetivo, garantindo a melhoria da sua
+                            perfomance.</DD>
 
                         <dt>Disponibilidade do Sistema</dt>
                         <DD>Acesso do aluno ao aplicativo para acompanhamento e execução dos treinos.</DD>
@@ -320,114 +325,63 @@
             </div>
         </section>
 
-        <section class="feedbacks">
+        <section class="feedbacks" id="feedbacks-c">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="title">Feedback de Alguns Clientes</h2>
+                    <h2 class="title">Feedback de Alguns Alunos</h2>
                 </div>
                 <div class="testimonials-content">
                     <div class="swiper testimonials-slider js-testimonials-slider">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide testimonials-item">
                                 <div class="info">
-                                    <img src="img/mae.jpg" alt="">
+                                    <img src="img/feed1.jpeg" alt="">
                                     <div class="text-box">
-                                        <h3 class="name">Lucas Eduardo</h3>
+                                        <h3 class="name">Maria Cristina de Mello</h3>
                                         <span class="job"></span>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit eveniet
-                                    non,
-                                    asperiores commodi nesciunt ad quia sit pariatur consectetur quibusdam
-                                    laudantium
-                                    blanditiis voluptatem necessitatibus aperiam excepturi cum. Soluta,
-                                    mollitia
-                                    expedita!</p>
+                                <p>Meu objetivo inicial ao correr era perder peso, mas a assessoria me trouxe benefícios. Com o acompanhamento certo, percebi melhora no desempenho: correndo mais rápido, com mais resistência e disposição. A corrida virou autocuidado, me dando disciplina, autoestima e autocontrole. Aliviou minha ansiedade, e não sofro mais com sintomas da pré-menopausa. Meu corpo e mente estão mais equilibrados. Sou grata pela orientação. A assessoria Z4 fez toda a diferença.</p>
                                 <div class="rating"></div>
                             </div>
+
                             <div class="swiper-slide testimonials-item">
                                 <div class="info">
-                                    <img src="/assets/img/amanda.jpg" alt="">
+                                    <img src="/assets/img/feed2.jpeg" alt="">
                                     <div class="text-box">
-                                        <h3 class="name">Gabriel Prestes</h3>
+                                        <h3 class="name">Yasmin Baniski</h3>
                                         <span class="job"></span>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit eveniet
-                                    non,
-                                    asperiores commodi nesciunt ad quia sit pariatur consectetur quibusdam
-                                    laudantium
-                                    blanditiis voluptatem necessitatibus aperiam excepturi cum. Soluta,
-                                    mollitia
-                                    expedita!</p>
+                                <p>Desde que comecei a treinar com a assessoria, minha relação com a corrida mudou completamente. Eu corria sem muito direcionamento, e hoje vejo claramente o quanto a orientação correta faz uma diferença enorme. Com o acompanhamento da Z4, aprendi a respeitar meus próprios limites, e a evoluir com segurança e inteligência. Ela me trouxe disciplina, motivação e, principalmente, confiança em meu potencial. Ver minha evolução constante é, de longe, a maior das motivações!</p>
                                 <div class="rating"></div>
                             </div>
+
                             <div class="swiper-slide testimonials-item">
                                 <div class="info">
-                                    <img src="img/mae.jpg" alt="">
+                                    <img src="img/feed3.jpeg" alt="">
                                     <div class="text-box">
-                                        <h3 class="name">Evelyn</h3>
-                                        <span class="job"> </span>
+                                        <h3 class="name">Natalia Pontes</h3>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit eveniet
-                                    non,
-                                    asperiores commodi nesciunt ad quia sit pariatur consectetur quibusdam
-                                    laudantium
-                                    blanditiis voluptatem necessitatibus aperiam excepturi cum. Soluta,
-                                    mollitia
-                                    expedita!</p>
+                                <p>Eu comecei a correr pela saúde mental e física, e foi uma escolha incrível! Quando comecei, eu mal conseguia correr 200 metros sem parar. Hoje, evoluo e consigo correr vários quilômetros. Esse desafio me ajudou a superar o estresse e a ansiedade, melhorando minha saúde geral. Fiz amigos incríveis para a vida toda. A Z4 foi fundamental, me ajudando a superar meus limites e a descobrir que posso sempre melhorar a cada dia.</p>
                                 <div class="rating"></div>
                             </div>
+
                             <div class="swiper-slide testimonials-item">
                                 <div class="info">
-                                    <img src="img/mae.jpg" alt="">
+                                    <img src="/assets/img/feed5.jpeg" alt="">
                                     <div class="text-box">
-                                        <h3 class="name">Jéssica</h3>
-                                        <span class="job"> </span>
+                                        <h3 class="name">Davi</h3>
+                                        <span class="job"></span>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit eveniet
-                                    non,
-                                    asperiores commodi nesciunt ad quia sit pariatur consectetur quibusdam
-                                    laudantium
-                                    blanditiis voluptatem necessitatibus aperiam excepturi cum. Soluta,
-                                    mollitia
-                                    expedita!</p>
-                                <div class="rating"></div>
-                            </div>
-                            <div class="swiper-slide testimonials-item">
-                                <div class="info">
-                                    <img src="img/amanda.jpg" alt="">
-                                    <div class="text-box">
-                                        <h3 class="name">Amanda Melo</h3>
-                                        <span class="job"> </span>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit eveniet
-                                    non,
-                                    asperiores commodi nesciunt ad quia sit pariatur consectetur quibusdam
-                                    laudantium
-                                    blanditiis voluptatem necessitatibus aperiam excepturi cum. Soluta,
-                                    mollitia
-                                    expedita!</p>
-                                <div class="rating"></div>
-                            </div>
-                            <div class="swiper-slide testimonials-item">
-                                <div class="info">
-                                    <img src="img/joao.png" alt="">
-                                    <div class="text-box">
-                                        <h3 class="name">Leonora Melo</h3>
-                                        <span class="job"> </span>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit eveniet
-                                    non,
-                                    asperiores commodi nesciunt ad quia sit pariatur consectetur quibusdam
-                                    laudantium
-                                    blanditiis voluptatem necessitatibus aperiam excepturi cum. Soluta,
-                                    mollitia
-                                    expedita!</p>
+                                <p>Comecei a correr por um desafio, mas continuei por mim. No início era provar algo;
+                                    hoje é me superar. A corrida virou minha terapia, meu equilíbrio, meu escape e meu
+                                    recomeço. Corro por saúde física e mental e por tudo o que me faz seguir firme. A Z4
+                                    me ajudou a transformar vontade em resultado. Com o apoio, aprendi a treinar e
+                                    respeitar meu corpo e evoluir com constância. Eles me mostraram que correr vai além
+                                    do físico: é sobre mente, superação.</p>
                                 <div class="rating"></div>
                             </div>
                         </div>

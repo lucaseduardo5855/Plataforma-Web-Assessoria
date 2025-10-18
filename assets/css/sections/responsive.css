@@ -1,0 +1,671 @@
+/* Responsive Design - Arquivo Geral */
+
+/* ===========================================
+   DESKTOP (1025px+)
+   =========================================== */
+/* Estilos base já estão definidos */
+
+/* ===========================================
+   TABLET ESPECÍFICO (800x1280) - 769px - 900px
+   =========================================== */
+@media (max-width: 900px) and (min-width: 769px) {
+    .main-navbar {
+        padding: 0 15px;
+    }
+    
+    .main-navbar .nav-list li {
+        margin: 0px 8px;
+    }
+    
+    .banner .banner-conteudo h1 {
+        font-size: 50px;
+    }
+    
+    .sobre {
+        padding: 60px 4%;
+    }
+    
+    .sobre .sobre-conteudo {
+        flex-direction: column;
+        padding: 60px 4%;
+        text-align: center;
+    }
+    
+    .sobre-conteudo .sobre-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+        padding-left: 0;
+    }
+    
+    .sobre-conteudo .sobre-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        right: 0 !important;
+        max-width: 100%;
+        object-fit: cover;
+    }
+    
+    .sobre-conteudo .sobre-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+        left: 0;
+    }
+    
+    .treinadora-bio {
+        padding: 50px 4%;
+    }
+    
+    .treinadora-bio .treinadora-conteudo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 350px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .treinadora-bio .treinadora-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+    }
+    
+    .consultoria-online {
+        padding: 50px 4%;
+    }
+    
+    .consultoria-online .consultoria-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 350px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .consultoria-online .consultoria-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+    }
+    
+    .servicos {
+        padding: 40px 0 0;
+    }
+    
+    .servicos .servicos-conteudo {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 4%;
+        gap: 15px;
+    }
+    
+    .servico-box .servico-image-box {
+        height: 250px;
+        min-height: 250px;
+    }
+    
+    .servico-box .image-title-overlay span {
+        font-size: 15px;
+        padding: 7px 0;
+    }
+    
+    #pricing-z4-perfomance {
+        padding: 50px 10px;
+    }
+    
+    .tabs-navigation {
+        flex-direction: row;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        padding: 12px 24px;
+        font-size: 1em;
+        min-width: auto;
+        width: auto;
+    }
+    
+    .pricing-conteudo {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .pricing-card {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .testimonials-item {
+        padding: 25px 20px;
+        min-height: 250px;
+        max-height: 280px;
+    }
+    
+    .testimonials-item .info img {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* ===========================================
+   TABLET (769px - 1024px)
+   =========================================== */
+@media (max-width: 1024px) {
+    /* Header responsivo */
+    .main-navbar {
+        padding: 0 20px;
+    }
+    
+    .main-navbar .nav-list li {
+        margin: 0px 10px;
+    }
+    
+    /* Seção Hero */
+    .banner .banner-conteudo h1 {
+        font-size: 60px;
+    }
+    
+    /* Seção Sobre */
+    .sobre {
+        padding: 80px 5%;
+    }
+    
+    .sobre .sobre-conteudo {
+        padding: 80px 5%;
+    }
+    
+    /* Seção Treinadora */
+    .treinadora-bio {
+        padding: 60px 5%;
+    }
+    
+    .treinadora-bio .treinadora-conteudo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 400px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .treinadora-bio .treinadora-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+    }
+    
+    /* Seção Consultoria */
+    .consultoria-online {
+        padding: 60px 5%;
+    }
+    
+    .consultoria-online .consultoria-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 400px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .consultoria-online .consultoria-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+    }
+    
+    /* Seção Serviços */
+    .servicos .servicos-conteudo {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 3%;
+    }
+    
+    /* Seção Preços */
+    #pricing-z4-perfomance {
+        padding: 60px 15px;
+    }
+    
+    .tabs-navigation {
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .tab-button {
+        padding: 8px 16px;
+        font-size: 0.9em;
+        min-width: 80px;
+    }
+    
+    /* Feedbacks */
+    .testimonials-item {
+        padding: 25px 20px;
+        min-height: 250px;
+        max-height: 280px;
+    }
+    
+    .testimonials-item .info img {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* ===========================================
+   MOBILE (481px - 768px)
+   =========================================== */
+@media (max-width: 768px) {
+    /* Header mobile */
+    .main-navbar .nav-list {
+        display: none;
+    }
+    
+    .hamburguer-btn {
+        display: flex !important;
+    }
+    
+    /* Seção Hero */
+    .banner .banner-conteudo h1 {
+        font-size: 45px;
+    }
+    
+    /* Seção Sobre */
+    .sobre {
+        padding: 60px 4%;
+    }
+    
+    .sobre .sobre-conteudo {
+        flex-direction: column;
+        padding: 60px 4%;
+        text-align: center;
+    }
+    
+    .sobre-conteudo .sobre-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+        padding-left: 0;
+    }
+    
+    .sobre-conteudo .sobre-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        right: 0 !important;
+        max-width: 100%;
+        object-fit: cover;
+    }
+    
+    .sobre-conteudo .sobre-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+        left: 0;
+    }
+    
+    /* Seção Treinadora */
+    .treinadora-bio {
+        padding: 50px 4%;
+    }
+    
+    .treinadora-bio .treinadora-conteudo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .treinadora-bio .treinadora-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+    }
+    
+    /* Seção Consultoria */
+    .consultoria-online {
+        padding: 50px 4%;
+    }
+    
+    .consultoria-online .consultoria-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 350px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .consultoria-online .consultoria-coluna-direita {
+        width: 100%;
+        margin-top: 0;
+    }
+    
+    /* Seção Serviços */
+    .servicos {
+        padding: 40px 0 0;
+    }
+    
+    .servicos .servicos-conteudo {
+        grid-template-columns: 1fr;
+        padding: 0 4%;
+        gap: 15px;
+    }
+    
+    .servico-box .servico-image-box {
+        height: 220px;
+        min-height: 220px;
+        max-height: 220px;
+    }
+    
+    .servico-box .servico-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        transition: transform 0.3s ease;
+    }
+    
+    .servico-box .image-title-overlay span {
+        font-size: 14px;
+        padding: 6px 0;
+    }
+    
+    /* Seção Preços */
+    #pricing-z4-perfomance {
+        padding: 50px 10px;
+    }
+    
+    .tabs-navigation {
+        flex-direction: row;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        padding: 12px 24px;
+        font-size: 1em;
+        min-width: auto;
+        width: auto;
+    }
+    
+    .pricing-conteudo {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .pricing-card {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    
+    /* Feedbacks */
+    .testimonials-item {
+        padding: 20px 15px;
+        min-height: 220px;
+        max-height: 250px;
+    }
+    
+    .testimonials-item .info {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .testimonials-item .info img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .testimonials-item .name {
+        font-size: 14px;
+    }
+    
+    .testimonials-item p {
+        font-size: 12px;
+        max-height: 100px;
+        -webkit-line-clamp: 5;
+    }
+    
+    /* Linha amarela dos feedbacks responsiva */
+    .section-header .title::after {
+        width: 60px;
+        height: 3px;
+    }
+    
+    /* Footer */
+    .footer-conteudo {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+}
+
+/* ===========================================
+   MOBILE PEQUENO (até 480px)
+   =========================================== */
+@media (max-width: 480px) {
+    /* Header muito pequeno */
+    .main-navbar {
+        height: 60px;
+        padding: 0 15px;
+    }
+    
+    .main-navbar .logo img {
+        width: 100px;
+    }
+    
+    /* Seção Hero */
+    .banner .banner-conteudo h1 {
+        font-size: 35px;
+    }
+    
+    /* Seção Sobre */
+    .sobre {
+        padding: 40px 3%;
+    }
+    
+    .sobre .sobre-conteudo {
+        padding: 40px 3%;
+    }
+    
+    .sobre-conteudo .sobre-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        right: 0 !important;
+        max-width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    .sobre-conteudo .sobre-coluna-direita h1 {
+        font-size: 28px;
+    }
+    
+    /* Seção Treinadora */
+    .treinadora-bio {
+        padding: 40px 3%;
+    }
+    
+    .treinadora-bio .treinadora-conteudo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .treinadora-bio .treinadora-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 250px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .treinadora-bio .treinadora-coluna-direita h1 {
+        font-size: 24px;
+    }
+    
+    /* Seção Consultoria */
+    .consultoria-online {
+        padding: 40px 3%;
+    }
+    
+    .consultoria-online .consultoria-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .consultoria-online .consultoria-coluna-esquerda img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .consultoria-online .consultoria-coluna-direita h1 {
+        font-size: 24px;
+    }
+    
+    /* Seção Serviços */
+    .servicos {
+        padding: 30px 0 0;
+    }
+    
+    .servicos .servicos-conteudo {
+        padding: 0 3%;
+        gap: 12px;
+    }
+    
+    .servico-box .servico-image-box {
+        height: 200px;
+        min-height: 200px;
+        max-height: 200px;
+    }
+    
+    .servico-box .servico-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        transition: transform 0.3s ease;
+    }
+    
+    .servico-box .image-title-overlay span {
+        font-size: 13px;
+        padding: 5px 0;
+    }
+    
+    /* Seção Preços */
+    #pricing-z4-perfomance {
+        padding: 40px 5px;
+    }
+    
+    .tabs-navigation {
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+        min-width: auto;
+        width: auto;
+    }
+    
+    .pricing-card {
+        max-width: 300px;
+    }
+    
+    .btn-choose {
+        padding: 10px 25px;
+        font-size: 0.9em;
+    }
+    
+    /* Feedbacks */
+    .testimonials-item {
+        padding: 15px 10px;
+        min-height: 200px;
+        max-height: 220px;
+    }
+    
+    .testimonials-item .info img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .testimonials-item .name {
+        font-size: 13px;
+    }
+    
+    .testimonials-item p {
+        font-size: 11px;
+        max-height: 80px;
+        -webkit-line-clamp: 4;
+    }
+    
+    /* Linha amarela dos feedbacks responsiva - mobile pequeno */
+    .section-header .title::after {
+        width: 50px;
+        height: 2px;
+    }
+    
+    /* Footer */
+    .btn-noticia-btn,
+    .btn-area-footer {
+        width: 100%;
+        max-width: 280px;
+    }
+}
