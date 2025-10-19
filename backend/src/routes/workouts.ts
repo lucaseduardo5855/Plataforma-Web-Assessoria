@@ -39,9 +39,9 @@ const workoutRecordSchema = Joi.object({
     courseType: Joi.string().optional(),
     duration: Joi.number().optional(),
     distance: Joi.number().optional(),
-    pace: Joi.string().optional(),
+    pace: Joi.string().allow('').optional(),
     calories: Joi.number().optional(),
-    notes: Joi.string().optional(),
+    notes: Joi.string().allow('').optional(),
     completedAt: Joi.date().optional()
 });
 
@@ -314,6 +314,83 @@ router.post('/record', authenticateToken, asyncHandler(async (req: AuthRequest, 
     res.status(201).json({
         message: 'Treino registrado com sucesso',
         workout
+    });
+}));
+
+// Atualizar treino do usuário
+router.put('/my-workouts/:id', authenticateToken, asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { id } = req.params;
+    const { error, value } = workoutRecordSchema.validate(req.body);
+    
+    if (error) {
+        throw createError(error.details[0].message, 400);
+    }
+
+    // Verificar se o treino pertence ao usuário
+    const existingWorkout = await prisma.workout.findFirst({
+        where: { 
+            id: id,
+            userId: req.user!.id,
+            workoutPlanId: null // Apenas treinos registrados pelo próprio usuário
+        }
+    });
+
+    if (!existingWorkout) {
+        throw createError('Treino não encontrado ou não autorizado', 404);
+    }
+
+    // Atualizar o treino
+    const updatedWorkout = await prisma.workout.update({
+        where: { id },
+        data: value
+    });
+
+    res.json({
+        message: 'Treino atualizado com sucesso',
+        workout: updatedWorkout
+    });
+}));
+
+// Excluir treino do usuário
+router.delete('/my-workouts/:id', authenticateToken, asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { id } = req.params;
+
+    // Verificar se o treino pertence ao usuário
+    const existingWorkout = await prisma.workout.findFirst({
+        where: { 
+            id: id,
+            userId: req.user!.id,
+            workoutPlanId: null // Apenas treinos registrados pelo próprio usuário
+        }
+    });
+
+    if (!existingWorkout) {
+        throw createError('Treino não encontrado ou não autorizado', 404);
+    }
+
+    // Excluir o treino
+    await prisma.workout.delete({
+        where: { id }
+    });
+
+    // Atualizar estatísticas do perfil do aluno
+    await prisma.studentProfile.upsert({
+        where: { userId: req.user!.id },
+        update: {
+            totalWorkouts: { decrement: 1 },
+            totalCalories: { decrement: existingWorkout.calories || 0 },
+            totalDistance: { decrement: existingWorkout.distance || 0 }
+        },
+        create: {
+            userId: req.user!.id,
+            totalWorkouts: 0,
+            totalCalories: 0,
+            totalDistance: 0
+        }
+    });
+
+    res.json({
+        message: 'Treino excluído com sucesso'
     });
 }));
 

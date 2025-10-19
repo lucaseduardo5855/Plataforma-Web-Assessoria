@@ -29,6 +29,8 @@ import {
   Add,
   FitnessCenter,
   Visibility,
+  Edit,
+  Delete,
 } from '@mui/icons-material';
 import { Chip, IconButton } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';
@@ -42,6 +44,10 @@ const MyWorkoutsPage: React.FC = () => {
   const [registerWorkoutOpen, setRegisterWorkoutOpen] = useState(false);
   const [workoutDetailsOpen, setWorkoutDetailsOpen] = useState(false);
   const [selectedWorkoutDetails, setSelectedWorkoutDetails] = useState<any>(null);
+  const [editWorkoutOpen, setEditWorkoutOpen] = useState(false);
+  const [selectedWorkoutToEdit, setSelectedWorkoutToEdit] = useState<any>(null);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [selectedWorkoutToDelete, setSelectedWorkoutToDelete] = useState<any>(null);
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
@@ -173,7 +179,7 @@ const MyWorkoutsPage: React.FC = () => {
         duration: parseInt(workoutForm.duration) || 0,
         distance: parseFloat(workoutForm.distance) || 0,
         calories: parseInt(workoutForm.calories) || 0,
-        pace: workoutForm.pace || null, // Enviar como string
+        pace: workoutForm.pace || '', // Enviar como string vazia se não preenchido
         notes: workoutForm.notes || '',
         completedAt: new Date().toISOString()
       };
@@ -285,6 +291,172 @@ const MyWorkoutsPage: React.FC = () => {
     }
   };
 
+  const handleEditWorkout = (workout: any) => {
+    // Verificar se é um treino registrado pelo próprio usuário (não atribuído pelo admin)
+    if (workout.workoutPlanId) {
+      setSnackbar({
+        open: true,
+        message: 'Treinos atribuídos pelo administrador não podem ser editados',
+        severity: 'error'
+      });
+      return;
+    }
+
+    setSelectedWorkoutToEdit(workout);
+    setWorkoutForm({
+      modality: workout.modality,
+      duration: workout.duration?.toString() || '',
+      distance: workout.distance?.toString() || '',
+      calories: workout.calories?.toString() || '',
+      pace: workout.pace || '',
+      notes: workout.notes || '',
+    });
+    setEditWorkoutOpen(true);
+  };
+
+  const handleUpdateWorkout = async () => {
+    try {
+      console.log('=== ATUALIZANDO TREINO ===');
+      console.log('Dados do treino:', workoutForm);
+      console.log('ID do treino:', selectedWorkoutToEdit.id);
+      
+      // Validar se modalidade foi selecionada
+      if (!workoutForm.modality) {
+        throw new Error('Por favor, selecione uma modalidade');
+      }
+
+      // Criar dados do treino
+      const workoutData = {
+        modality: workoutForm.modality,
+        duration: parseInt(workoutForm.duration) || 0,
+        distance: parseFloat(workoutForm.distance) || 0,
+        calories: parseInt(workoutForm.calories) || 0,
+        pace: workoutForm.pace || '',
+        notes: workoutForm.notes || '',
+        completedAt: new Date().toISOString()
+      };
+      
+      // Fazer requisição para atualizar treino
+      const response = await fetch(`http://localhost:5000/api/workouts/my-workouts/${selectedWorkoutToEdit.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(workoutData)
+      });
+      
+      console.log('Status da resposta:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.message || `Erro HTTP ${response.status}`;
+        throw new Error(errorMessage);
+      }
+      
+      const result = await response.json();
+      console.log('Treino atualizado:', result);
+      
+      // Fechar modal e limpar formulário
+      setEditWorkoutOpen(false);
+      setSelectedWorkoutToEdit(null);
+      setWorkoutForm({
+        modality: '',
+        duration: '',
+        distance: '',
+        calories: '',
+        pace: '',
+        notes: '',
+      });
+      
+      // Mostrar notificação de sucesso
+      setSnackbar({ 
+        open: true, 
+        message: 'Treino atualizado com sucesso!', 
+        severity: 'success' 
+      });
+      
+      // Recarregar lista de treinos
+      await fetchWorkouts();
+    } catch (err: any) {
+      console.error('=== ERRO AO ATUALIZAR TREINO ===');
+      console.error('Erro completo:', err);
+      
+      setSnackbar({ 
+        open: true, 
+        message: 'Erro ao atualizar treino: ' + err.message, 
+        severity: 'error' 
+      });
+    }
+  };
+
+  const handleDeleteWorkout = async (workout: any) => {
+    // Verificar se é um treino registrado pelo próprio usuário (não atribuído pelo admin)
+    if (workout.workoutPlanId) {
+      setSnackbar({
+        open: true,
+        message: 'Treinos atribuídos pelo administrador não podem ser excluídos',
+        severity: 'error'
+      });
+      return;
+    }
+
+    setSelectedWorkoutToDelete(workout);
+    setDeleteConfirmOpen(true);
+  };
+
+  const confirmDeleteWorkout = async () => {
+    if (!selectedWorkoutToDelete) return;
+
+    try {
+      console.log('=== EXCLUINDO TREINO ===');
+      console.log('ID do treino:', selectedWorkoutToDelete.id);
+      
+      // Fazer requisição para excluir treino
+      const response = await fetch(`http://localhost:5000/api/workouts/my-workouts/${selectedWorkoutToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      console.log('Status da resposta:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.message || `Erro HTTP ${response.status}`;
+        throw new Error(errorMessage);
+      }
+      
+      const result = await response.json();
+      console.log('Treino excluído:', result);
+      
+      // Fechar modal
+      setDeleteConfirmOpen(false);
+      setSelectedWorkoutToDelete(null);
+      
+      // Mostrar notificação de sucesso
+      setSnackbar({ 
+        open: true, 
+        message: 'Treino excluído com sucesso!', 
+        severity: 'success' 
+      });
+      
+      // Recarregar lista de treinos
+      await fetchWorkouts();
+    } catch (err: any) {
+      console.error('=== ERRO AO EXCLUIR TREINO ===');
+      console.error('Erro completo:', err);
+      
+      setSnackbar({ 
+        open: true, 
+        message: 'Erro ao excluir treino: ' + err.message, 
+        severity: 'error' 
+      });
+    }
+  };
+
   const renderWorkoutsTable = () => {
     if (loading) {
       return (
@@ -313,6 +485,7 @@ const MyWorkoutsPage: React.FC = () => {
               <TableCell>Pace (min/km)</TableCell>
               <TableCell>Calorias</TableCell>
               <TableCell>Data</TableCell>
+              <TableCell>Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -327,11 +500,31 @@ const MyWorkoutsPage: React.FC = () => {
                   <TableCell>
                     {new Date(workout.completedAt || workout.createdAt).toLocaleDateString('pt-BR')}
                   </TableCell>
+                  <TableCell>
+                    <Box display="flex" gap={1}>
+                      <IconButton
+                        onClick={() => handleEditWorkout(workout)}
+                        color="primary"
+                        size="small"
+                        title="Editar treino"
+                      >
+                        <Edit />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => handleDeleteWorkout(workout)}
+                        color="error"
+                        size="small"
+                        title="Excluir treino"
+                      >
+                        <Delete />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={6} align="center">
+                <TableCell colSpan={7} align="center">
                   <Box py={4}>
                     <FitnessCenter sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
                     <Typography variant="body1" color="text.secondary">
@@ -489,6 +682,100 @@ const MyWorkoutsPage: React.FC = () => {
           <Button onClick={() => setRegisterWorkoutOpen(false)}>Cancelar</Button>
           <Button onClick={handleRegisterWorkout} variant="contained">
             Registrar Treino
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Modal para editar treino */}
+      <Dialog open={editWorkoutOpen} onClose={() => setEditWorkoutOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Editar Treino</DialogTitle>
+        <DialogContent>
+          <Box display="flex" flexDirection="column" gap={2} pt={1}>
+            <FormControl fullWidth>
+              <InputLabel>Modalidade</InputLabel>
+              <Select
+                value={workoutForm.modality}
+                onChange={(e) => setWorkoutForm({ ...workoutForm, modality: e.target.value })}
+                label="Modalidade"
+              >
+                <MenuItem value="RUNNING">Corrida</MenuItem>
+                <MenuItem value="MUSCLE_TRAINING">Musculação</MenuItem>
+                <MenuItem value="FUNCTIONAL">Funcional</MenuItem>
+                <MenuItem value="TRAIL_RUNNING">Trail Running</MenuItem>
+              </Select>
+            </FormControl>
+
+            <TextField
+              label="Duração (minutos)"
+              type="number"
+              value={workoutForm.duration}
+              onChange={(e) => setWorkoutForm({ ...workoutForm, duration: e.target.value })}
+              fullWidth
+            />
+
+            <TextField
+              label="Distância (km)"
+              type="number"
+              value={workoutForm.distance}
+              onChange={(e) => setWorkoutForm({ ...workoutForm, distance: e.target.value })}
+              fullWidth
+            />
+
+            <TextField
+              label="Pace (min/km)"
+              value={workoutForm.pace}
+              onChange={(e) => setWorkoutForm({ ...workoutForm, pace: e.target.value })}
+              fullWidth
+            />
+
+            <TextField
+              label="Calorias"
+              type="number"
+              value={workoutForm.calories}
+              onChange={(e) => setWorkoutForm({ ...workoutForm, calories: e.target.value })}
+              fullWidth
+            />
+
+            <TextField
+              label="Observações"
+              multiline
+              rows={3}
+              value={workoutForm.notes}
+              onChange={(e) => setWorkoutForm({ ...workoutForm, notes: e.target.value })}
+              fullWidth
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditWorkoutOpen(false)}>
+            Cancelar
+          </Button>
+          <Button onClick={handleUpdateWorkout} variant="contained">
+            Atualizar Treino
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Modal de confirmação para excluir treino */}
+      <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>
+          Confirmar Exclusão
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            Tem certeza que deseja excluir o treino "{selectedWorkoutToDelete ? getModalityLabel(selectedWorkoutToDelete.modality) : ''}"? Esta ação não pode ser desfeita.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteConfirmOpen(false)}>
+            Cancelar
+          </Button>
+          <Button 
+            onClick={confirmDeleteWorkout} 
+            variant="contained" 
+            color="error"
+          >
+            Excluir
           </Button>
         </DialogActions>
       </Dialog>
