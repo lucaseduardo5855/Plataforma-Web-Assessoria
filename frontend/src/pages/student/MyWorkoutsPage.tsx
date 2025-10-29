@@ -818,8 +818,8 @@ const MyWorkoutsPage: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <Chip 
-                        label={workout.completedAt ? "Concluído" : "Pendente"} 
-                        color={workout.completedAt ? "success" : "warning"} 
+                        label={workout.status === 'COMPLETED' ? "Concluído" : "Pendente"} 
+                        color={workout.status === 'COMPLETED' ? "success" : "warning"} 
                         size="small"
                       />
                     </TableCell>
@@ -833,7 +833,7 @@ const MyWorkoutsPage: React.FC = () => {
                         >
                           <Visibility />
                         </IconButton>
-                        {!workout.completedAt && (
+                        {workout.status !== 'COMPLETED' && (
                           <IconButton
                             onClick={() => handleMarkAsCompleted(workout)}
                             color="success"

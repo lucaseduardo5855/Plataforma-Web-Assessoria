@@ -100,8 +100,8 @@ router.post('/plans', authenticateToken, requireAdmin, asyncHandler(async (req: 
                 modality: planData.modality,
                 type: planData.type || null,
                 courseType: planData.courseType || null,
-                // assignedBy: req.user!.id, // Temporariamente comentado até regenerar Prisma
-                // status: 'ASSIGNED', // Temporariamente comentado até regenerar Prisma
+                assignedBy: req.user!.id,
+                status: 'ASSIGNED', // Status inicial como pendente
                 // completedAt não será definido, mantendo como null (não concluído)
             }
         });
@@ -391,7 +391,7 @@ router.get('/assigned-workouts', authenticateToken, asyncHandler(async (req: Aut
     const workouts = await prisma.workout.findMany({
         where: {
             userId: req.user!.id,
-            status: 'ASSIGNED'
+            status: { in: ['ASSIGNED', 'COMPLETED'] }
         },
         include: {
             workoutPlan: {

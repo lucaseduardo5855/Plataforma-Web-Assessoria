@@ -197,21 +197,39 @@ const StudentEvolutionDashboard: React.FC = () => {
     
     // Se não há treinos, retornar array vazio
     if (workouts.length === 0) {
-      return data;
+      return [];
     }
     
-    // Processar apenas os treinos reais do usuário
-    workouts.forEach((workout: any) => {
+    workouts.forEach((workout: any, index: number) => {
       if (workout.completedAt) {
+        // Usar timestamp completo para evitar agrupamento
         const date = new Date(workout.completedAt).toISOString().split('T')[0];
+        
+        // Converter pace para número
+        let paceValue = 0;
+        if (workout.pace) {
+          if (typeof workout.pace === 'string') {
+            // Se contém ":", converter mm:ss para minutos decimais
+            if (workout.pace.includes(':')) {
+              const parts = workout.pace.split(':');
+              const minutes = parseFloat(parts[0]) || 0;
+              const seconds = parseFloat(parts[1]) || 0;
+              paceValue = minutes + seconds / 60;
+            } else {
+              paceValue = parseFloat(workout.pace);
+            }
+          } else {
+            paceValue = workout.pace;
+          }
+        }
+        
         data.push({
-          date: date,
-          pace: workout.pace ? parseFloat(workout.pace.replace(':', '.')) : 0,
+          date: `${date}-${index}`, // Adicionar índice para diferenciar treinos do mesmo dia
+          pace: paceValue,
           distance: workout.distance || 0,
           calories: workout.calories || 0,
           duration: workout.duration || 0,
           modality: workout.modality,
-          // Dados específicos para musculação
           workoutType: workout.type || null,
           additionalWorkoutType: workout.additionalWorkoutType || null
         });
@@ -219,7 +237,7 @@ const StudentEvolutionDashboard: React.FC = () => {
     });
     
     // Ordenar por data
-    data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    data.sort((a, b) => new Date(a.date.split('-').slice(0, 3).join('-')).getTime() - new Date(b.date.split('-').slice(0, 3).join('-')).getTime());
     
     return data;
   };
@@ -467,11 +485,16 @@ const StudentEvolutionDashboard: React.FC = () => {
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={evolutionData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
+                  <XAxis dataKey="date" tickFormatter={(value) => value.split('-').slice(0, 3).join('-')} />
                   <YAxis />
                   <Tooltip 
-                    formatter={(value: any) => [formatPace(value), 'Pace']}
-                    labelFormatter={(label) => `Data: ${label}`}
+                    formatter={(value: any) => {
+                      if (value && value > 0) {
+                        return [formatPace(value), 'Pace'];
+                      }
+                      return ['Sem dados', 'Pace'];
+                    }}
+                    labelFormatter={(label) => `Data: ${label.split('-').slice(0, 3).join('-')}`}
                   />
                   <Legend />
                   <Line 
@@ -527,11 +550,16 @@ const StudentEvolutionDashboard: React.FC = () => {
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={evolutionData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
+                  <XAxis dataKey="date" tickFormatter={(value) => value.split('-').slice(0, 3).join('-')} />
                   <YAxis />
                   <Tooltip 
-                    formatter={(value: any) => [`${value} km`, 'Distância']}
-                    labelFormatter={(label) => `Data: ${label}`}
+                    formatter={(value: any) => {
+                      if (value && value > 0) {
+                        return [`${value} km`, 'Distância'];
+                      }
+                      return ['0 km', 'Distância'];
+                    }}
+                    labelFormatter={(label) => `Data: ${label.split('-').slice(0, 3).join('-')}`}
                   />
                   <Bar dataKey="distance" fill="#4caf50" />
                 </BarChart>
