@@ -87,6 +87,8 @@ router.post('/plans', auth_1.authenticateToken, auth_1.requireAdmin, (0, errorHa
                 modality: planData.modality,
                 type: planData.type || null,
                 courseType: planData.courseType || null,
+                assignedBy: req.user.id,
+                status: 'ASSIGNED',
             }
         });
     }
@@ -250,12 +252,17 @@ router.get('/plans/:id', auth_1.authenticateToken, (0, errorHandler_1.asyncHandl
                 orderBy: { sequence: 'asc' }
             },
             workouts: {
-                include: {
+                select: {
+                    id: true,
+                    userId: true,
+                    status: true,
+                    completedAt: true,
+                    createdAt: true,
                     user: {
-                        select: { name: true }
+                        select: { name: true, id: true }
                     }
                 },
-                orderBy: { completedAt: 'desc' }
+                orderBy: { createdAt: 'desc' }
             }
         }
     });
@@ -320,10 +327,22 @@ router.delete('/plans/:id', auth_1.authenticateToken, auth_1.requireAdmin, (0, e
 router.get('/assigned-workouts', auth_1.authenticateToken, (0, errorHandler_1.asyncHandler)(async (req, res) => {
     console.log('=== BUSCANDO TREINOS ATRIBUÍDOS ===');
     console.log('User ID:', req.user?.id);
+    const allWorkouts = await prisma.workout.findMany({
+        where: { userId: req.user.id },
+        select: {
+            id: true,
+            workoutPlanId: true,
+            status: true,
+            createdAt: true
+        }
+    });
+    console.log('Total de workouts do usuário:', allWorkouts.length);
+    console.log('Workouts encontrados:', allWorkouts);
     const workouts = await prisma.workout.findMany({
         where: {
             userId: req.user.id,
-            status: 'ASSIGNED'
+            workoutPlanId: { not: null },
+            status: { in: ['ASSIGNED', 'COMPLETED'] }
         },
         include: {
             workoutPlan: {
@@ -339,7 +358,15 @@ router.get('/assigned-workouts', auth_1.authenticateToken, (0, errorHandler_1.as
         },
         orderBy: { createdAt: 'desc' }
     });
-    console.log('Treinos atribuídos encontrados:', workouts.length);
+    console.log('Treinos atribuídos encontrados (após filtros):', workouts.length);
+    if (workouts.length > 0) {
+        console.log('Detalhes dos treinos:', workouts.map(w => ({
+            id: w.id,
+            workoutPlanId: w.workoutPlanId,
+            status: w.status,
+            planTitle: w.workoutPlan?.title
+        })));
+    }
     res.json({ workouts });
 }));
 router.put('/assigned-workouts/:workoutId/complete', auth_1.authenticateToken, (0, errorHandler_1.asyncHandler)(async (req, res) => {
@@ -479,17 +506,38 @@ router.delete('/my-workouts/:id', auth_1.authenticateToken, (0, errorHandler_1.a
 router.get('/my-workouts', auth_1.authenticateToken, (0, errorHandler_1.asyncHandler)(async (req, res) => {
     const { page = 1, limit = 10, modality, startDate, endDate, status } = req.query;
     const skip = (Number(page) - 1) * Number(limit);
-    const where = { userId: req.user.id };
+    const minDate = new Date('2020-01-01');
+    const where = {
+        userId: req.user.id,
+        completedAt: {
+            not: null
+        }
+    };
     if (modality)
         where.modality = modality;
     if (status)
         where.status = status;
     if (startDate || endDate) {
-        where.completedAt = {};
-        if (startDate)
-            where.completedAt.gte = new Date(startDate);
-        if (endDate)
-            where.completedAt.lte = new Date(endDate);
+        const dateFilter = {};
+        if (startDate) {
+            dateFilter.gte = new Date(startDate);
+        }
+        else {
+            dateFilter.gte = minDate;
+        }
+        if (endDate) {
+            dateFilter.lte = new Date(endDate);
+        }
+        where.completedAt = {
+            ...where.completedAt,
+            ...dateFilter
+        };
+    }
+    else {
+        where.completedAt = {
+            ...where.completedAt,
+            gte: minDate
+        };
     }
     const [workouts, total] = await Promise.all([
         prisma.workout.findMany({
@@ -501,7 +549,7 @@ router.get('/my-workouts', auth_1.authenticateToken, (0, errorHandler_1.asyncHan
             },
             skip,
             take: Number(limit),
-            orderBy: { createdAt: 'desc' }
+            orderBy: { completedAt: 'desc' }
         }),
         prisma.workout.count({ where })
     ]);
@@ -548,34 +596,6 @@ router.put('/assigned-workouts/:id/complete', auth_1.authenticateToken, (0, erro
         console.error('=== ERRO AO MARCAR TREINO COMO CONCLUÍDO ===');
         console.error('Erro completo:', error);
         throw error;
-    }
-}));
-router.get('/assigned-workouts', auth_1.authenticateToken, (0, errorHandler_1.asyncHandler)(async (req, res) => {
-    try {
-        console.log('=== BUSCANDO TREINOS ATRIBUÍDOS ===');
-        console.log('User ID:', req.user.id);
-        const workouts = await prisma.workout.findMany({
-            where: {
-                userId: req.user.id,
-                workoutPlanId: { not: null }
-            },
-            include: {
-                workoutPlan: {
-                    select: { title: true, modality: true, description: true }
-                }
-            },
-            orderBy: { createdAt: 'desc' }
-        });
-        console.log('Treinos encontrados:', workouts.length);
-        console.log('Treinos:', workouts);
-        res.json({
-            workouts,
-            total: workouts.length
-        });
-    }
-    catch (error) {
-        console.error('Erro ao buscar treinos atribuídos:', error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
     }
 }));
 router.get('/debug-workouts', auth_1.authenticateToken, (0, errorHandler_1.asyncHandler)(async (req, res) => {
@@ -682,6 +702,7 @@ router.get('/stats', auth_1.authenticateToken, (0, errorHandler_1.asyncHandler)(
         where: {
             userId: req.user.id,
             completedAt: {
+                not: null,
                 gte: startDate,
                 lte: now
             }

@@ -72,8 +72,15 @@ router.get('/my-events', authenticateToken, asyncHandler(async (req: AuthRequest
     console.log('=== BUSCANDO EVENTOS DO ALUNO ===');
     console.log('User ID:', req.user!.id);
     
-    // Buscar TODOS os eventos (sem filtro de data)
+    // Buscar apenas eventos onde o aluno tem presença registrada
     const events = await prisma.event.findMany({
+      where: {
+        attendances: {
+          some: {
+            userId: req.user!.id
+          }
+        }
+      },
       include: {
         attendances: {
           where: {

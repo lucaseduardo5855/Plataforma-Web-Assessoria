@@ -434,7 +434,9 @@ const AdminDashboard: React.FC = () => {
                       }
                       secondary={
                         <Typography variant="caption" color="textSecondary">
-                          {new Date(workout.completedAt).toLocaleDateString('pt-BR')}
+                          {workout.completedAt 
+                            ? new Date(workout.completedAt).toLocaleDateString('pt-BR')
+                            : 'Data não disponível'}
                           {workout.distance && ` • ${workout.distance}km`}
                           {workout.duration && ` • ${workout.duration}min`}
                         </Typography>

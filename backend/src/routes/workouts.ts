@@ -295,12 +295,17 @@ router.get('/plans/:id', authenticateToken, asyncHandler(async (req: AuthRequest
                 orderBy: { sequence: 'asc' }
             },
             workouts: {
-                include: {
+                select: {
+                    id: true,
+                    userId: true,
+                    status: true,
+                    completedAt: true,
+                    createdAt: true,
                     user: {
-                        select: { name: true }
+                        select: { name: true, id: true }
                     }
                 },
-                orderBy: { completedAt: 'desc' }
+                orderBy: { createdAt: 'desc' }
             }
         }
     });
@@ -388,9 +393,23 @@ router.get('/assigned-workouts', authenticateToken, asyncHandler(async (req: Aut
     console.log('=== BUSCANDO TREINOS ATRIBUÍDOS ===');
     console.log('User ID:', req.user?.id);
     
+    // Primeiro, buscar todos os workouts do usuário para debug
+    const allWorkouts = await prisma.workout.findMany({
+        where: { userId: req.user!.id },
+        select: { 
+            id: true, 
+            workoutPlanId: true, 
+            status: true,
+            createdAt: true
+        }
+    });
+    console.log('Total de workouts do usuário:', allWorkouts.length);
+    console.log('Workouts encontrados:', allWorkouts);
+    
     const workouts = await prisma.workout.findMany({
         where: {
             userId: req.user!.id,
+            workoutPlanId: { not: null }, // Apenas treinos que são planilhas atribuídas
             status: { in: ['ASSIGNED', 'COMPLETED'] }
         },
         include: {
@@ -408,7 +427,15 @@ router.get('/assigned-workouts', authenticateToken, asyncHandler(async (req: Aut
         orderBy: { createdAt: 'desc' }
     });
 
-    console.log('Treinos atribuídos encontrados:', workouts.length);
+    console.log('Treinos atribuídos encontrados (após filtros):', workouts.length);
+    if (workouts.length > 0) {
+        console.log('Detalhes dos treinos:', workouts.map(w => ({
+            id: w.id,
+            workoutPlanId: w.workoutPlanId,
+            status: w.status,
+            planTitle: w.workoutPlan?.title
+        })));
+    }
 
     res.json({ workouts });
 }));
@@ -591,14 +618,40 @@ router.get('/my-workouts', authenticateToken, asyncHandler(async (req: AuthReque
     const { page = 1, limit = 10, modality, startDate, endDate, status } = req.query;
     const skip = (Number(page) - 1) * Number(limit);
 
-    const where: any = { userId: req.user!.id };
+    // Data mínima para filtrar treinos inválidos (anteriores a 2020)
+    const minDate = new Date('2020-01-01');
+
+    const where: any = { 
+        userId: req.user!.id,
+        // Filtrar apenas treinos com completedAt válido (não null e não muito antigo)
+        completedAt: {
+            not: null
+        }
+    };
     if (modality) where.modality = modality;
     if (status) where.status = status;
 
+    // Construir filtro de data
     if (startDate || endDate) {
-        where.completedAt = {};
-        if (startDate) where.completedAt.gte = new Date(startDate as string);
-        if (endDate) where.completedAt.lte = new Date(endDate as string);
+        const dateFilter: any = {};
+        if (startDate) {
+            dateFilter.gte = new Date(startDate as string);
+        } else {
+            dateFilter.gte = minDate; // Se não especificou startDate, usar data mínima
+        }
+        if (endDate) {
+            dateFilter.lte = new Date(endDate as string);
+        }
+        where.completedAt = {
+            ...where.completedAt,
+            ...dateFilter
+        };
+    } else {
+        // Se não especificou datas, aplicar apenas filtro de data mínima
+        where.completedAt = {
+            ...where.completedAt,
+            gte: minDate
+        };
     }
 
     const [workouts, total] = await Promise.all([
@@ -611,7 +664,7 @@ router.get('/my-workouts', authenticateToken, asyncHandler(async (req: AuthReque
             },
             skip,
             take: Number(limit),
-            orderBy: { createdAt: 'desc' }
+            orderBy: { completedAt: 'desc' }
         }),
         prisma.workout.count({ where })
     ]);
@@ -670,37 +723,7 @@ router.put('/assigned-workouts/:id/complete', authenticateToken, asyncHandler(as
     }
 }));
 
-// Listar treinos atribuídos pelo admin
-router.get('/assigned-workouts', authenticateToken, asyncHandler(async (req: AuthRequest, res: Response) => {
-    try {
-        console.log('=== BUSCANDO TREINOS ATRIBUÍDOS ===');
-        console.log('User ID:', req.user!.id);
-        
-        const workouts = await prisma.workout.findMany({
-            where: { 
-                userId: req.user!.id,
-                workoutPlanId: { not: null }
-            },
-            include: {
-                workoutPlan: {
-                    select: { title: true, modality: true, description: true }
-                }
-            },
-            orderBy: { createdAt: 'desc' }
-        });
-
-        console.log('Treinos encontrados:', workouts.length);
-        console.log('Treinos:', workouts);
-
-        res.json({
-            workouts,
-            total: workouts.length
-        });
-    } catch (error) {
-        console.error('Erro ao buscar treinos atribuídos:', error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
-    }
-}));
+// Rota duplicada removida - usar a rota acima (/assigned-workouts)
 
 // Debug: Listar todos os treinos do usuário (para debug)
 router.get('/debug-workouts', authenticateToken, asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -828,6 +851,7 @@ router.get('/stats', authenticateToken, asyncHandler(async (req: AuthRequest, re
         where: {
             userId: req.user!.id,
             completedAt: {
+                not: null,
                 gte: startDate,
                 lte: now
             }

@@ -73,7 +73,16 @@ const MyEventsPage: React.FC = () => {
       }
 
       const data = await response.json();
-      setEvents(data.events || []);
+      const allEvents = data.events || [];
+      
+      // Filtrar eventos muito antigos (anterior a 2020) como proteção adicional
+      const minDate = new Date('2020-01-01');
+      const filteredEvents = allEvents.filter((event: EventData) => {
+        const eventDate = new Date(event.date);
+        return eventDate >= minDate;
+      });
+      
+      setEvents(filteredEvents);
     } catch (error: any) {
       console.error('Erro ao carregar eventos:', error);
       setSnackbar({

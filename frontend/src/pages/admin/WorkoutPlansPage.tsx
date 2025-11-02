@@ -75,6 +75,7 @@ const WorkoutPlansPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<WorkoutPlan | null>(null);
+  const [assignedStudents, setAssignedStudents] = useState<Array<{id: string, name: string, status: string}>>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [planToDelete, setPlanToDelete] = useState<WorkoutPlan | null>(null);
   const [tabValue, setTabValue] = useState(0);
@@ -328,6 +329,7 @@ const WorkoutPlansPage: React.FC = () => {
       workoutDate: new Date().toISOString().split('T')[0],
       studentId: '',
     });
+    setAssignedStudents([]);
     setExercises([
       {
         sequence: 1,
@@ -357,26 +359,40 @@ const WorkoutPlansPage: React.FC = () => {
       studentId: '',
     });
 
-    // Buscar exercícios da planilha se não vierem no objeto plan
+    // Buscar exercícios da planilha e alunos atribuídos
     try {
       let planExercises: any[] = [];
+      let planWorkouts: any[] = [];
       
       // Verificar se os exercícios já vêm no objeto plan
       if (plan.exercises && Array.isArray(plan.exercises) && plan.exercises.length > 0) {
         planExercises = plan.exercises;
-      } else {
-        // Buscar planilha completa com exercícios
-        const response = await fetch(`http://localhost:5000/api/workouts/plans/${plan.id}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          if (data.workoutPlan?.exercises) {
-            planExercises = data.workoutPlan.exercises;
-          }
+      }
+      
+      // Buscar planilha completa com exercícios e workouts (alunos atribuídos)
+      const response = await fetch(`http://localhost:5000/api/workouts/plans/${plan.id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.workoutPlan?.exercises) {
+          planExercises = data.workoutPlan.exercises;
+        }
+        // Extrair alunos atribuídos dos workouts
+        if (data.workoutPlan?.workouts && Array.isArray(data.workoutPlan.workouts)) {
+          planWorkouts = data.workoutPlan.workouts;
+          const studentsList = planWorkouts
+            .filter((w: any) => w.user) // Filtrar apenas workouts com usuário
+            .map((w: any) => ({
+              id: w.userId,
+              name: w.user?.name || 'Desconhecido',
+              status: w.status || 'ASSIGNED'
+            }));
+          setAssignedStudents(studentsList);
+          console.log('Alunos atribuídos encontrados:', studentsList);
         }
       }
 
@@ -480,6 +496,7 @@ const WorkoutPlansPage: React.FC = () => {
       setSnackbar({ open: true, message: 'Planilha atualizada com sucesso!', severity: 'success' });
       setIsEditModalOpen(false);
       setSelectedPlan(null);
+      setAssignedStudents([]);
       resetForm();
       await fetchPlans();
     } catch (err: any) {
@@ -913,6 +930,7 @@ const WorkoutPlansPage: React.FC = () => {
         open={isEditModalOpen} 
         onClose={() => {
           setIsEditModalOpen(false);
+          setAssignedStudents([]);
           resetForm();
         }} 
         maxWidth="md" 
@@ -1013,6 +1031,25 @@ const WorkoutPlansPage: React.FC = () => {
                 fullWidth
                 InputLabelProps={{ shrink: true }}
               />
+              
+              {/* Seção de Alunos Atribuídos */}
+              {assignedStudents && assignedStudents.length > 0 && (
+                <Box sx={{ mt: 2, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+                  <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Alunos com Treino Atribuído:
+                  </Typography>
+                  <Box display="flex" flexWrap="wrap" gap={1} mt={1}>
+                    {assignedStudents.map((student) => (
+                      <Chip
+                        key={student.id}
+                        label={`${student.name} (${student.status === 'COMPLETED' ? 'Concluído' : 'Pendente'})`}
+                        color={student.status === 'COMPLETED' ? 'success' : 'warning'}
+                        size="small"
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              )}
             </Box>
           </TabPanel>
 

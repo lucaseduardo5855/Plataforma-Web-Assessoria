@@ -155,22 +155,8 @@ const MyWorkoutsPage: React.FC = () => {
       console.log('Treinos carregados:', workoutsData.length);
       setWorkouts(workoutsData);
       
-      // Buscar treinos atribuídos pelo admin
-      const assignedResponse = await fetch('http://localhost:5000/api/workouts/my-workouts?page=1&limit=50', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      
-      if (assignedResponse.ok) {
-        const assignedData = await assignedResponse.json();
-        // Filtrar apenas treinos que têm workoutPlanId (atribuídos pelo admin)
-        const assignedWorkouts = (assignedData.workouts || []).filter((workout: any) => workout.workoutPlanId);
-        console.log('Treinos atribuídos encontrados:', assignedWorkouts.length);
-        setAssignedWorkouts(assignedWorkouts);
-      }
+      // Não buscar treinos atribuídos aqui - será feito pela função fetchAssignedWorkouts
+      // que usa a rota correta /assigned-workouts
       
       setError(null);
     } catch (err: any) {
@@ -214,6 +200,7 @@ const MyWorkoutsPage: React.FC = () => {
   const fetchAssignedWorkouts = async () => {
     try {
       console.log('=== BUSCANDO TREINOS ATRIBUÍDOS ===');
+      console.log('Token presente:', !!localStorage.getItem('token'));
       
       const response = await fetch('http://localhost:5000/api/workouts/assigned-workouts', {
         method: 'GET',
@@ -226,15 +213,20 @@ const MyWorkoutsPage: React.FC = () => {
       console.log('Status da resposta (atribuídos):', response.status);
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Erro na resposta:', errorText);
+        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
       }
       
       const data = await response.json();
-      console.log('Treinos atribuídos recebidos:', data);
+      console.log('Resposta completa:', data);
+      console.log('Treinos atribuídos recebidos:', data.workouts);
+      console.log('Quantidade de treinos:', data.workouts?.length || 0);
       
       setAssignedWorkouts(data.workouts || []);
     } catch (error) {
       console.error('Erro ao buscar treinos atribuídos:', error);
+      setAssignedWorkouts([]); // Garantir que não fique com dados antigos
     }
   };
 
