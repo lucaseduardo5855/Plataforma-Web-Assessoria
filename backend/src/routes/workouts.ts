@@ -82,13 +82,18 @@ router.post('/plans', authenticateToken, requireAdmin, asyncHandler(async (req: 
     if (exercises && exercises.length > 0) {
         await prisma.exercise.createMany({
             data: exercises.map((exercise: any) => ({
-                ...exercise,
                 // Converter strings para números de forma segura
                 sequence: exercise.sequence && !isNaN(Number(exercise.sequence)) ? Number(exercise.sequence) : null,
+                name: exercise.name || null,
+                description: exercise.description && exercise.description.trim() !== '' ? exercise.description : null,
                 sets: exercise.sets && !isNaN(Number(exercise.sets)) ? Number(exercise.sets) : null,
                 reps: exercise.reps && !isNaN(Number(exercise.reps)) ? Number(exercise.reps) : null,
                 load: exercise.load && !isNaN(Number(exercise.load)) ? Number(exercise.load) : null,
+                time: exercise.time && exercise.time.trim() !== '' ? exercise.time : null,
                 distance: exercise.distance && !isNaN(Number(exercise.distance)) ? Number(exercise.distance) : null,
+                interval: exercise.interval && exercise.interval.trim() !== '' ? exercise.interval : null,
+                instruction: exercise.instruction && exercise.instruction.trim() !== '' ? exercise.instruction : null,
+                observation: exercise.observation && exercise.observation.trim() !== '' ? exercise.observation : null,
                 workoutPlanId: workoutPlan.id
             }))
         });
@@ -328,9 +333,9 @@ router.put('/plans/:id', authenticateToken, requireAdmin, asyncHandler(async (re
         throw createError(error.details[0].message, 400);
     }
 
-    const { exercises, ...planData } = value;
+    const { exercises, userId, ...planData } = value;
 
-    // Atualizar planilha
+    // Atualizar planilha (remover userId do planData pois não é campo do modelo WorkoutPlan)
     const updatedPlan = await prisma.workoutPlan.update({
         where: { id },
         data: planData,
@@ -351,8 +356,19 @@ router.put('/plans/:id', authenticateToken, requireAdmin, asyncHandler(async (re
         // Criar novos exercícios
         if (exercises.length > 0) {
             await prisma.exercise.createMany({
-                data: exercises.map((exercise: any) => ({ // CORREÇÃO 3: Tipagem 'any'
-                    ...exercise,
+                data: exercises.map((exercise: any) => ({
+                    // Converter strings para números de forma segura
+                    sequence: exercise.sequence && !isNaN(Number(exercise.sequence)) ? Number(exercise.sequence) : null,
+                    name: exercise.name || null,
+                    description: exercise.description && exercise.description.trim() !== '' ? exercise.description : null,
+                    sets: exercise.sets && !isNaN(Number(exercise.sets)) ? Number(exercise.sets) : null,
+                    reps: exercise.reps && !isNaN(Number(exercise.reps)) ? Number(exercise.reps) : null,
+                    load: exercise.load && !isNaN(Number(exercise.load)) ? Number(exercise.load) : null,
+                    time: exercise.time && exercise.time.trim() !== '' ? exercise.time : null,
+                    distance: exercise.distance && !isNaN(Number(exercise.distance)) ? Number(exercise.distance) : null,
+                    interval: exercise.interval && exercise.interval.trim() !== '' ? exercise.interval : null,
+                    instruction: exercise.instruction && exercise.instruction.trim() !== '' ? exercise.instruction : null,
+                    observation: exercise.observation && exercise.observation.trim() !== '' ? exercise.observation : null,
                     workoutPlanId: id
                 }))
             });
@@ -368,13 +384,85 @@ router.put('/plans/:id', authenticateToken, requireAdmin, asyncHandler(async (re
             }
         });
 
-        return res.json({ // CORREÇÃO 4: Já tinha 'return'
+        // Se um userId foi fornecido, criar ou atualizar workout associado
+        if (userId) {
+            // Verificar se já existe um workout para este userId e planilha
+            const existingWorkout = await prisma.workout.findFirst({
+                where: {
+                    userId: userId,
+                    workoutPlanId: id
+                }
+            });
+
+            if (existingWorkout) {
+                // Se já existe, atualizar
+                await prisma.workout.update({
+                    where: { id: existingWorkout.id },
+                    data: {
+                        modality: planData.modality,
+                        type: planData.type || null,
+                        courseType: planData.courseType || null,
+                    }
+                });
+            } else {
+                // Se não existe, criar novo
+                await prisma.workout.create({
+                    data: {
+                        userId: userId,
+                        workoutPlanId: id,
+                        modality: planData.modality,
+                        type: planData.type || null,
+                        courseType: planData.courseType || null,
+                        assignedBy: req.user!.id,
+                        status: 'ASSIGNED',
+                    }
+                });
+            }
+        }
+
+        return res.json({
             message: 'Planilha atualizada com sucesso',
             workoutPlan: planWithExercises
         });
     }
 
-    return res.json({ // CORREÇÃO 5: Adicionado 'return' para resolver TS7030
+    // Se um userId foi fornecido e não há exercícios para atualizar
+    if (userId) {
+        // Verificar se já existe um workout para este userId e planilha
+        const existingWorkout = await prisma.workout.findFirst({
+            where: {
+                userId: userId,
+                workoutPlanId: id
+            }
+        });
+
+        if (existingWorkout) {
+            // Se já existe, atualizar
+            await prisma.workout.update({
+                where: { id: existingWorkout.id },
+                data: {
+                    modality: planData.modality,
+                    type: planData.type || null,
+                    courseType: planData.courseType || null,
+                }
+            });
+        } else {
+            // Se não existe, criar novo
+            await prisma.workout.create({
+                data: {
+                    userId: userId,
+                    workoutPlanId: id,
+                    modality: planData.modality,
+                    type: planData.type || null,
+                    courseType: planData.courseType || null,
+                    assignedBy: req.user!.id,
+                    status: 'ASSIGNED',
+                }
+            });
+        }
+    }
+
+    return res.json({
         message: 'Planilha atualizada com sucesso',
         workoutPlan: updatedPlan
     });

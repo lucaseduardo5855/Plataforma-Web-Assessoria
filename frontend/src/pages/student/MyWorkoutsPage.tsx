@@ -1071,6 +1071,8 @@ const MyWorkoutsPage: React.FC = () => {
                           <TableCell>Séries</TableCell>
                           <TableCell>Repetições</TableCell>
                           <TableCell>Carga</TableCell>
+                          <TableCell>Distância (km)</TableCell>
+                          <TableCell>Tempo</TableCell>
                           <TableCell>Intervalo</TableCell>
                           <TableCell>Instruções</TableCell>
                         </TableRow>
@@ -1092,6 +1094,8 @@ const MyWorkoutsPage: React.FC = () => {
                             <TableCell>{exercise.sets || '-'}</TableCell>
                             <TableCell>{exercise.reps || '-'}</TableCell>
                             <TableCell>{exercise.load ? `${exercise.load}kg` : '-'}</TableCell>
+                            <TableCell>{exercise.distance ? `${exercise.distance} km` : '-'}</TableCell>
+                            <TableCell>{exercise.time || '-'}</TableCell>
                             <TableCell>{exercise.interval || '-'}</TableCell>
                             <TableCell>
                               {exercise.instruction && (

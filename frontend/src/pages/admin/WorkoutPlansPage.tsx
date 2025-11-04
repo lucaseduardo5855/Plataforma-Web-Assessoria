@@ -464,8 +464,9 @@ const WorkoutPlansPage: React.FC = () => {
       console.log('=== EDITANDO PLANILHA ===');
       console.log('ID da planilha:', selectedPlan.id);
       console.log('Exercícios:', exercises);
+      console.log('StudentId selecionado:', formData.studentId);
       
-      const planData = {
+      const planData: any = {
         title: formData.title,
         description: formData.description || undefined,
         modality: formData.modality,
@@ -489,6 +490,11 @@ const WorkoutPlansPage: React.FC = () => {
         })),
       };
       
+      // Se um aluno foi selecionado, adicionar userId
+      if (formData.studentId) {
+        planData.userId = formData.studentId;
+      }
+
       const response = await fetch(`http://localhost:5000/api/workouts/plans/${selectedPlan.id}`, {
         method: 'PUT',
         headers: {
@@ -761,6 +767,7 @@ const WorkoutPlansPage: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                       label="Tipo de Treino"
                     >
+                      <MenuItem value="">Normal</MenuItem>
                       <MenuItem value="BASE">Base</MenuItem>
                       <MenuItem value="RAMP">Rampa</MenuItem>
                       <MenuItem value="SPEED">Tiro</MenuItem>
@@ -1015,6 +1022,7 @@ const WorkoutPlansPage: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                       label="Tipo de Treino"
                     >
+                      <MenuItem value="">Normal</MenuItem>
                       <MenuItem value="BASE">Base</MenuItem>
                       <MenuItem value="RAMP">Rampa</MenuItem>
                       <MenuItem value="SPEED">Tiro</MenuItem>
@@ -1062,6 +1070,22 @@ const WorkoutPlansPage: React.FC = () => {
                 fullWidth
                 InputLabelProps={{ shrink: true }}
               />
+              
+              <FormControl fullWidth>
+                <InputLabel>Aluno (Opcional)</InputLabel>
+                <Select
+                  value={formData.studentId}
+                  onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
+                  label="Aluno (Opcional)"
+                >
+                  <MenuItem value="">Nenhum aluno selecionado</MenuItem>
+                  {students.map((student) => (
+                    <MenuItem key={student.id} value={student.id}>
+                      {student.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               
               {/* Seção de Alunos Atribuídos */}
               {assignedStudents && assignedStudents.length > 0 && (
