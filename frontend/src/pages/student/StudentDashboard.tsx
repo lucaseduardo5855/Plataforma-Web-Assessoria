@@ -353,45 +353,78 @@ const StudentDashboard: React.FC = () => {
             
             {upcomingEvents && upcomingEvents.length > 0 ? (
               <List>
-                {upcomingEvents.map((event, index) => (
-                  <ListItem key={index} sx={{ px: 0 }}>
-                    <ListItemIcon>
-                      <Avatar
-                        sx={{
-                          backgroundColor: getEventTypeColor(event.type),
-                          width: 32,
-                          height: 32,
-                        }}
-                      >
-                        <CalendarToday />
-                      </Avatar>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Box display="flex" alignItems="center" gap={1}>
-                          <Typography variant="body2" fontWeight="medium">
-                            {event.title}
-                          </Typography>
-                          <Chip
-                            label={event.type}
-                            size="small"
+                {upcomingEvents.map((event: any, index) => {
+                  const eventDate = new Date(event.date);
+                  const isPastEvent = eventDate < new Date();
+                  // Mostrar botões se o evento tem myAttendance mas ainda não foi confirmado nem negado explicitamente
+                  // Se confirmed é false, pode ser pendente (não respondeu ainda) ou negado
+                  // Para simplificar, vamos mostrar os botões se myAttendance existe e o evento não passou
+                  const needsConfirmation = event.myAttendance && !isPastEvent;
+                  
+                  return (
+                    <ListItem key={index} sx={{ px: 0, flexDirection: 'column', alignItems: 'flex-start' }}>
+                      <Box display="flex" alignItems="center" width="100%" mb={needsConfirmation ? 1 : 0}>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                          <Avatar
                             sx={{
                               backgroundColor: getEventTypeColor(event.type),
-                              color: 'white',
-                              fontSize: '0.7rem',
+                              width: 32,
+                              height: 32,
                             }}
-                          />
+                          >
+                            <CalendarToday />
+                          </Avatar>
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
+                              <Typography variant="body2" fontWeight="medium">
+                                {event.title}
+                              </Typography>
+                              <Chip
+                                label={event.type}
+                                size="small"
+                                sx={{
+                                  backgroundColor: getEventTypeColor(event.type),
+                                  color: 'white',
+                                  fontSize: '0.7rem',
+                                }}
+                              />
+                            </Box>
+                          }
+                          secondary={
+                            <Typography variant="caption" color="textSecondary">
+                              {new Date(event.date).toLocaleDateString('pt-BR')}
+                              {event.location && ` • ${event.location}`}
+                            </Typography>
+                          }
+                        />
+                      </Box>
+                      {needsConfirmation && (
+                        <Box display="flex" gap={1} width="100%" mt={1}>
+                          <Button
+                            size="small"
+                            variant="contained"
+                            color="success"
+                            onClick={() => navigate('/my-events')}
+                            sx={{ flex: 1, fontSize: '0.75rem' }}
+                          >
+                            Confirmar
+                          </Button>
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            color="error"
+                            onClick={() => navigate('/my-events')}
+                            sx={{ flex: 1, fontSize: '0.75rem' }}
+                          >
+                            Negar
+                          </Button>
                         </Box>
-                      }
-                      secondary={
-                        <Typography variant="caption" color="textSecondary">
-                          {new Date(event.date).toLocaleDateString('pt-BR')}
-                          {event.location && ` • ${event.location}`}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                ))}
+                      )}
+                    </ListItem>
+                  );
+                })}
               </List>
             ) : (
               <Typography variant="body2" color="textSecondary" textAlign="center" py={2}>

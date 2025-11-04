@@ -11,6 +11,11 @@ import {
   Paper,
   InputAdornment,
   IconButton,
+  Link,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import {
   Email,
@@ -18,6 +23,8 @@ import {
   Visibility,
   VisibilityOff,
   FitnessCenter,
+  WhatsApp,
+  LockReset,
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +34,10 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [forgotPasswordLoading, setForgotPasswordLoading] = useState(false);
+  const [forgotPasswordMessage, setForgotPasswordMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   
   const { login, error, clearError } = useAuth();
   const navigate = useNavigate();
@@ -74,6 +85,52 @@ const LoginPage: React.FC = () => {
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleForgotPassword = async () => {
+    if (!forgotPasswordEmail || !forgotPasswordEmail.includes('@')) {
+      setForgotPasswordMessage({ type: 'error', text: 'Por favor, insira um email válido.' });
+      return;
+    }
+
+    setForgotPasswordLoading(true);
+    setForgotPasswordMessage(null);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: forgotPasswordEmail }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setForgotPasswordMessage({ 
+          type: 'success', 
+          text: 'Instruções para redefinir sua senha foram enviadas para seu email. Verifique sua caixa de entrada.' 
+        });
+        setTimeout(() => {
+          setForgotPasswordOpen(false);
+          setForgotPasswordEmail('');
+          setForgotPasswordMessage(null);
+        }, 3000);
+      } else {
+        setForgotPasswordMessage({ 
+          type: 'error', 
+          text: data.error || 'Erro ao solicitar recuperação de senha. Tente novamente ou entre em contato com o suporte.' 
+        });
+      }
+    } catch (error) {
+      setForgotPasswordMessage({ 
+        type: 'error', 
+        text: 'Erro ao conectar com o servidor. Verifique sua conexão ou entre em contato com o suporte via WhatsApp.' 
+      });
+    } finally {
+      setForgotPasswordLoading(false);
+    }
   };
 
   return (
@@ -314,6 +371,53 @@ const LoginPage: React.FC = () => {
                 >
                   {loading ? 'Entrando...' : 'Entrar'}
                 </Button>
+
+                {/* Links de ajuda */}
+                <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}>
+                  <Link
+                    href="https://wa.me/5543996905705?text=Olá,%20preciso%20de%20suporte%20com%20o%20sistema%20Z4%20Performance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      color: '#FFEA00',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      fontSize: '0.9rem',
+                      '&:hover': {
+                        textDecoration: 'underline',
+                        color: '#E6D300',
+                      },
+                    }}
+                  >
+                    <WhatsApp sx={{ fontSize: 20 }} />
+                    Contate o suporte
+                  </Link>
+                  <Link
+                    component="button"
+                    variant="body2"
+                    onClick={() => setForgotPasswordOpen(true)}
+                    sx={{
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      fontSize: '0.85rem',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        textDecoration: 'underline',
+                        color: '#FFEA00',
+                      },
+                    }}
+                  >
+                    <LockReset sx={{ fontSize: 18 }} />
+                    Esqueci minha senha
+                  </Link>
+                </Box>
               </form>
             </CardContent>
           </Card>
@@ -323,12 +427,103 @@ const LoginPage: React.FC = () => {
             <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
               Acesso restrito a alunos e administradores cadastrados
             </Typography>
-            <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.7)' }}>
-              Entre em contato com a assessoria para obter suas credenciais
-            </Typography>
           </Box>
         </Paper>
       </Container>
+
+      {/* Dialog de Esqueci Minha Senha */}
+      <Dialog 
+        open={forgotPasswordOpen} 
+        onClose={() => {
+          setForgotPasswordOpen(false);
+          setForgotPasswordEmail('');
+          setForgotPasswordMessage(null);
+        }}
+        PaperProps={{
+          sx: {
+            backgroundColor: 'rgba(8, 31, 62, 0.95)',
+            color: 'white',
+            minWidth: '400px',
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: '#FFEA00' }}>
+          Esqueci minha senha
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2 }}>
+            Digite seu email cadastrado e enviaremos instruções para redefinir sua senha.
+          </Typography>
+          <TextField
+            fullWidth
+            label="Email"
+            type="email"
+            value={forgotPasswordEmail}
+            onChange={(e) => setForgotPasswordEmail(e.target.value)}
+            disabled={forgotPasswordLoading}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                color: 'white',
+                '& fieldset': {
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#FFEA00',
+                },
+              },
+              '& label': {
+                color: 'rgba(255, 255, 255, 0.7)',
+              },
+              '& label.Mui-focused': {
+                color: '#FFEA00',
+              },
+            }}
+          />
+          {forgotPasswordMessage && (
+            <Alert 
+              severity={forgotPasswordMessage.type} 
+              sx={{ mt: 2 }}
+            >
+              {forgotPasswordMessage.text}
+            </Alert>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ p: 2, gap: 1 }}>
+          <Button
+            onClick={() => {
+              setForgotPasswordOpen(false);
+              setForgotPasswordEmail('');
+              setForgotPasswordMessage(null);
+            }}
+            disabled={forgotPasswordLoading}
+            sx={{ color: 'rgba(255, 255, 255, 0.7)' }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleForgotPassword}
+            disabled={forgotPasswordLoading || !forgotPasswordEmail}
+            variant="contained"
+            sx={{
+              background: '#FFEA00',
+              color: '#081F3E',
+              '&:hover': {
+                background: '#E6D300',
+              },
+              '&:disabled': {
+                background: 'rgba(255, 234, 0, 0.3)',
+                color: 'rgba(255, 255, 255, 0.5)',
+              },
+            }}
+          >
+            {forgotPasswordLoading ? 'Enviando...' : 'Enviar'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

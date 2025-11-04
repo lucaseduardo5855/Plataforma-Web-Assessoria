@@ -153,4 +153,85 @@ router.post('/logout', (req: Request, res: Response) => { // <--- CORRIGIDO
     res.json({ message: 'Logout realizado com sucesso' });
 });
 
+// Esqueci minha senha - Solicitar reset
+const forgotPasswordSchema = Joi.object({
+    email: Joi.string().email().required()
+});
+
+router.post('/forgot-password', asyncHandler(async (req: Request, res: Response) => {
+    const { error, value } = forgotPasswordSchema.validate(req.body);
+    if (error) {
+        throw createError(error.details[0].message, 400);
+    }
+
+    const { email } = value;
+
+    // Buscar usuário
+    const user = await prisma.user.findUnique({
+        where: { email }
+    });
+
+    // Por segurança, não revelar se o email existe ou não
+    // Sempre retornar sucesso, mesmo que o email não exista
+    if (user) {
+        // Aqui você implementaria o envio de email com token de reset
+        // Por enquanto, apenas logamos (em produção, use nodemailer ou serviço similar)
+        console.log(`Solicitação de reset de senha para: ${email}`);
+        // TODO: Enviar email com link de reset
+        // Exemplo: const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // Enviar email com link: ${FRONTEND_URL}/reset-password?token=${resetToken}
+    }
+
+    res.json({
+        message: 'Se o email estiver cadastrado, você receberá instruções para redefinir sua senha.'
+    });
+}));
+
+// Redefinir senha com token
+const resetPasswordSchema = Joi.object({
+    token: Joi.string().required(),
+    newPassword: Joi.string().min(6).required()
+});
+
+router.post('/reset-password', asyncHandler(async (req: Request, res: Response) => {
+    const { error, value } = resetPasswordSchema.validate(req.body);
+    if (error) {
+        throw createError(error.details[0].message, 400);
+    }
+
+    const { token, newPassword } = value;
+
+    try {
+        // Verificar token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'z4_performance_secret_key_2024') as any;
+        
+        // Buscar usuário
+        const user = await prisma.user.findUnique({
+            where: { id: decoded.userId }
+        });
+
+        if (!user) {
+            throw createError('Token inválido ou expirado', 400);
+        }
+
+        // Hash da nova senha
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+        // Atualizar senha
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { password: hashedPassword }
+        });
+
+        res.json({
+            message: 'Senha redefinida com sucesso'
+        });
+    } catch (err: any) {
+        if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+            throw createError('Token inválido ou expirado', 400);
+        }
+        throw err;
+    }
+}));
+
 export default router;
