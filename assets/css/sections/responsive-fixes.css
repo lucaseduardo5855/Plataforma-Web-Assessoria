@@ -1,18 +1,19 @@
-/* Correções específicas de responsividade */
+@media (min-width: 992px) {
+    .servico-box {
+        height: 360px;
+    }
 
-/* ===========================================
-   CORREÇÕES GERAIS
-   =========================================== */
+    .servico-image-box {
+        flex: 1 1 auto;
+        height: auto;
+    }
+}
 
-/* Garantir que todas as imagens sejam responsivas */
 img {
     max-width: 100%;
     height: auto;
 }
 
-/* ===========================================
-   SEÇÃO TREINADORA - CORREÇÕES ESPECÍFICAS
-   =========================================== */
 
 /* Desktop - manter layout original */
 @media (min-width: 1025px) {
@@ -52,9 +53,7 @@ img {
     }
 }
 
-/* ===========================================
-   BOTÕES DE PLANOS - CORREÇÕES ESPECÍFICAS
-   =========================================== */
+
 
 /* Garantir que os botões sejam responsivos mantendo estilo original */
 .tabs-navigation {
@@ -65,29 +64,18 @@ img {
     flex-wrap: wrap;
 }
 
-/* ===========================================
-   LINHA AMARELA DOS FEEDBACKS - CORREÇÕES
-   =========================================== */
-
 .section-header .title::after {
     content: '';
     display: block;
-    width: 80px;
+    width: 240px;
+    max-width: 90%;
     height: 4px;
     background-color: var(--amarelo-z4);
-    margin: 10px auto 0;
+    margin: 14px auto 0;
     border-radius: 2px;
 }
 
-/* ===========================================
-   MENU HAMBÚRGUER - CORREÇÕES ESPECÍFICAS
-   =========================================== */
 
-/* Menu hambúrguer já configurado no header.css */
-
-/* ===========================================
-   CORREÇÕES ESPECÍFICAS PARA IMAGENS
-   =========================================== */
 
 /* Treinadora - garantir responsividade */
 .treinadora-bio .treinadora-coluna-esquerda img {
@@ -192,9 +180,6 @@ img {
     }
 }
 
-/* ===========================================
-   CORREÇÕES PARA CARDS DE PREÇO
-   =========================================== */
 
 .pricing-cards-wrapper {
     display: grid;
