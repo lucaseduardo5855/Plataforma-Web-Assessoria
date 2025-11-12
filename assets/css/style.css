@@ -1148,7 +1148,11 @@ section.treinadora-bio {
     content: "";
     display: block;
     width: 420px;
+<<<<<<< Updated upstream
     height: 4px;
+=======
+    height: 5px;
+>>>>>>> Stashed changes
     background-color: var(--amarelo-z4);
     margin: 14px auto 0;
     border-radius: 2px;
