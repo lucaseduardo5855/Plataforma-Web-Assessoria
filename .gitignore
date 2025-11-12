@@ -3,11 +3,17 @@
 .env.local
 .env.development
 .env.production
+.env-config.txt
+/backend/.env
+/backend/env-config.txt
+/backend/env.example  
 
 # Arquivos de Banco de Dados (SQLite e Logs)
 *.sqlite
 *.db
+*.log
 
-# Node
+# Diretórios de Módulos e Compilação
 node_modules
-teste
+/backend/node_modules
+/backend/dist
