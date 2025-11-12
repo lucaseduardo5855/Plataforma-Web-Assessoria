@@ -1,1 +1,12 @@
+# Arquivos de Ambiente
+.env
+.env.local
+.env.development
+.env.production
+
+# Arquivos de Banco de Dados (SQLite e Logs)
+*.sqlite
+*.db
+
+# Node
 node_modules
