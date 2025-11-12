@@ -79,6 +79,17 @@ body {
     overflow-x: hidden;
 }
 
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .land-wrapper {
     width: 100%;
     max-width: auto;

@@ -192,7 +192,28 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePrices('mensal');
 
     // =========================================================
-    // 6. WHATSAPP DINÂMICO
+    // 6. Animação de entrada por rolagem
+    // =========================================================
+    const sectionsToReveal = document.querySelectorAll('section:not(.home)');
+
+    const scrollRevealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    sectionsToReveal.forEach(section => {
+        section.classList.add('scroll-reveal');
+        scrollRevealObserver.observe(section);
+    });
+
+    // =========================================================
+    // 7. WHATSAPP DINÂMICO
     // =========================================================
 
     const whatsappBaseUrl = "https://wa.me/5543996905705?text=";
