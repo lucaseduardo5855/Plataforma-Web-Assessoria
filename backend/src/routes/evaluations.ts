@@ -178,14 +178,14 @@ router.get('/', authenticateToken, asyncHandler(async (req: AuthRequest, res: Re
   });
 
   // Calcular evolução dos dados
-  const evolution = evaluations.map((item: any, index: number) => { // <--- RENOMEAR 'eval' para 'item'
+  const evolution = evaluations.map((item: any, index: number) => { // 
     const previous = index > 0 ? evaluations[index - 1] : null;
     
     return {
       ...item, // <--- USAR 'item'
-      weightChange: previous ? item.weight! - previous.weight! : 0, // <--- USAR 'item'
-      bodyFatChange: previous ? item.bodyFat! - previous.bodyFat! : 0, // <--- USAR 'item'
-      muscleMassChange: previous ? item.muscleMass! - previous.muscleMass! : 0 // <--- USAR 'item'
+      weightChange: previous ? item.weight! - previous.weight! : 0,
+      bodyFatChange: previous ? item.bodyFat! - previous.bodyFat! : 0, 
+      muscleMassChange: previous ? item.muscleMass! - previous.muscleMass! : 0 
     };
 });
 
@@ -208,17 +208,17 @@ router.get('/', authenticateToken, asyncHandler(async (req: AuthRequest, res: Re
   });
 
   // Calcular evolução dos dados
-  const evolution = evaluations.map((item: any, index: number) => { // <-- Renomeia 'eval' para 'item' e tipa ambos
+  const evolution = evaluations.map((item: any, index: number) => {
     const previous = index > 0 ? evaluations[index - 1] : null;
     
     return {
         ...item, // <-- Usa 'item'
         weightChange: previous ? item.weight! - previous.weight! : 0,
-        bodyFat: evaluations.map((e: any) => ({ // <-- Adicionar (e: any)
+        bodyFat: evaluations.map((e: any) => ({ 
             date: e.evaluatedAt,
             value: e.bodyFat
         })).filter((d: any) => d.value !== null),
-      muscleMass: evaluations.map((e: any) => ({ // <-- Adicionar (e: any)
+      muscleMass: evaluations.map((e: any) => ({ 
     date: e.evaluatedAt,
     value: e.muscleMass
 })).filter((d: any) => d.value !== null)
@@ -279,17 +279,17 @@ router.get('/', authenticateToken, asyncHandler(async (req: AuthRequest, res: Re
 
   // Preparar dados para gráficos
   const chartData = {
-    weight: evaluations.map((e: any) => ({ // <-- Tipar 'e' como any
+    weight: evaluations.map((e: any) => ({
         date: e.evaluatedAt,
         value: e.weight
     })).filter((d: any) => d.value !== null),
     
-    bodyFat: evaluations.map((e: any) => ({ // <-- Correção no 'e'
+    bodyFat: evaluations.map((e: any) => ({ 
         date: e.evaluatedAt,
         value: e.bodyFat
     })).filter((d: any) => d.value !== null),
     
-    muscleMass: evaluations.map((e: any) => ({ // <-- Correção no 'e'
+    muscleMass: evaluations.map((e: any) => ({ 
         date: e.evaluatedAt,
         value: e.bodyFat
     })).filter((d: any) => d.value !== null),

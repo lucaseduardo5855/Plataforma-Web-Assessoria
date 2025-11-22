@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'; // <--- CORREÇÃO AQUI: Importando Request e Response
+import express, { Request, Response } from 'express'; // 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Joi from 'joi';
@@ -65,8 +65,8 @@ router.post('/login', asyncHandler(async (req: Request, res: Response) => {
         { expiresIn: '7d' }
     );
 
-    // Remover senha da resposta <--- LINHA FALTANDO!
-    const { password: _, ...userWithoutPassword } = user; // <--- INSERIR AQUI
+    // Remover senha da resposta 
+    const { password: _, ...userWithoutPassword } = user; 
 
     res.json({
         message: 'Login realizado com sucesso',
@@ -119,7 +119,7 @@ router.post('/register', authenticateToken, requireAdmin, asyncHandler(async (re
         });
     }
 
-    // Remover senha da resposta <--- LINHA FALTANDO!
+    // Remover senha da resposta 
     const { password: _, ...userWithoutPassword } = user; // <--- INSERIR AQUI
 
     res.status(201).json({
@@ -141,7 +141,7 @@ router.get('/verify', authenticateToken, asyncHandler(async (req: AuthRequest, r
         throw createError('Usuário não encontrado', 404);
     }
 
-    // Remover senha da resposta <--- LINHA FALTANDO!
+    // Remover senha da resposta 
     const { password: _, ...userWithoutPassword } = user; // <--- INSERIR AQUI
 
     res.json({
@@ -149,7 +149,7 @@ router.get('/verify', authenticateToken, asyncHandler(async (req: AuthRequest, r
     });
 }));
 // Logout (opcional - token é invalidado no frontend)
-router.post('/logout', (req: Request, res: Response) => { // <--- CORRIGIDO
+router.post('/logout', (req: Request, res: Response) => { 
     res.json({ message: 'Logout realizado com sucesso' });
 });
 

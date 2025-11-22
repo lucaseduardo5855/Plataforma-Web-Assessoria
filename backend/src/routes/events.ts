@@ -69,7 +69,7 @@ router.post('/', authenticateToken, requireAdmin, asyncHandler(async (req: AuthR
       const attendanceData = studentsToNotify.map((userId: string) => ({
         userId,
         eventId: event.id,
-        confirmed: false // Status pendente para confirmação
+        confirmed: false 
       }));
       
       console.log('Dados de attendance a serem criados:', attendanceData);
