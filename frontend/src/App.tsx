@@ -5,16 +5,13 @@ import { CssBaseline, Box } from '@mui/material';
 import { ptBR } from '@mui/material/locale';
 
 // Contextos
-// CORRIGIDO: Mudei para importação nomeada ({ AuthProvider, useAuth }) e caminho relativo
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Componentes
-// CORRIGIDO: Mudei todos os '@/' para './'
 import Layout from './components/Layout';
 import LoadingSpinner from './components/LoadingSpinner';
 
 // Páginas
-// CORRIGIDO: Mudei todos os '@/' para './'
 import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import StudentDashboard from './pages/student/StudentDashboard';

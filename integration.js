@@ -1,5 +1,4 @@
 // Configuração para integração com a landing page existente
-// Este arquivo deve ser incluído na landing page para redirecionar para o sistema
 
 (function() {
   // Função para redirecionar para o sistema
