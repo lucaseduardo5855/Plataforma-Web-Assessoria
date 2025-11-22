@@ -154,23 +154,11 @@
 .pricing-card a.btn-choose.btn-choose-link,
 .pricing-card a.btn-choose.btn-choose-link:focus,
 .pricing-card a.btn-choose.btn-choose-link:hover {
-    
-    /* 1. Remove qualquer borda visível */
-    border: none !important;
-    
-    /* 2. Remove o contorno do foco (aquela linha verde/azul do navegador) */
-    outline: none !important;
-    
-    /* 3. CRÍTICO: Remove qualquer box-shadow que esteja simulando a borda ou o foco */
-    /* Se a linha que você vê é a sombra escura, isso irá removê-la */
-    box-shadow: none !important; 
-    
-    /* 4. CRÍTICO: Remove o sublinhado padrão dos links */
-    text-decoration: none !important;
-    
-    /* Nota: Se o seu efeito de pulinho depender do box-shadow, você terá que redefinir 
-       o box-shadow específico do pulinho no :hover, removendo o !important.
-       Por exemplo: box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); */
+   
+    border: none;
+    outline: none;
+    box-shadow: none; 
+    text-decoration: none;
 }
 
 /* Responsive */

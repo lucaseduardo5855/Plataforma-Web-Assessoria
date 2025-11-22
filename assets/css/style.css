@@ -28,7 +28,6 @@ button {
     transition: all 0.3s;
 }
 
-
 button:hover {
     background-color: var(--amarelo-z4);
     color: var(--fundo-z4);
@@ -68,9 +67,7 @@ section .section-header p {
     color: #666;
     margin-top: 20px;
 }
-
 /* Código reutilizavel FIM */
-
 
 body {
     width: 100%;
@@ -96,12 +93,9 @@ body {
     min-height: 100vh;
     margin: 0px auto;
     background-color: white;
-    /* FUNDO BACKGROUND SECTION*/
-    /* CORREÇÃO PARA GARANTIR QUE NADA SAIA DESTE CONTAINER PRINCIPAL */
     overflow-x: hidden;
 }
 
-/* section.home - Container Principal */
 /* section.home - Container Principal */
 section.home {
     position: relative;
@@ -174,7 +168,7 @@ section.home {
     opacity: 1;
 }
 
-/* main-navbar - Navegação (Manter o fixed e z-index 100) */
+/* main-navbar - Navegação */
 .main-navbar {
     position: fixed;
     width: 100%;
@@ -187,25 +181,19 @@ section.home {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Alinha o conteúdo verticalmente */
     background-color: #1B293F;
-    /* Fundo original */
-    /* MANTENHA ESTE Z-INDEX PARA VISIBILIDADE */
     z-index: 9999;
     transition: all 0.3s ease-in-out;
 }
 
 .main-navbar .logo img {
     width: 120px;
-    /* Largura correta do logo */
     height: auto;
 }
 
 .main-navbar .nav-list {
     list-style: none;
     padding: 0;
-
-    /* FORÇA O FLEXBOX PARA ALINHAMENTO HORIZONTAL E VERTICAL */
     display: flex;
     align-items: center;
     height: 100%;
@@ -214,13 +202,11 @@ section.home {
 
 .main-navbar .nav-list li {
     display: block;
-    /* Garante que o item ocupe espaço */
     margin: 0px 15px;
 }
 
 .main-navbar .nav-list li a {
     text-decoration: none;
-    /* CRÍTICO: Cor branca para aparecer sobre o fundo escuro */
     color: white;
     font-size: 14px;
     transition: all 0.3s;
@@ -231,20 +217,15 @@ section.home {
     color: var(--amarelo-z4);
 }
 
-
 .hamburguer-btn {
     display: none;
 }
-
 
 .scrolled-navbar {
     background-color: var(--fundo-z4);
     opacity: 1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-/* Os estilos .main-navbar .nav-list, .hamburguer-btn, etc. foram omitidos aqui,
-   mas assumidos como CORRETOS no restante do seu arquivo CSS. */
 
 /* banner - Conteúdo principal sobre o slider */
 .banner {
@@ -268,15 +249,10 @@ section.home {
     text-align: center;
     top: 0;
     pointer-events: auto;
-    /* Centraliza os elementos filhos */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
-/* ---------------------------------------------------- */
-/* ESTILOS CRÍTICOS PARA A ANIMAÇÃO (RISCO E REVELAÇÃO) */
-/* ---------------------------------------------------- */
 
 /* Contêiner da Máscara/Background Amarelo */
 .text-reveal-container {
@@ -286,24 +262,16 @@ section.home {
     display: block;
     width: 100%;
     max-width: 400px;
-    /* CRÍTICO: Máscara que esconde o H1 na posição inicial */
     overflow: hidden;
-    /* FUNDO AMARELO */
 }
 
-/* O H1 que desliza para cima (Texto maior) */
 .banner-conteudo .animated-text {
-    /* Cor do texto (ESCURO) */
     color: white;
     font-size: 70px;
     line-height: 1.1;
     font-weight: 700;
-
-    /* CRÍTICO: Posição inicial (fora de vista) */
     transform: translateY(100%);
     transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-    /* CRÍTICO: Essencial para posicionar o ::after e ocupar a largura do texto */
     position: relative;
     display: inline-block;
     text-align: left;
@@ -311,53 +279,37 @@ section.home {
     z-index: 6;
 }
 
-
-/* O Risco Vertical (Pseudo-Elemento ::after) */
+/* O Risco Vertical */
 .banner-conteudo .animated-text::after {
     content: '';
     position: absolute;
     top: 0;
-
-    /* CRÍTICO: Mude a regra left:calc(100% + 5px) para posicionar o risco na BORDA DIREITA da CAIXA AMARELA, 
-       mas ainda como um pseudo-elemento do H1. */
     right: 0;
-    /* Coloca o risco na borda direita do H1 */
-
     width: 6px;
     height: 100%;
     background-color: var(--amarelo-z4);
-    /* Cor do risco */
-
-    /* Esconde o risco completamente (altura zero) */
     transform: scaleY(0);
     transform-origin: top;
     opacity: 1;
-    /* Mude para 1 para garantir que ele esteja visível se animado */
     transition: transform 1.5s 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.1s 0.1s;
     z-index: 7;
 }
 
 /* CLASSE DE ANIMAÇÃO: Ativada pelo JavaScript */
 .slide-active-animation .animated-text {
-    /* Move o texto para a posição visível */
     transform: translateY(0%);
 }
 
 .slide-active-animation .animated-text::after {
-    /* Faz o risco crescer e o torna visível */
     transform: scaleY(1);
-    /* Removido o opacity: 1, pois já está no estado inicial */
 }
 
-/* Ocultando elementos removidos do HTML da HOME */
 .banner-conteudo .animacao-descricao,
 .btn-ler-mais {
     display: none;
 }
 
-
 /* Facilities Section estilo Inicio*/
-/* 3 Colunas */
 section.facilities {
     width: 100%;
     padding: 0px 8% 0px;
@@ -368,7 +320,6 @@ section.facilities {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* faz os 3 colunas com grid */
     grid-column-gap: 2%;
     top: -80px;
     z-index: 3;
@@ -415,19 +366,14 @@ section.facilities {
     line-height: 1.4;
     color: #5e5858;
 }
-
 /* Facilities Section estilo Final*/
 
-
-
 /* SOBRE Section inicio estilo*/
-/* Container principal da seção */
 section.sobre {
     padding: 100px 8%;
     background-color: #F5F5F5;
 }
 
-/* 1. FLEXBOX CORRIGIDO: Garante colunas lado a lado, centralizadas e com espaçamento */
 .sobre .sobre-conteudo {
     display: flex;
     justify-content: space-between;
@@ -435,13 +381,10 @@ section.sobre {
     max-width: 1200px;
     margin: 0 auto;
     padding: 100px 8%;
-    /* Mantém o padding geral da seção */
 }
 
-/* 2. COLUNA ESQUERDA (IMAGEM): Largura da imagem e contêiner */
 .sobre-conteudo .sobre-coluna-esquerda {
     width: 50%;
-    /* CORREÇÃO: Remova o padding à esquerda para que a foto encoste na borda da seção */
     padding-left: 0;
 }
 
@@ -450,7 +393,6 @@ section.sobre {
     display: block;
     width: 120%;
     height: auto;
-    /* Garante que a imagem mantenha proporção */
     object-fit: cover;
     z-index: 2;
     border-radius: 12px;
@@ -458,7 +400,6 @@ section.sobre {
     max-width: 100%;
 }
 
-/* Pseudo-elemento da imagem (mantido) */
 .sobre-conteudo .sobre-coluna-esquerda::before {
     position: absolute;
     content: '';
@@ -469,26 +410,18 @@ section.sobre {
     z-index: 2;
 }
 
-
-/* 3. COLUNA DIREITA (TEXTO): Largura do texto e alinhamentos */
 .sobre-conteudo .sobre-coluna-direita {
     position: relative;
     width: 55%;
     padding-left: 30px;
-    /* Adiciona margem negativa para puxar todo o bloco para cima */
     margin-top: -90px;
-    /* Ajuste este valor (-60px) para subir ou descer mais */
     left: 10px;
-    /* ... o restante do estilo da coluna direita ... */
 }
 
-/* 4. AJUSTE DO TEXTO E ESPAÇAMENTO */
 .sobre-conteudo .sobre-coluna-direita h4 {
     font-size: 20px;
     color: var(--fundo-z4);
     font-weight: 700;
-
-    /* CORREÇÃO DE ALINHAMENTO: Força o H4 a se centralizar dentro da sua coluna */
     text-align: center;
     right: 10px;
     margin-bottom: 0;
@@ -500,47 +433,30 @@ section.sobre {
 }
 
 .pill-title {
-    /* --- Estilos da Pílula --- */
     background-color: #003366;
     color: white;
-    /* Cor escura do texto (Azul, como na pílula original) */
-
     padding: 8px 20px;
     border-radius: 20px;
-    /* Arredondamento */
-
-    /* --- Layout e Sombra --- */
     display: inline-block;
-    /* Faz o fundo se ajustar ao texto */
     text-transform: uppercase;
     font-size: 14px;
     font-weight: 600;
-
-    /* Sombra para flutuar (opcional) */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-
-    /* Margem para separar do título principal */
     margin-bottom: 10px;
 }
 
 .btn-sobre {
-    /* Cores e Texto */
-    /* Degradê do seu Azul (var(--fundo-z4)) para um Amarelo/Ciano */
     background: linear-gradient(90deg, #003366, #006dd4) ;
     color: white;
     font-size: 14px;
     font-weight: bold;
-    /* Layout */
     padding: 12px 25px;
     border: 0px solid transparent;
     cursor: pointer;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    /* Forma */
     border-radius: 8px;
-    /* Cantos arredondados normais */
-    /* Sombra Externa (como na primeira imagem) */
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     margin-top: 40px;
@@ -552,7 +468,6 @@ section.sobre {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
-
 .btn-sobre a {
     color: white;
     background-color: transparent;
@@ -562,7 +477,6 @@ section.sobre {
     margin-right: 5px;
 }
 
-
 .sobre-conteudo .sobre-coluna-direita h1 {
     font-size: 34px;
     font-weight: 500;
@@ -570,21 +484,15 @@ section.sobre {
     margin-top: 20px;
     margin-bottom: 20px;
     line-height: 1.2;
-    /* GARANTE ALINHAMENTO À ESQUERDA: */
     text-align: left;
 }
 
 .sobre-conteudo .sobre-coluna-direita p {
-    /* Garante que os parágrafos também fiquem alinhados à esquerda */
     text-align: left;
     max-width: 100%;
-    /* Permite que ocupe a largura total da coluna */
     margin: 0 0 15px 0;
-    /* Remove a centralização por margem */
     color: rgb(117, 100, 100);
 }
-
-
 
 /* Servicos Section estilo iniciado*/
 section.servicos {
@@ -593,8 +501,7 @@ section.servicos {
     background-color: rgb(255, 255, 255);
 }
 
-
-/* NOVO ESTILO: Container de fundo azul - O segredo para a largura total! */
+/* NOVO ESTILO: Container de fundo azul  */
 .servicos-fundo-colorido {
     margin-left: -8%;
     margin-right: -8%;
@@ -607,18 +514,13 @@ section.servicos {
     margin-bottom: 3rem;
 }
 
-
-/* Ajuste o .servicos-conteudo para centralizar o grid DENTRO do fundo azul */
 .servicos .servicos-conteudo {
     width: 100%;
     display: grid;
-    /* Layout de 4 colunas */
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
-    /* Limite a largura e centralize */
     max-width: 1920px;
     margin: 0 auto;
-    /* Adicione padding horizontal para que o conteúdo não encoste nas bordas da tela */
     padding: 0 5%;
 }
 
@@ -626,16 +528,13 @@ section.servicos {
     display: flex;
     flex-direction: column;
     padding: 0;
-    /* FUNDO BRANCO: O card flutua sobre o fundo azul */
     background-color: white;
-    /* Sombra no card inteiro */
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     position: relative;
     transition: none;
 }
 
-/* Efeito de zoom na imagem no hover */
 .servicos-conteudo .servico-box:hover .servico-image-box img {
     transform: scale(1.05);
 }
@@ -643,32 +542,25 @@ section.servicos {
 .servico-box .servico-image-box {
     position: relative;
     width: 100%;
-    /* Altura ajustada para 4 colunas */
     height: 400px;
     overflow: hidden;
     border-radius: 5px 5px 0 0;
-    /* Arredondamento apenas no topo */
-    /* Remove a box-shadow que estava aqui */
     box-shadow: none;
 }
 
 .servico-box .servico-image-box img {
     width: 100%;
     height: 100%;
-    /* Ajuste para cobrir a altura de 200px */
     object-fit: cover;
     object-position: center center;
     transition: transform 0.3s;
     transform: scale(1.0);
-    /* Garantir que a imagem seja responsiva */
     max-width: 100%;
     height: auto;
 }
 
-/* Título simples que agora fica DENTRO do card branco */
 .servico-box .image-title-overlay {
     position: relative;
-    /* Ajuste para fluir normalmente após a imagem */
     bottom: 0;
     left: 0;
     width: 100%;
@@ -676,7 +568,6 @@ section.servicos {
     background-color: white;
     text-align: center;
     z-index: 5;
-    /* Arredondamento inferior */
     border-radius: 0 0 5px 5px;
     border: none !important;
     box-shadow: none !important;
@@ -693,7 +584,6 @@ section.servicos {
     text-decoration: none;
 }
 
-/* Estilos removidos/simplificados */
 .servico-box .servico-card-content,
 .servico-box .servico-texto-longo {
     display: none;
@@ -701,10 +591,8 @@ section.servicos {
 
 /* Inicio Section Treinadora */
 section.treinadora {
-    /* Background cinza claro da sua seção 'Sobre Nós' */
     background-color: #F5F5F5;
     padding: 100px 8%;
-    /* Padding geral da seção */
     position: relative;
 }
 
@@ -712,26 +600,21 @@ section.treinadora {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Centraliza verticalmente */
     max-width: 1200px;
     margin: 0 auto;
     padding: 60px;
     padding-bottom: 60px;
 }
 
-/* 1. Coluna de Texto (Direita no nome, mas colocada à ESQUERDA no HTML para Flexbox) */
 .treinadora-coluna-direita {
     width: 55%;
-    /* Remove espaçamento extra e garante alinhamento à esquerda para o corpo do texto */
     padding-right: 30px;
     text-align: left;
 }
 
-/* 2. Coluna da Imagem (Esquerda no nome, mas colocada à DIREITA no HTML) */
 .treinadora-coluna-esquerda {
     width: 50%;
     padding: 0;
-    /* Garante o visual limpo, sem moldura */
     background-color: transparent;
     box-shadow: none;
 }
@@ -744,26 +627,19 @@ section.treinadora {
     object-fit: cover;
 }
 
-/* 3. Estilo do H4 (TREINADORA) - Centraliza e Adiciona Onda Amarela */
 .treinadora-coluna-direita h4 {
     font-size: 20px;
     color: var(--fundo-z4);
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 700;
-
-    /* CENTRALIZAÇÃO E EFEITO */
     text-align: center;
-    /* Centraliza o texto H4 na coluna */
     margin-bottom: 0;
     margin-top: -60px;
-    /* Puxa para cima */
     position: relative;
     padding-bottom: 10px;
-    /* Espaço para a linha amarela */
 }
 
-/* Linha Amarela no H4 */
 .treinadora-coluna-direita h4::after {
     content: "";
     display: block;
@@ -772,19 +648,15 @@ section.treinadora {
     width: 70px;
     height: 3px;
     background-color: var(--amarelo-z4);
-
-    /* TÉCNICA DE CENTRALIZAÇÃO DA LINHA */
     left: 50%;
     transform: translateX(-50%);
 }
 
-/* 4. Estilos de H1 e P (Alinha à esquerda, como no Sobre Nós original) */
 .treinadora-coluna-direita h1 {
     font-size: 38px;
     font-weight: 400;
     color: var(--fundo-z4);
     margin: 30px 0px 25px;
-    /* Ajuste o espaçamento após a linha amarela */
     line-height: 1;
     text-align: center;
     align-items: center
@@ -797,16 +669,11 @@ section.treinadora {
     margin-bottom: 15px;
     text-align: left;
 }
-
 /* FIM Section Treinadora */
 
-
-/* INICIO Section Treinadora */
-
-/* FIM Section Treinadora */
+/* INICIO Section Treinadora BIO */
 section.treinadora-bio {
     width: 100%;
-    /* CORREÇÃO: Zera o padding superior da section */
     padding: 0 3.5% 0;
     background-color: white;
     margin: 0 auto;
@@ -814,24 +681,16 @@ section.treinadora-bio {
 
 /* FAIXA AZUL: O container que estica e tem o gradiente */
 .bio-fundo-colorido {
-    /* MÁGICA DA LARGURA TOTAL: Ajuste para compensar 8% (padding horizontal do site) */
     margin-left: -8%;
     margin-right: -8%;
-
-    /* Padding interno para alinhar o conteúdo com o resto do site */
     padding-left: 8%;
     padding-right: 8%;
 
-    /* NOVO: IMAGEM DA TREINADORA COMO BACKGROUND */
     background-image: url('/assets/img/1.png');
-    /* Caminho da sua imagem */
     background-size: cover;
-    /* Faz a imagem cobrir todo o fundo */
     background-repeat: no-repeat;
-    /* Evita que a imagem se repita */
     background-position: center right;
 
-    /* Overlay para legibilidade (Mantido) */
     background-blend-mode: multiply;
     background-color: rgba(0, 0, 0, 0.4);
 
@@ -847,16 +706,10 @@ section.treinadora-bio {
 }
 
 .section-header-treinadora {
-    /* CRÍTICO 1: Limita a largura e centraliza o bloco na horizontal */
     max-width: 1000px;
     margin: 0 auto;
-    /* CRÍTICO 2: Centraliza o texto (H1) dentro deste bloco */
     text-align: center;
-
-    /* AJUSTE PARA SUBIR: Reduzido para puxar o H1 para o topo */
     padding-top: 20px;
-
-    /* Mantém o espaçamento para separar da faixa escura */
     margin-bottom: 20px;
     position: relative;
 }
@@ -864,11 +717,8 @@ section.treinadora-bio {
 .section-header-treinadora h1 {
     font-size: 40px;
     color: var(--fundo-z4);
-    /* Use sua cor principal */
-    /* Ajusta margens para subir o H1 */
     margin-top: 0px;
     margin-bottom: 60px;
-    /* Espaço para a linha amarela */
 }
 
 .section-header-treinadora h1::after {
@@ -881,26 +731,20 @@ section.treinadora-bio {
     border-radius: 2px;
 }
 
-
-/* CONTEÚDO PRINCIPAL (TEXTO E FOTO) - CORREÇÃO DE ALINHAMENTO */
 .bio-conteudo {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    /* Alinha ao topo */
     color: white;
     min-height: auto;
 }
 
-/* 1. COLUNA DE TEXTO (Esquerda) */
 .bio-coluna-texto {
     width: 65%;
     padding-right: 40px;
-    /* Padding inferior para alinhar o fundo */
     padding-bottom: 25px;
     text-align: left;
 }
@@ -916,18 +760,13 @@ section.treinadora-bio {
 .bio-coluna-texto h2::after {
     content: "";
     display: block;
-    /* Tamanho e Cor */
     width: 30%;
     height: 3px;
     background-color: var(0);
-    /* REMOVE A MARGEM e usa o posicionamento absoluto para CENTRALIZAR PERFEITAMENTE */
     position: absolute;
     bottom: -5px;
-    /* Posição abaixo do texto H2 */
     left: 50%;
-    /* Move para o centro da largura do H2 */
     transform: translateX(-50%);
-    /* Ajusta 50% da sua própria largura para o centro exato */
 }
 
 .bio-coluna-texto h3 {
@@ -949,29 +788,23 @@ section.treinadora-bio {
 }
 
 .bio-coluna-texto .bio-secao {
-    /* CORREÇÃO: Adiciona uma margem superior uniforme a TODAS as seções de currículo. */
-    /* Este valor (25px) separa o bloco do texto ou do bloco anterior. */
     margin-top: 25px;
 }
 
 .bio-coluna-texto .bio-linha {
     display: none;
-    /* Oculta a linha de parágrafo vazia se ela não for necessária */
 }
 
 .bio-secao h4 {
-    /* Título da subseção (CURRÍCULO PROFISSIONAL/ESPORTIVO) */
     font-size: 16px;
     font-weight: 700;
     color: var(--amarelo-z4);
-    /* Usa sua cor amarela para destaque */
     text-transform: uppercase;
     margin-bottom: 5px;
 }
 
 .curriculo-lista {
     list-style: none;
-    /* Remove os marcadores padrão */
     padding-left: 0;
 }
 
@@ -979,10 +812,7 @@ section.treinadora-bio {
     font-size: 15px;
     line-height: 1.6;
     color: white;
-    /* Cor branca para o texto */
     margin-bottom: 5px;
-
-    /* Marcador customizado (ponto/traço) */
     padding-left: 15px;
     position: relative;
 }
@@ -995,26 +825,13 @@ section.treinadora-bio {
     font-weight: bold;
 }
 
-/* 2. COLUNA DA FOTO (Direita) */
 .bio-coluna-foto {
-    /* Mantenha a largura e alinhamento */
     width: 35%;
     padding-top: 0;
     padding-bottom: 0;
     align-self: flex-start;
-
-    /* Opcional: Ocultar a imagem da coluna direita se ela for a mesma do fundo */
-    /* display: none; */
-
-    /* OU, se você quer uma imagem diferente, transparente, etc. */
-    /* Ajuste aqui o estilo para a imagem que você quer na coluna, se houver */
     display: none;
 }
-
-/* Opcional: Se a imagem na coluna direita for ocultada, remova o estilo da imagem */
-/* .treinadora-foto-perfil {
-    display: none;
-} */
 
 .treinadora-foto-perfil {
     max-width: 300px;
@@ -1023,11 +840,9 @@ section.treinadora-bio {
     display: block;
     border-radius: 5px;
     object-fit: cover;
-    /* Puxa a foto para baixo para criar espaço acima dela (Ajuste se necessário) */
     margin-top: 20px;
 }
-
-
+/* FIM Section Treinadora BIO */
 
 /* Inicio Section Consultoria Online */
 .consultoria-online {
@@ -1056,7 +871,6 @@ section.treinadora-bio {
     display: block;
     border-radius: 250px 30px 300px 30px;
 }
-
 
 .consultoria-coluna-esquerda img {
     max-width: 100%;
@@ -1120,9 +934,7 @@ section.treinadora-bio {
     color: white;
     transition: 0.3s ease;
 }
-
 /* FIM Section Consultoria Online */
-
 
 /* Inicio Section Feedbacks */
 .container {
@@ -1238,7 +1050,6 @@ section.treinadora-bio {
     width: 12px;
     background-color: var(--fundo-z4);
 }
-
 /* FIM Section Feedbacks */
 
 /* Esconder botão de fechar no desktop */
@@ -1252,7 +1063,6 @@ section.treinadora-bio {
 
 /* Oferta Section estilo Iniciado*/
 section.oferta {
-    /* AJUSTAR */
     position: relative;
     width: 100%;
     padding: 100px 8%;
@@ -1308,7 +1118,6 @@ section.oferta {
     padding: 12px 30px;
     font-size: 16px;
 }
-
 /* OFERTA Section estilo Finalizado*/
 
 
@@ -1321,16 +1130,12 @@ section.equipe {
 .equipe .equipe-conteudo {
     max-width: 1068px;
     display: grid;
-    /* CORREÇÃO: 3 COLUNAS NO DESKTOP, SE HOUVER MAIS TREINADORES */
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
     margin: 0 auto;
 }
 
-/* ... (Mantenha o resto do CSS de Equipe) ... */
-
 .equipe-conteudo .treinador-card {
-    /* mudar tamahho da imagem */
     position: relative;
     max-width: 350px;
     padding: 10px;
@@ -1351,7 +1156,6 @@ section.equipe {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    /* MUDAR A IAMGEM */
     object-position: center;
 }
 
@@ -1373,7 +1177,6 @@ section.equipe {
 .treinador-card .treinador-contato {
     position: absolute;
     top: calc(50% - 50px);
-    /*right: 0;*/
     right: -100%;
     transform: translateY(-50%);
     display: flex;
@@ -1407,7 +1210,6 @@ section.equipe {
 .treinador-card .treinador-contato a i:hover {
     transform: scale(1.2);
 }
-
 /* EQUIPE Section estilo finalizado*/
 
 
@@ -1595,7 +1397,6 @@ content: "";
 .card-pro .btn-choose {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-
 /* PRECOS Section estilo Finalizado*/
 
 
@@ -1629,8 +1430,6 @@ section.pagina-footer {
     flex-direction: column;
 }
 
-/* ... (Mantenha o resto do CSS do Footer) ... */
-
 .footer-conteudo .footer-col-titulo {
     margin-bottom: 10px;
 }
@@ -1656,7 +1455,6 @@ section.pagina-footer {
 }
 
 .footer-col-1 .footer-col-desc span {
-
     margin-bottom: 17px;
     display: inline-block;
 }
@@ -1693,11 +1491,9 @@ section.pagina-footer {
     transition: all 0.3s;
 }
 
-
 .footer-col-1 .footer-social-media a i:hover {
     background-color: transparent;
     border: 1px solid var(--amarelo-z4);
-    /* amarelo quando passa o mouse MUDAR DPS */
 }
 
 .footer-col-1 .social-media-title {
@@ -1731,7 +1527,6 @@ section.pagina-footer {
         transform: translateY(-2px);
 }
 
-
 .btn-area-footer {
     height: auto;
     width: 400px;
@@ -1743,8 +1538,6 @@ section.pagina-footer {
 .btn-area-footer:hover {
     transform: translateY(-2px);
 }
-
-
 
 .footer-col-2 .footer-col-desc a {
     text-decoration: none;
@@ -1763,41 +1556,31 @@ section.pagina-footer {
 .footer-col.footer-col-1 {
     display: flex;
     flex-direction: column;
-    /* Centraliza horizontalmente: logo, título, e container de ícones */
     align-items: center;
     text-align: center;
-    /* Centraliza qualquer texto que ainda esteja nesta coluna */
 }
 
 .footer-col.footer-col-2 {
     display: flex;
     flex-direction: column;
-    /* Centraliza o CONTEÚDO DA COLUNA (Título e Lista) Verticalmente no espaço */
     justify-content: flex-start;
 }
 
 .footer-col-2 .contact-list {
     display: flex;
     flex-direction: column;
-    /* Alinha os itens da lista ao centro (horizontalmente) */
     align-items: center;
     text-align: center;
-    /* Centraliza o texto dos links */
-    /* Remove a margem superior padrão do Flexbox */
     margin-top: 0;
 }
 
 .footer-col-2 .footer-col-titulo {
-    /* Define o alinhamento horizontal do container do título */
     text-align: center;
     margin-bottom: 25px;
-    /* Espaço abaixo do título */
 }
 
 .footer-col-2 .footer-col-titulo h3 {
-    /* Centraliza o texto do título */
     text-align: center;
-    /* Garante que o texto não seja afetado pelo tamanho da coluna */
     margin: 0 auto;
 }
 
@@ -1848,7 +1631,6 @@ section.pagina-footer {
     color: #fff;
     width: 31px;
 }
-
 /* FOOTER Section estilo Finalizado*/
 
 
@@ -1868,7 +1650,6 @@ section.pagina-footer {
         height: 3px;
     }
 
-    /* No tablet, empilha as colunas */
     .bio-conteudo {
         flex-direction: column;
         align-items: center;
@@ -1882,7 +1663,6 @@ section.pagina-footer {
     }
 
     .bio-coluna-foto {
-        /* Garante que a foto não tenha margem superior em excesso */
         margin-top: 0;
     }
 
@@ -1910,7 +1690,6 @@ section.pagina-footer {
         display: block;
         margin-left: 30px;
         z-index: 100;
-        /* hamburguer aparece */
     }
 
     .main-navbar .nav-list {
@@ -1918,7 +1697,6 @@ section.pagina-footer {
         width: 100%;
         height: 100vh;
         top: 0;
-        /*right: 0; Deixa sobreposto o bkground em tudo do banner (retirar dps)*/
         right: -100%;
         display: flex;
         flex-direction: column;
@@ -1930,7 +1708,6 @@ section.pagina-footer {
     }
 
     .home .main-navbar .nav-list.active {
-        /* chama o navlist com Background colocor e os Li > a */
         right: 0;
     }
 
@@ -1951,7 +1728,6 @@ section.pagina-footer {
         margin-left: auto;
     }
 
-    /* ICON 'X' no hamburguer quando tiver desativado */
     .main-navbar .hamburguer-btn.active span:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
     }
@@ -1968,7 +1744,6 @@ section.pagina-footer {
     /* Section Facilities */
     .facilities .facilities-conteudo {
         grid-template-columns: repeat(2, 1fr);
-        /* 2 coluna em 868px*/
         grid-gap: 25px 20px;
     }
 
@@ -1990,10 +1765,9 @@ section.pagina-footer {
         flex-basis: 100%;
     }
 
-    /* Servicos Section - Removendo regras conflitantes */
+    /* Servicos Section */
     .servicos-conteudo .servico-box {
         flex-direction: column;
-        /* CORREÇÃO: Removido margin-top 25px para evitar espaçamento em excesso */
     }
 
     /* FOOTER Section*/
@@ -2017,15 +1791,14 @@ section.pagina-footer {
         height: 2px;
     }
 
-    /* Servicos Section - Mude para 1 coluna */
+    /* Servicos Section */
     .servicos .servicos-conteudo {
         grid-template-columns: 1fr;
     }
 
-    /* EQUIPE SECTION - Mude para 1 coluna */
+    /* EQUIPE SECTION */
     .equipe .equipe-conteudo {
         max-width: 350px;
-        /* Aumentado de 300px para 350px para melhor visualização */
         grid-template-columns: 1fr;
         grid-gap: 20px 0px;
     }
@@ -2066,7 +1839,6 @@ section.pagina-footer {
     /* Section Facilities */
     .facilities .facilities-conteudo {
         grid-template-columns: 1fr;
-        /* 1 coluna em 568*/
         grid-gap: 25px 0px;
     }
 
